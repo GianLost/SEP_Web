@@ -17,7 +17,7 @@
             <span>Tem certeza que deseja excluir o administrador <b>@Model.Name</b>? Essa ação excluirá a conta de forma <b class="text-danger">permanente</b> e não poderá ser desfeita.</span>
         </div>
 
-        <div class="modal-footer p-2">
+        <div class="modal-footer d-flex justify-content-start p-2">
             <button type="submit" class="btn btn-md btn-danger" name="decision" type="submit" value="delete" title="Excluir - @Model.Login"><i class="bi bi-trash"></i></button>
 
             <a asp-controller="UserAdministrator" asp-action="Index" class="btn btn-md btn-secondary" title="Cancelar"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>

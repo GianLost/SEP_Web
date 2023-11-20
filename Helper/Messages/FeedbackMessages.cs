@@ -17,6 +17,10 @@ public class FeedbackMessages
     public const string ErrorServantList = "Erro ao obter a coleção de servidores.";
     public const string ErrorEmptyCollection = "A coleção acessada está vazia, portanto não possui registros a serem exibidos !";
 
+
+
+    public const string ErrorInstituitionList = "Erro ao obter a coleção de órgãos.";
+
     public const string ConfirmPassword = "Confirme sua senha !";
     public const string UnMatchedPassords = "As senhas não são idênticas !";
 }

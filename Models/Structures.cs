@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP_Web.Models;
 public class Structures
@@ -22,4 +23,8 @@ public class Structures
 
     [StringLength(35)]
     public string LastModifiedBy { get; set; }
+
+    [ForeignKey("UserAdministratorId")]
+    public int UserAdministratorId { get; set; }
+    public UserAdministrator UserAdministrator { get; set; }
 }
