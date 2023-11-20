@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+    <html lang="pt-br">
+
+    <head>
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="author" content="Gianluca Vialli">
+
+        <title>@ViewData["Title"] - SEP - Sistema de Estágio Probatório da Prefeitura Municipal de Três Marias</title>
+
+        <!-- Favicon -->
+        <link rel="shortcut icon" href="~/pmtm.ico" type="image/x-icon">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+        <!-- Bootstrap Icons -->
+        <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" asp-append-version="true" />
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
+
+    </head>
+
+    <body id="loggedout-container">
+
+        <header>
+            <nav
+                class="navbar navbar-expand-lg navbar-light bg-light box-shadow d-flex justify-content-center border-bottom p-2">
+                <div class="">
+                    <img id="login-image" class="img-fluid" src="../images/pmtm-logo.png" alt="">
+                </div>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SEP - Sistema de Estágio
+                    Probatório </a>
+            </nav>
+        </header>
+
+        <main id="loggedout-page" role="main" class="container">
+            @RenderBody()
+        </main>
+
+        <footer class="footer text-muted">
+
+            <div class="container text-center">
+                <span class="">&copy;</span> 2023 - SEP WEB - Sistema de Estágio Probatório da Prefeitura Municipal de Três
+                Marias - <span class=""><i class="bi bi-calendar-event"></i> @DateTime.Now.ToString("dd/MM/yyyy")
+            </div>
+            
+        </footer>
+
+        <!-- jQuery e Bootstrap JS -->
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Custom Js -->
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/js/showPassword.js" asp-append-version="true"></script>
+
+        @await RenderSectionAsync("Scripts", required: false)
+        
+    </body>
+
+</html>

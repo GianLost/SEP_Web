@@ -1,0 +1,148 @@
+@using SEP_Web.Models
+@using SEP_Web.Keys
+
+@model UserAdministrator
+
+@{
+    ViewData["Title"] = "Cadastro de administrador";
+}
+
+<div class="container">
+
+    <div class="row justify-content-center">
+
+        <div class="col-md-8 p-0 m-0">
+
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="adm-line"></div>
+                <i style="font-size: 10vh; color: #0077cc;" class="bi bi-person-circle"></i>
+                <div class="adm-line"></div>
+            </div>
+
+            <form class="register-adm-form" asp-controller="UserAdministrator" asp-action="Register" method="post">
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-register-success" role="alert">
+                        <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                            <span class="close-span" aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="bi bi-shield-fill-check"></i>
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-register-error" role="alert">
+                        <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                            <span class="close-span" aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="bi bi-shield-fill-x"></i>
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <div class="row">
+
+                    <div class="col-md-6 adm-col">
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-masp" hidden></label>
+                            <input type="number" class="form-control" id="administrator-masp" name="masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Masp)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-name" hidden></label>
+                            <input type="text" class="form-control" id="administrator-name" name="Name" asp-for="Name" placeholder="Nome completo" maxlength="50" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-login" hidden></label>
+                            <input type="text" class="form-control" id="administrator-login" name="login" asp-for="Login" placeholder="Nome de login" maxlength="35" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Login)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-email" hidden></label>
+                            <input type="text" class="form-control" id="administrator-email" name="email" asp-for="Email" placeholder="Informe seu e-mail" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6 adm-col">
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-phone" hidden></label>
+                            <input type="tel" class="form-control" onkeyup="handlePhone(event)" id="administrator-phone" name="phone" asp-for="Phone" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Phone)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-position" hidden></label>
+                            <input type="text" class="form-control" id="administrator-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Position)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-password" hidden></label>
+                            <input type="password" class="form-control" id="administrator-password" name="password" asp-for="Password" placeholder="Informe uma senha" maxlength="100" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="administrator-confirmPass" hidden></label>
+                            <input type="password" class="form-control" id="administrator-confirmPass" name="confirmPass" placeholder="Confirme sua senha" maxlength="100" autocomplete="disabled">
+                            <div class="validate-fields">
+                                <span class="field-validation-error">@TempData["ErrorPass"]</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button title="Cadastrar usuário ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Cadastrar usuário ..."></i> Salvar</button>
+                    <button asp-controller="UserAdministrator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar cadastro ..."><i class="bi bi-arrow-return-left" title="Cancelar cadastro ..."></i></button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

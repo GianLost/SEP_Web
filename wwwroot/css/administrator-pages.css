@@ -1,0 +1,100 @@
+
+/* Lista de administradores => (Index.cshtml) */
+.users-table tr > th:first-child,
+.users-table tr > th:nth-child(2) {
+  width: 5%;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.users-table tr > td:first-child,
+.users-table tr > td:nth-child(2) {
+  width: 5%;
+  text-align: center;
+}
+
+.users-table tr > td:nth-child(3),
+.users-table tr > th:nth-child(3),
+.users-table tr > td:nth-child(5),
+.users-table tr > th:nth-child(5){
+  width: 20%;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.users-table tr > td:nth-child(4),
+.users-table tr > th:nth-child(4),
+.users-table tr > td:nth-child(6),
+.users-table tr > th:nth-child(6) {
+  width: 10%;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.users-table tr > td:nth-child(7),
+.users-table tr > th:nth-child(7) {
+  width: 5%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* Formulário de registro de administradores => (Register.cshtml) */
+
+.alert-register-success {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: auto;
+  margin-bottom: 0%;
+  width: 100vh;
+}
+
+.alert-register-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -6vh;
+  width: 100vh;
+}
+
+.adm-line {
+  background-color: #0077cc;
+  width: 43vh;
+  height: 1.5px;
+  margin: auto;
+}
+
+.register-adm-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #9dbdc8ac;
+  padding: 2.5vh;
+  border-radius: 10px;
+  margin-top: -1.5vh;
+  box-shadow: 6px 8px 5px rgba(0, 0, 0, 0.2);
+}
+
+.register-adm-form .form-group {
+  margin-left: 1vh;
+  margin-left: 1vh;
+  margin-top: 1vh;
+  margin-bottom: auto;
+}
+
+.register-adm-form .form-group:nth-child(1),
+.register-adm-form .form-group:nth-child(5) {
+  margin-top: 7vh;
+}
+
+.register-adm-form .validate-fields {
+  margin: 0vh;
+}
+
+.adm-col {
+  display:flex; 
+  flex-direction:column; 
+  justify-content:center;
+  margin: -0.2vh;
+}

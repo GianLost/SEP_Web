@@ -1,0 +1,44 @@
+.enableDisableModal {
+    font-size: 0.8em;
+    text-align: justify;
+}
+
+.div-enableDisable {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: -5vh;
+}
+
+.div-enableDisable button {
+    margin-right: 1vh;
+}
+
+.btn-enableDisable {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28vh;
+    height: auto;
+    margin-left: auto;
+    margin-right: 2vh;
+    border-radius: 1vh;
+    background-color: #4752617a;
+    box-shadow: 1.5px 5px 4px #515151;
+}
+
+.btn-enableDisable,
+label,
+input:hover {
+    cursor: pointer;
+}
+
+.btn-enableDisable label {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: rgb(220, 220, 220);
+    margin-left: 1vh;
+    margin-right: 0.5vh;
+    margin-top: 0.5vh;
+    margin-bottom: 0;
+}

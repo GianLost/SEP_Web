@@ -1,0 +1,134 @@
+@model Users
+@using SEP_Web.Models
+@using SEP_Web.Keys
+
+<div class="container">
+
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bem vindo, @Model.Login</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+            </li>
+
+            @if (Model.UserType == UsersTypeEnum.User_Admin)
+            {
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="menu-users" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuários</a>
+
+                    <ul class="dropdown-menu" aria-labelledby="menu-users">
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="UserAdministrator" asp-action="Index">Administradores</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="UserEvaluator" asp-action="Index">Avaliadores</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="CivilServant" asp-action="Index">Servidores</a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="menu-structure" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estrutura</a>
+
+                    <ul class="dropdown-menu" aria-labelledby="menu-structure">
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="Instituition" asp-action="Index">Órgão</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="Division" asp-action="Index">Divisões</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="Section" asp-action="Index">Seções</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="Sector" asp-action="Index">Setores</a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="menu-license" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Licenças</a>
+
+                    <ul class="dropdown-menu" aria-labelledby="menu-license">
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="" asp-action="">Tipos de Licença</a>
+                        </li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item" asp-controller="" asp-action="">Licença</a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+            }
+            else if (Model.UserType == UsersTypeEnum.User_Evaluator)
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="UserEvaluator" asp-action="Index">Avaliadores</a>
+                </li>
+            }
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Avaliações</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" asp-area="" asp-controller="Login" asp-action="Logout">Sair</a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</div>
