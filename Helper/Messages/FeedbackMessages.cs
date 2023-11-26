@@ -3,7 +3,7 @@ public class FeedbackMessages
 {
 
     public const string ErrorLogin = "Erro ao realizar login.";
-    public const string ErrorAccountDisable = "O usuário fornecido está com o acesso desabilitado !";
+    public const string ErrorAccountDisable = "O usuário fornecido está com o acesso desabilitado! Contate um administrador .";
     
     public const string SuccessAdministratorRegister = "Administrador cadastrado com sucesso !";
     public const string ErrorAdministratorRegister = "Erro ao registrar o administrador.";

@@ -81,20 +81,22 @@ public class InstituitionController : Controller
             if (ModelState.IsValid)
             {
                 Users userInSession = await _session.SearchUserSession();
+                
                 instituition.UserAdministratorId = userInSession.Id;
+                instituition.LastModifiedBy = userInSession.Login;
 
                 await _instituitionServices.InstituitionEdit(instituition);
                 TempData["SuccessMessage"] = "órgão editado com sucesso.";
                 return Json(new { stats = "OK" });
             }
             
-            return Json(new { stats = "ERROR", message = "Não foi possível editar o órgão!" });
+            return Json(new { stats = "ERROR" });
         }
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar o órgão.";
             _logger.LogError("Não foi possível editar o órgão", e.Message);
-            return Json(new { stats = "ERROR", message = "Não foi possível editar o órgão!" });
+            return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar o órgão!" });
         }
     }
 

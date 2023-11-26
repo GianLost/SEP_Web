@@ -8,8 +8,7 @@ public class Structures
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Informe uma descrição !")]
-    [StringLength(70), MaxLength(70, ErrorMessage = "A descrição não pode conter mais de 70 caractéres.")]
-    [MinLength(3, ErrorMessage = "A descrição não pode conter menos de 3 caractéres.")]
+    [StringLength(70, MinimumLength = 3, ErrorMessage = "O campo Nome do órgão deve ter entre 3 e 70 caracteres.")]
     public string Name { get; set; }
 
     [Required(ErrorMessage = "Informe uma data de registro!")]

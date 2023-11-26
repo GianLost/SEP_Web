@@ -13,18 +13,13 @@
 
         <input type="hidden" asp-for="Id">
 
-        <div class="p-2 text-justify">
-            <span>Tem certeza que deseja excluir o órgão <b>@Model.Name</b>? Essa ação irá exclui-lo de forma
-                <b class="text-danger">permanente</b> e não poderá ser desfeita.</span>
+        <div class="p-3">
+            <span>Tem certeza que deseja excluir o órgão: <b>@Model.Name</b>? Essa ação irá excluí-lo de forma <b class="text-danger">permanente</b>, consequentemente todas as demais estruturas <b>(Divisões, Seções e Setores)</b> que foram cadastradas com base neste órgão serão excluídas juntamente e a ação não poderá ser desfeita. Ao prosseguir você concorda com estes termos.</span>
         </div>
 
-        <div class="modal-footer p-2">
-
-            <button type="submit" class="btn btn-danger btn-md" name="decision" value="delete"
-                title="Excluir - @Model.Name">Excluir</button>
-            <a asp-controller="Instituition" asp-action="Index" class="btn btn-secondary btn-md"
-                title="Cancelar"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
-
+        <div class="modal-footer -flex justify-content-start p-2">
+            <button type="submit" class="btn btn-danger btn-md" name="decision" value="delete" title="Excluir órgão ..."><i title="Excluir órgão ..." class="bi bi-trash"></i></button>
+            <a asp-controller="Instituition" asp-action="Index" class="btn btn-secondary btn-md" title="Cancelar"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
         </div>
 
     </form>

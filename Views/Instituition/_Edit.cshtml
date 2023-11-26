@@ -4,28 +4,30 @@
     ViewData["Title"] = "Edição de órgão";
 }
 
+<!-- Partial View de Edição de Órgãos -->
+
 <div>
 
-    <form id="edit-instiuition-form">
+    <form id="edit-instiuition-form" asp-action="Edit" asp-controller="Instituition" method="post">
 
         <input id="edit-instituition-id" type="hidden" asp-for="Id">
-        <input id="edit-instituition-admId" type="hidden" asp-for="UserAdministratorId">
 
-        <div class="form-group p-3">
-            <label class="form-label" for="edit-instituition-name" hidden></label>
-            <input type="text" class="form-control" maxlength="60" minlength="8" id="edit-instituition-name" name="name" asp-for="Name" autocomplete="disabled"/>
+        <div class="form-group p-4">
+            <label class="form-label" for="edit-instituition-name" hidden>Nome do órgão: </label>
+            <input type="text" placeholder="Informe a descrição do órgão :" class="form-control" maxlength="70" minlength="10" id="edit-instituition-name"
+                asp-for="Name" autocomplete="disabled"/>
             <div class="validate-fields">
                 <span class="field-validation-error"></span>
             </div>
         </div>
 
         <div class="d-flex justify-content-start modal-footer p-2">
-
-            <button type="submit" class="btn btn-sm btn-primary" title="Editar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
+            <button type="submit" class="btn btn-sm btn-primary btn-save" title="Editar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
             <a asp-controller="Instituition" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
-
         </div>
 
     </form>
 
 </div>
+
+<!-- Partial View de Edição de Órgãos -->

@@ -104,7 +104,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="administrator-position" hidden></label>
-                            <input type="text" class="form-control" id="administrator-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="10" autocomplete="disabled">
+                            <input type="text" class="form-control" id="administrator-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="9" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Position)
                             </div>

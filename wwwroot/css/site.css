@@ -96,6 +96,11 @@ button.accept-policy {
   background-color: #fff;
 }
 
+.modal-body {
+  padding: 2vh;
+  text-align: justify;
+}
+
 .alert {
   width: 80%;
   height: 40px;
