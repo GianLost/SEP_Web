@@ -1,0 +1,49 @@
+@model Division
+@using SEP_Web.Models
+@using SEP_Web.Services
+@inject IInstituitionServices _instituitionServices
+@{
+    ViewData["Title"] = "Edição de divisão";
+}
+
+<!-- Partial View de Edição de Órgãos -->
+
+<div>
+
+    <form id="edit-division-form" asp-action="Edit" asp-controller="Division" method="post">
+
+        <input type="hidden" asp-for="Id">
+
+        <div class="form-group p-4">
+            <label for="edit-division-instituitionid" hidden>Órgão: </label>
+            <select class="form-select" id="edit-division-instituitionid" asp-for="InstituitionId">
+                <option value=""> -- selecione o órgão -- </option>
+                @foreach (var i in await _instituitionServices.InstituitionsList())
+                {
+                    <option value="@i.Id">@i.Name</option>
+                }
+            </select>
+            <div class="validate-fields mb-1">
+                <span class="select-validation-error"></span>
+            </div>
+
+            <label class="form-label" for="edit-division-name" hidden>Nome da divisão: </label>
+            <input type="text" placeholder="Informe a descrição da divisão :" class="form-control" id="edit-division-name" name="name" asp-for="Name" autocomplete="disabled"/>
+            <div class="validate-fields">
+                <span class="field-validation-error"></span>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-start modal-footer p-2">
+
+            <button type="submit" id="btn-teste" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
+            <a asp-controller="Division" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- Partial View de Edição de Órgãos -->

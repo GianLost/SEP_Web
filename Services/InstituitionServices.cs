@@ -19,8 +19,10 @@ public class InstituitionServices : IInstituitionServices
     public async Task<Instituition> RegisterInstituition(Instituition instituition)
     {
         instituition.RegisterDate = DateTime.Now;
+
         await _database.Instituitions.AddAsync(instituition);
         await _database.SaveChangesAsync();
+        
         return instituition;
     }
 

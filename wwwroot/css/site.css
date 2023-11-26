@@ -137,8 +137,6 @@ button.accept-policy {
   margin-right: 1.5vh;
 }
 
-
-
 .close-span {
   position: relative;
   font-size: 3vh;
@@ -180,8 +178,6 @@ button.accept-policy {
   text-align: left;
 }
 
-
-
 #servant-table tr > td:first-child,
 #servant-table tr > th:first-child,
 #servant-table tr > td:nth-child(2),
@@ -207,8 +203,7 @@ button.accept-policy {
 }
 
 .duo-table tr > td:first-child,
-.duo-table tr > td:nth-child(2),
-.duo-table tr > td:nth-child(3) {
+.duo-table tr > td:nth-child(2) {
   width: 45%;
   white-space: nowrap;
   text-align: left;
@@ -294,7 +289,7 @@ input::-webkit-inner-spin-button {
   cursor: pointer;
 }
 
-.field-validation-error {
+.field-validation-error, .select-validation-error {
   color: #e01d1d;
   font-size: 0.7em;
   font-style: italic;

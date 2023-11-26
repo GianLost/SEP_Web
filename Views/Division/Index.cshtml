@@ -1,15 +1,17 @@
-@model ICollection<Instituition>
+@model ICollection<Division>
 @using SEP_Web.Models
+@using SEP_Web.Services
+@inject IDivisionServices _divisionServices
 @{
-    ViewData["Title"] = "Órgãos";
+    ViewData["Title"] = "Divisões";
 }
 
 <div>
 
     <div class="container-fluid justify-content-start w-100 pop-up">
 
-        <a title="Cadastrar novo órgão ..." style="width: 15vh;" type="button" data-bs-toggle="modal"
-            data-bs-target="#instituition-register" class="btn btn-primary d-flex justify-content-evenly btn-md mb-3"><i
+        <a title="Cadastrar nova divisão" style="width: 15vh;" type="button" data-bs-toggle="modal"
+            data-bs-target="#division-register" class="btn btn-primary d-flex justify-content-evenly btn-md mb-3"><i
                 class="bi bi-building-add"></i> Novo</a>
 
         @if (TempData["SuccessMessage"] != null)
@@ -38,26 +40,19 @@
 
     @* Modal de Registro *@
 
-    <div class="modal fade" id="instituition-register" tabindex="-1" role="dialog"
-        aria-labelledby="instituition-registerTitle" aria-hidden="true">
-
-        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
+    <div class="modal fade" id="division-register" tabindex="-1" role="dialog" aria-labelledby="division-registerTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-
-                <div class="modal-header bg-primary text-light p-3">
-                    <h3 class="modal-title fs-4 text-center">Adicionar órgão</h3>
-                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                <div class="modal-header text-light bg-primary p-3">
+                    <h3 class="modal-title fs-4 text-center">Adicionar divisão</h3>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-1">
-                    @await Html.PartialAsync("_Register.cshtml", new Instituition())
+                    @await Html.PartialAsync("_Register.cshtml", new Division())
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     @* Fim do Modal de Registro *@
@@ -72,35 +67,38 @@
 
             <div class="table-responsive">
 
-                <table id="instituition-table" class="table table-sm table-bordered table-striped table-light table-style p-0">
+                <table id="division-table" class="table table-sm table-bordered table-striped table-light table-style duo-table p-0">
 
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
                             <th scope="col">Descrição</th>
+                            <th scope="col">Órgão</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
 
                     <tbody>
 
-                        @foreach (Instituition instituition in Model)
+                        @foreach (Division division in Model)
                         {
+                            string instituition = await _divisionServices.InstituitionName(division);
+
                             <tr class="table-light border-light">
 
-                                <td scope="row">@instituition.Name.ToUpper()</td>
+                                <td scope="row">@division.Name.ToUpper()</td>
+                                <td scope="row">@instituition</td>
 
                                 <td scope="row">
 
-                                    <button type="button" title="Editar órgão ..." data-bs-toggle="modal"
-                                        data-bs-target="#edit-instituitionModal@(instituition.Id)"
-                                        class="btn btn-sm btn-outline-primary"><i title="Editar órgão ..."
+                                    <button type="button" title="Editar divisão ..." data-bs-toggle="modal"
+                                        data-bs-target="#edit-divisionModal@(division.Id)"
+                                        class="btn btn-sm btn-outline-primary"><i title="Editar divisão ..."
                                             class="bi bi-building-up"></i></button>
-
-                                    <button type="button" title="Excluir órgão ..." data-bs-toggle="modal"
-                                        asp-route-id="@instituition.Id"
-                                        data-bs-target="#deleteInstituition@(instituition.Id)"
-                                        class="btn btn-sm btn-outline-danger"><i title="Excluir órgão ..."
-                                            class="bi bi-building-x"></i></button>
+                                            
+                                    <button type="button" title="Excluir divisão ..." data-bs-toggle="modal"
+                                            asp-route-id="@division.Id" data-bs-target="#deleteDivision@(division.Id)"
+                                            class="btn btn-sm btn-outline-danger"><i title="Excluir divisão ..."
+                                                class="bi bi-building-x"></i></button>
 
                                 </td>
 
@@ -108,19 +106,20 @@
 
                             @* Modal de Edição *@
 
-                            <div class="modal fade" id="edit-instituitionModal@(instituition.Id)" tabindex="-1"
-                                role="dialog" aria-labelledby="edit-instituitionModal@(instituition.Id)" aria-hidden="true">
+                            <div class="modal fade" id="edit-divisionModal@(division.Id)" tabindex="-1" role="dialog"
+                                aria-labelledby="edit-divisionModal@(division.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary p-3">
-                                            <h3 class="modal-title text-light fs-4 text-center">Editar órgão</h3>
-                                            <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="Instituition"></a>
+                                            <h3 class="modal-title text-light fs-4 text-center" id="division-editTitle">Editar
+                                                divisão
+                                            </h3>
+                                            <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="Division"></a>
                                         </div>
                                         <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Edit.cshtml", instituition)
+                                            @await Html.PartialAsync("_Edit.cshtml", division)
                                         </div>
                                     </div>
 
@@ -130,22 +129,21 @@
 
                             @* Fim do Modal de Edição *@
 
-
                             @* Modal de Exclusão *@
 
-                            <div class="modal fade" id="deleteInstituition@(instituition.Id)" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteInstituition@(instituition.Id)" aria-hidden="true">
+                            <div class="modal fade" id="deleteDivision@(division.Id)" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteDivision@(division.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
                                     <div class="modal-content">
                                         <div class="modal-header bg-danger p-3">
-                                            <h3 class="modal-title text-light fs-4 text-center">Alerta</h3>
+                                            <h3 class="modal-title text-light fs-4 text-center"> Alerta</h3>
                                             <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="Instituition"></a>
+                                                asp-controller="Division"></a>
                                         </div>
                                         <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Delete.cshtml", instituition)
+                                            @await Html.PartialAsync("_Delete.cshtml", division)
                                         </div>
                                     </div>
 
@@ -161,7 +159,7 @@
                 </table>
 
             </div>
-
+            
         </div>
 
     </div>

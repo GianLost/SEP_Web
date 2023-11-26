@@ -84,29 +84,29 @@
                                 <td scope="row">
                                     <a title="Editar administrador ..." role="button" asp-route-id="@u.Id" asp-controller="UserAdministrator" asp-action="Edit" class="btn btn-sm btn-outline-primary"><i title="Editar administrador ..." class="bi bi-person-vcard"></i></a>
 
-                                    <button title="Excluir administrador ..." type="button" data-bs-toggle="modal" asp-route-id="@u.Id" data-bs-target="#adm-delete-@u.Id" class="btn btn-sm btn-outline-danger"><i title="Excluir administrador ..." class="bi bi-person-dash"></i></button>
+                                    <button title="Excluir administrador ..." type="button" data-bs-toggle="modal" asp-route-id="@u.Id" data-bs-target="#adm-delete-@(u.Id)" class="btn btn-sm btn-outline-danger"><i title="Excluir administrador ..." class="bi bi-person-dash"></i></button>
                                 </td>
 
                             </tr>
 
                             @* Start Delete Modal *@
 
-                            <div class="modal fade" id="adm-delete-@u.Id" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteUserTitle" aria-hidden="true">
+                            <div class="modal fade" id="adm-delete-@(u.Id)" tabindex="-1" role="dialog"
+                                aria-labelledby="adm-delete-@(u.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
                                     <div class="modal-content">
 
                                         <div class="modal-header bg-danger text-light p-3">
-                                            <h3 class="modal-title text-center mb-0 p-0" id="deleteTitle">
+                                            <h3 class="modal-title text-center fs-4 mb-0 p-0" id="deleteTitle">
                                                 Alerta</h3>
                                             <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"
                                                 aria-label="Close">
                                             </button>
                                         </div>
 
-                                        <div class="modal-body">
+                                        <div class="modal-body p-1">
                                             @await Html.PartialAsync("_Delete.cshtml", @u)
                                         </div>
 
