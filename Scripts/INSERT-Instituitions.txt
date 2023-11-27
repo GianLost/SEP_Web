@@ -1,1 +1,16 @@
-INSERT INTO `instituitions` (`Id`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) VALUES (NULL, 'Fundação Municipal São Francisco', '2023-11-20 17:05:45.064894', NULL, NULL, '1'), (NULL, 'Gabinete do Prefeito', '2023-11-20 17:11:30.367020', NULL, NULL, '1'), (NULL, 'Instituto de Previdência Municipal de Três Marias', '2023-11-20 17:11:41.912027', NULL, NULL, '1'), (NULL, 'Procuradoria Geral do Município', '2023-11-20 17:11:57.389073', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Des., Esportes e Turismo', '2023-11-20 17:12:22.990537', NULL, NULL, '1'), (NULL, 'Secretaria Municipal da Fazenda', '2023-11-20 17:12:32.790429', NULL, NULL, '1'), (NULL, 'Secretaria Municipal da Saúde', '2023-11-20 17:13:08.038478', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Administração', '2023-11-20 17:13:20.550034', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Agricultura', '2023-11-20 17:13:32.775860', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Assist. e Promoção Social', '2023-11-20 17:13:40.133362', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Educação', '2023-11-20 17:14:06.416127', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Meio Ambiente', '2023-11-20 17:14:16.426005', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Obras e Serviços Urbanos', '2023-11-20 17:14:29.967294', NULL, NULL, '1'), (NULL, 'Secretaria Municipal de Planejamento', '2023-11-20 17:14:58.447364', NULL, NULL, '1'), (NULL, 'Sub-Prefeitura de Andrequicé', '2023-11-20 17:15:06.456787', NULL, NULL, '1')
+INSERT INTO `instituitions` (`Id`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
+VALUES (NULL, 'Fundação Municipal São Francisco', '2023-11-20 17:05:45.064894', NULL, NULL, '1'), 
+(NULL, 'Gabinete do Prefeito', '2023-11-20 17:11:30.367020', NULL, NULL, '1'), 
+(NULL, 'Instituto de Previdência Municipal de Três Marias', '2023-11-20 17:11:41.912027', NULL, NULL, '1'), 
+(NULL, 'Procuradoria Geral do Município', '2023-11-20 17:11:57.389073', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Des., Esportes e Turismo', '2023-11-20 17:12:22.990537', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal da Fazenda', '2023-11-20 17:12:32.790429', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal da Saúde', '2023-11-20 17:13:08.038478', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Administração', '2023-11-20 17:13:20.550034', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Agricultura', '2023-11-20 17:13:32.775860', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Assist. e Promoção Social', '2023-11-20 17:13:40.133362', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Educação', '2023-11-20 17:14:06.416127', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Meio Ambiente', '2023-11-20 17:14:16.426005', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Obras e Serviços Urbanos', '2023-11-20 17:14:29.967294', NULL, NULL, '1'), 
+(NULL, 'Secretaria Municipal de Planejamento', '2023-11-20 17:14:58.447364', NULL, NULL, '1'), 
+(NULL, 'Sub-Prefeitura de Andrequicé', '2023-11-20 17:15:06.456787', NULL, NULL, '1')
