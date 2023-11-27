@@ -20,6 +20,9 @@ public class FeedbackMessages
 
 
     public const string ErrorInstituitionList = "Erro ao obter a coleção de órgãos.";
+    public const string ErrorDivisionList = "Erro ao obter a coleção de divisões.";
+    public const string ErrorSectionList = "Erro ao obter a coleção de seções.";
+    public const string ErrorSectorList = "Erro ao obter a coleção de setores.";
 
     public const string ConfirmPassword = "Confirme sua senha !";
     public const string UnMatchedPassords = "As senhas não são idênticas !";

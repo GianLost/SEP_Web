@@ -1,0 +1,167 @@
+@model ICollection<Section>
+@using SEP_Web.Models
+@using SEP_Web.Services
+@inject ISectionServices _sectionServices
+@{
+    ViewData["Title"] = "Seções";
+}
+
+<div>
+
+    <div class="container-fluid justify-content-start w-100 pop-up">
+
+        <a title="Cadastrar nova seção" style="width: 15vh;" type="button" data-bs-toggle="modal"
+            data-bs-target="#section-register" class="btn btn-primary d-flex justify-content-evenly btn-md mb-3"><i
+                class="bi bi-building-add"></i> Novo</a>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="btn btn-danger btn-sm close-alert" data-dismiss="modal" aria-label="Close">
+                    <span class="close-span" aria-hidden="true">&times;</span>
+                </button>
+                <i class="bi bi-shield-fill-check"></i>
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="btn btn-danger btn-sm close-alert" data-dismiss="modal" aria-label="Close">
+                    <span class="close-span" aria-hidden="true">&times;</span>
+                </button>
+                <i class="bi bi-shield-fill-x"></i>
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+    </div>
+
+    @* Modal de Registro *@
+
+    <div class="modal fade" id="section-register" tabindex="-1" role="dialog" aria-labelledby="section-registerTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-light bg-primary p-3">
+                    <h3 class="modal-title fs-4 text-center">Adicionar seção</h3>
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-1">
+                    @await Html.PartialAsync("_Register.cshtml", new Section())
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* Fim do Modal de Registro *@
+
+    <div class="card">
+
+        <div class="card-header bg-primary text-light">
+            <span class="fw-bold">@ViewData["Title"] :</span>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table id="section-table" class="table table-sm table-bordered table-striped table-light table-style duo-table p-0">
+
+                    <thead class="table-light bg-danger border-light text-primary">
+                        <tr>
+                            <th scope="col">Descrição</th>
+                            <th scope="col">Divisão</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (Section sections in Model)
+                        {
+                            string division = await _sectionServices.DivisionName(sections);
+
+                            <tr class="table-light border-light">
+
+                                <td scope="row">@sections.Name.ToUpper()</td>
+                                <td scope="row">@division</td>
+
+                                <td scope="row">
+
+                                    <button type="button" title="Editar seção ..." data-bs-toggle="modal"
+                                        data-bs-target="#edit-sectionModal@(sections.Id)"
+                                        class="btn btn-sm btn-outline-primary"><i title="Editar seção ..."
+                                            class="bi bi-building-up"></i></button>
+                                            
+                                    <button type="button" title="Excluir seção ..." data-bs-toggle="modal"
+                                            asp-route-id="@sections.Id" data-bs-target="#deleteSection@(sections.Id)"
+                                            class="btn btn-sm btn-outline-danger"><i title="Excluir seção ..."
+                                                class="bi bi-building-x"></i></button>
+
+                                </td>
+
+                            </tr>
+
+                            @* Modal de Edição *@
+
+                            <div class="modal fade" id="edit-sectionModal@(sections.Id)" tabindex="-1" role="dialog"
+                                aria-labelledby="edit-sectionModal@(sections.Id)" aria-hidden="true">
+
+                                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary p-3">
+                                            <h3 class="modal-title text-light fs-4 text-center" id="section-editTitle">Editar
+                                                seção
+                                            </h3>
+                                            <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="Section"></a>
+                                        </div>
+                                        <div class="modal-body p-1">
+                                            @await Html.PartialAsync("_Edit.cshtml", sections)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            @* Fim do Modal de Edição *@
+
+                            @* Modal de Exclusão *@
+
+                            <div class="modal fade" id="deleteSection@(sections.Id)" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteSection@(sections.Id)" aria-hidden="true">
+
+                                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger p-3">
+                                            <h3 class="modal-title text-light fs-4 text-center"> Alerta</h3>
+                                            <a type="button" class="btn-close bg-light" asp-action="Index"
+                                                asp-controller="Section"></a>
+                                        </div>
+                                        <div class="modal-body p-1">
+                                            @await Html.PartialAsync("_Delete.cshtml", sections)
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            @* Fim do Modal de Exclusão *@
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            
+        </div>
+
+    </div>
+
+</div>

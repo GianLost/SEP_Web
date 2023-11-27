@@ -1,5 +1,6 @@
 using System.Data.SqlTypes;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using SEP_Web.Models;
 
 namespace SEP_Web.Database;
@@ -7,13 +8,21 @@ public class SEP_WebContext : DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        string connectionString = Environment.GetEnvironmentVariable("SEP_WEB_CONNECTION_STRING");
 
-        ServerVersion serverVersion = ServerVersion.AutoDetect(connectionString);
+        try
+        {
+            string connectionString = Environment.GetEnvironmentVariable("SEP_WEB_CONNECTION_STRING");
 
-        if (string.IsNullOrEmpty(connectionString)) throw new SqlNullValueException($"A string de conexão com o banco de dados não foi encontrada");
+            if (string.IsNullOrEmpty(connectionString)) throw new InvalidOperationException($"A string de conexão com o banco de dados não foi encontrada");
 
-        optionsBuilder.UseMySql(connectionString, serverVersion);
+            ServerVersion serverVersion = ServerVersion.AutoDetect(connectionString);
+
+            optionsBuilder.UseMySql(connectionString, serverVersion);
+        }
+        catch (InvalidOperationException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            throw mySqlException;
+        }
     }
 
     public DbSet<UserAdministrator> Administrators => Set<UserAdministrator>();

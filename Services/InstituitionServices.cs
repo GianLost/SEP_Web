@@ -1,3 +1,5 @@
+using System.Data.SqlTypes;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Database;
@@ -32,12 +34,18 @@ public class InstituitionServices : IInstituitionServices
         {
             ICollection<Instituition> instituition = await _database.Instituitions.ToListAsync();
 
-            if (instituition?.Count == 0)
+            if (instituition == null)
                 throw new ArgumentNullException(nameof(instituition), ExceptionMessages.ErrorArgumentNullException);
+
+                if (instituition?.Count == 0)
+                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+
+                    if(_database == null)
+                        throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
             return instituition ?? new List<Instituition>();
         }
-        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        catch (MySqlException mySqlException)
         {
             // MYSQL EXEPTIONS :
 
@@ -46,12 +54,21 @@ public class InstituitionServices : IInstituitionServices
 
             return new List<Instituition>();
         }
-        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        catch (ArgumentNullException nullException)
         {
             // NULL EXCEPTION :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
             _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
+
+            return new List<Instituition>();
+        }
+        catch (TargetParameterCountException emptyException)
+        {
+            // EMPTY EXCEPTION :
+
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
+            _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
 
             return new List<Instituition>();
         }

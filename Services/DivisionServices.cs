@@ -1,3 +1,5 @@
+using System.Data.SqlTypes;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Database;
@@ -48,12 +50,19 @@ public class DivisionServices : IDivisionServices
         try
         {
             ICollection<Division> divisions = await _database.Divisions.ToListAsync();
-            if (divisions?.Count == 0)
+
+            if (divisions == null)
                 throw new ArgumentNullException(nameof(divisions), ExceptionMessages.ErrorArgumentNullException);
+
+                if (divisions?.Count == 0)
+                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+
+                    if(_database == null)
+                        throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
             return divisions ?? new List<Division>();
         }
-        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        catch (MySqlException mySqlException)
         {
             // MYSQL EXEPTIONS :
 
@@ -62,12 +71,21 @@ public class DivisionServices : IDivisionServices
 
             return new List<Division>();
         }
-        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        catch (ArgumentNullException nullException)
         {
             // NULL EXCEPTION :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
             _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
+
+            return new List<Division>();
+        }
+        catch (TargetParameterCountException emptyException)
+        {
+            // EMPTY EXCEPTION :
+
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
+            _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
 
             return new List<Division>();
         }
