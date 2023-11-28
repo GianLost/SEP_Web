@@ -1,0 +1,47 @@
+@model Sector
+@using SEP_Web.Models
+@using SEP_Web.Services
+@inject ISectionServices _sectionServices
+@{
+    ViewData["Title"] = "Cadastrar Setor";
+}
+
+<!-- Partial View de Cadastro de Setores -->
+
+<div>
+
+    <form id="sector-form">
+
+        <div class="form-group p-4">
+            <label for="sector-sectionid" hidden>Seção: </label>
+            <select class="form-select" name="sectionId" id="sector-sectionid" asp-for="SectionId">
+                <option value="" selected> -- selecione a seção -- </option>
+                @foreach (var i in await _sectionServices.SectionsList())
+                {
+                    <option value="@i.Id">@i.Name</option>
+                }
+            </select>
+            <div class="validate-fields mb-1">
+                <span class="select-validation-error"></span>
+            </div>
+
+            <label class="form-label" for="sector-name" hidden>Nome do setor: </label>
+            <input type="text" placeholder="Informe a descrição do setor :" class="form-control" id="sector-name" name="name" autocomplete="disabled"/>
+            <div class="validate-fields">
+                <span class="field-validation-error"></span>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-start modal-footer p-2">
+
+            <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
+            <a asp-controller="Section" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- Partial View de Cadastro de Setores -->

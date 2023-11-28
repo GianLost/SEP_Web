@@ -30,6 +30,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<IInstituitionServices, InstituitionServices>();
 builder.Services.AddScoped<IDivisionServices, DivisionServices>();
 builder.Services.AddScoped<ISectionServices, SectionServices>();
+builder.Services.AddScoped<ISectorServices, SectorServices>();
 
 builder.Services.AddScoped<IUserAdministratorServices, UserAdministratorServices>();
 builder.Services.AddScoped<IUsersValidation, UsersValidation>();

@@ -1,0 +1,29 @@
+@model Section
+@using SEP_Web.Models
+
+@{
+    ViewData["Title"] = "Excluir seção";
+}
+
+<!-- Partial View de Exclusão de Seções -->
+
+<div>
+
+    <form asp-controller="Section" asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id">
+
+        <div class="p-3">
+            <span>Tem certeza que deseja excluir a seção: <b>@Model.Name</b>? Essa ação irá excluí-la de forma <b class="text-danger">permanente</b>, consequentemente todas as demais estruturas <b>(Setores)</b> que foram cadastradas com base nesta seção serão excluídas. A ação não poderá ser desfeita, ao prosseguir você concorda com estes termos.</span>
+        </div>
+
+        <div class="modal-footer -flex justify-content-start p-2">
+            <button type="submit" class="btn btn-danger btn-sm" name="decision" value="delete" title="Excluir seção ..."><i title="Excluir seção ..." class="bi bi-trash"></i></button>
+            <a asp-controller="Section" asp-action="Index" class="btn btn-secondary btn-sm" title="Cancelar ..."><i class="bi bi-arrow-return-left" title="Cancelar ..."></i></a>
+        </div>
+
+    </form>
+
+</div>
+
+<!-- / Partial View de Exclusão de Seções -->
