@@ -6,7 +6,7 @@ public interface ISectorServices
     Sector SearchForId(int id);
     Task<Sector> RegisterSector(Sector sector);
     Task<ICollection<Sector>> SectorsList();
-    Task<string> SectionsName(Sector sectorId);
     Task<Sector> SectorEdit(Sector sector);
+    Task<string> SectionName(Sector sector);
     void DeleteSector(int id);
 }

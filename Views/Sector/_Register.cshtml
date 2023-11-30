@@ -3,7 +3,7 @@
 @using SEP_Web.Services
 @inject ISectionServices _sectionServices
 @{
-    ViewData["Title"] = "Cadastrar Setor";
+    ViewData["Title"] = "Cadastrar setor";
 }
 
 <!-- Partial View de Cadastro de Setores -->
@@ -13,8 +13,9 @@
     <form id="sector-form">
 
         <div class="form-group p-4">
+
             <label for="sector-sectionid" hidden>Seção: </label>
-            <select class="form-select" name="sectionId" id="sector-sectionid" asp-for="SectionId">
+            <select class="form-select" id="sector-sectionid" asp-for="SectionId">
                 <option value="" selected> -- selecione a seção -- </option>
                 @foreach (var i in await _sectionServices.SectionsList())
                 {
@@ -26,7 +27,7 @@
             </div>
 
             <label class="form-label" for="sector-name" hidden>Nome do setor: </label>
-            <input type="text" placeholder="Informe a descrição do setor :" class="form-control" id="sector-name" name="name" autocomplete="disabled"/>
+            <input type="text" placeholder="Informe a descrição do setor :" class="form-control" id="sector-name" asp-for="Name" autocomplete="disabled"/>
             <div class="validate-fields">
                 <span class="field-validation-error"></span>
             </div>
@@ -34,10 +35,8 @@
         </div>
 
         <div class="d-flex justify-content-start modal-footer p-2">
-
             <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
-            <a asp-controller="Section" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
-
+            <a asp-controller="Sector" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
         </div>
 
     </form>

@@ -40,8 +40,7 @@
 
     @* Modal de Registro *@
 
-    <div class="modal fade" id="sector-register" tabindex="-1" role="dialog" aria-labelledby="sector-registerTitle"
-        aria-hidden="true">
+    <div class="modal fade" id="sector-register" tabindex="-1" role="dialog" aria-labelledby="sector-registerTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header text-light bg-primary p-3">
@@ -55,7 +54,7 @@
         </div>
     </div>
 
-    @* Fim do Modal de Registro *@
+   @* Fim do Modal de Registro *@
 
     <div class="card">
 
@@ -72,7 +71,7 @@
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
                             <th scope="col">Descrição</th>
-                            <th scope="col">Divisão</th>
+                            <th scope="col">Órgão</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -81,7 +80,7 @@
 
                         @foreach (Sector sectors in Model)
                         {
-                            string sections = await _sectorServices.SectionsName(sectors);
+                            string sections = await _sectorServices.SectionName(sectors);
 
                             <tr class="table-light border-light">
 
@@ -90,15 +89,9 @@
 
                                 <td scope="row">
 
-                                    <button type="button" title="Editar setor ..." data-bs-toggle="modal"
-                                        data-bs-target="#edit-sectorModal@(sectors.Id)"
-                                        class="btn btn-sm btn-outline-primary"><i title="Editar setor ..."
-                                            class="bi bi-building-up"></i></button>
+                                    <button type="button" title="Editar setor ..." data-bs-toggle="modal" data-bs-target="#edit-sectorModal@(sectors.Id)" class="btn btn-sm btn-outline-primary"><i title="Editar setor ..." class="bi bi-building-up"></i></button>
                                             
-                                    <button type="button" title="Excluir setor ..." data-bs-toggle="modal"
-                                            asp-route-id="@sectors.Id" data-bs-target="#deleteSector@(sectors.Id)"
-                                            class="btn btn-sm btn-outline-danger"><i title="Excluir setor ..."
-                                                class="bi bi-building-x"></i></button>
+                                    <button type="button" title="Excluir setor ..." data-bs-toggle="modal" asp-route-id="@sectors.Id" data-bs-target="#deleteSector@(sectors.Id)" class="btn btn-sm btn-outline-danger"><i title="Excluir setor ..." class="bi bi-building-x"></i></button>
 
                                 </td>
 
@@ -113,13 +106,13 @@
 
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary p-3">
-                                            <h3 class="modal-title text-light fs-4 text-center">Editar
+                                            <h3 class="modal-title text-light fs-4 text-center" id="division-editTitle">Editar
                                                 setor
                                             </h3>
                                             <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="Sector"></a>
                                         </div>
                                         <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Edit.cshtml", new Sector())
+                                            @await Html.PartialAsync("_Edit.cshtml", sectors)
                                         </div>
                                     </div>
 
@@ -127,23 +120,21 @@
 
                             </div>
 
-                            @* Fim do Modal de Edição *@
+                           @* Fim do Modal de Edição *@
 
                             @* Modal de Exclusão *@
 
-                            <div class="modal fade" id="deleteSector@(sectors.Id)" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteSector@(sectors.Id)" aria-hidden="true">
+                            <div class="modal fade" id="deleteSector@(sectors.Id)" tabindex="-1" role="dialog" aria-labelledby="deleteSector@(sectors.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
                                     <div class="modal-content">
                                         <div class="modal-header bg-danger p-3">
                                             <h3 class="modal-title text-light fs-4 text-center"> Alerta</h3>
-                                            <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="Section"></a>
+                                            <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="Sector"></a>
                                         </div>
                                         <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Delete.cshtml", new Sector())
+                                            @await Html.PartialAsync("_Delete.cshtml", sectors)
                                         </div>
                                     </div>
 

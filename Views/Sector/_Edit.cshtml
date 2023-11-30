@@ -1,24 +1,24 @@
-@model Section
+@model Sector
 @using SEP_Web.Models
 @using SEP_Web.Services
-@inject IDivisionServices _divisionServices
+@inject ISectionServices _sectionServices
 @{
-    ViewData["Title"] = "Edição de seção";
+    ViewData["Title"] = "Edição de setores";
 }
 
-<!-- Partial View de Edição de Seções -->
+<!-- Partial View de Edição de Setores -->
 
 <div>
 
-    <form id="edit-section-form" asp-action="Edit" asp-controller="Section" method="post">
+    <form id="edit-sector-form" asp-action="Edit" asp-controller="Sector" method="post">
 
         <input type="hidden" asp-for="Id">
 
         <div class="form-group p-4">
-            <label for="edit-section-divisionid" hidden>Divisão: </label>
-            <select class="form-select" id="edit-section-divisionid" asp-for="DivisionId">
-                <option value=""> -- selecione a Divisão -- </option>
-                @foreach (var i in await _divisionServices.DivisionsList())
+            <label for="edit-sector-sectionid" hidden>Seção: </label>
+            <select class="form-select" id="edit-sector-sectionid" asp-for="SectionId">
+                <option value=""> -- selecione a seção -- </option>
+                @foreach (var i in await _sectionServices.SectionsList())
                 {
                     <option value="@i.Id">@i.Name</option>
                 }
@@ -27,8 +27,8 @@
                 <span class="select-validation-error"></span>
             </div>
 
-            <label class="form-label" for="edit-section-name" hidden>Nome da seção: </label>
-            <input type="text" placeholder="Informe a descrição da seção :" class="form-control" id="edit-section-name" name="name" asp-for="Name" autocomplete="disabled"/>
+            <label class="form-label" for="edit-sector-name" hidden>Nome do setor: </label>
+            <input type="text" placeholder="Informe a descrição do setor :" class="form-control" id="edit-sector-name" asp-for="Name" autocomplete="disabled"/>
             <div class="validate-fields">
                 <span class="field-validation-error"></span>
             </div>
@@ -38,7 +38,7 @@
         <div class="d-flex justify-content-start modal-footer p-2">
 
             <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
-            <a asp-controller="Section" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
+            <a asp-controller="Sector" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
 
         </div>
 
@@ -46,4 +46,4 @@
 
 </div>
 
-<!-- Partial View de Edição de Seções -->
+<!-- Partial View de Edição de Setores -->
