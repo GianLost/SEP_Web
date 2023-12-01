@@ -28,6 +28,23 @@ public class SectorServices : ISectorServices
         return sector;
     }
 
+    public async Task<Sector> SectorEdit(Sector sector)
+    {
+        Sector sectorEdit = SearchForId(sector.Id) ?? throw new Exception("Houve um erro na atualização da setor");
+
+        sectorEdit.Name = sector.Name;
+        sectorEdit.ModifyDate = DateTime.Now;
+
+        sectorEdit.UserAdministratorId = sector.UserAdministratorId;
+        sectorEdit.SectionId = sector.SectionId;
+        sectorEdit.LastModifiedBy = sector.LastModifiedBy;
+
+        _database.Sectors.Update(sectorEdit);
+        await _database.SaveChangesAsync();
+
+        return sectorEdit;
+    }
+
     public void DeleteSector(int id)
     {
         Sector deleteSector = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do setor");
@@ -39,11 +56,6 @@ public class SectorServices : ISectorServices
     public Sector SearchForId(int id)
     {
         return _database.Sectors.FirstOrDefault(x => x.Id == id);
-    }
-
-    public Task<Sector> SectorEdit(Sector sector)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<string> SectionName(Sector sector)
