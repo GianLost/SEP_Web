@@ -1,21 +1,65 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using SEP_Web.Database;
+using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
 public class SectorServices : ISectorServices
 {
+    private readonly ILogger<ISectorServices> _logger;
     private readonly SEP_WebContext _database;
 
-    public SectorServices(SEP_WebContext database)
+    public SectorServices(ILogger<ISectorServices> logger, SEP_WebContext database)
     {
+        _logger = logger;
         _database = database;
     }
 
     public async Task<ICollection<Sector>> SectorsList()
     {
-        ICollection<Sector> sectors = await _database.Sectors.ToListAsync();
-        return sectors;
+        try
+        {
+            ICollection<Sector> sectors = await _database.Sectors.ToListAsync();
+            if (sectors == null)
+                    throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
+
+                    if (sectors?.Count == 0)
+                        throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+
+                        if(_database == null)
+                            throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
+
+            return sectors ?? new List<Sector>();
+        }
+        catch (MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[SECTOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[SECTOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<Sector>();
+        }
+        catch (ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
+            _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
+
+            return new List<Sector>();
+        }
+        catch (TargetParameterCountException emptyException)
+        {
+            // EMPTY EXCEPTION :
+
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
+            _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
+
+            return new List<Sector>();
+        }
     }
 
     public async Task<Sector> RegisterSector(Sector sector)

@@ -1,6 +1,9 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
+using MySqlConnector;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Authentication;
+using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -22,8 +25,43 @@ public class SectorController : Controller
 
     public async Task<IActionResult> Index()
     {
-        ICollection<Sector> sectors = await _sectorServices.SectorsList();
-        return View(sectors); 
+        try
+        {
+            ICollection<Sector> sectors = await _sectorServices.SectorsList();
+            if (sectors == null)
+                    throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
+
+                    if (sectors?.Count == 0)
+                        throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            return View(sectors ?? new List<Sector>()); 
+        }
+        catch (MySqlException dbException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorSectorList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
+
+            return View(new List<Sector>());
+        }
+        catch (ArgumentNullException ex)
+        {
+            // NULL EXEPTIONS :
+
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
+            TempData["ErrorMessage"] = ExceptionMessages.ErrorArgumentNullException; // Mensagem de vizualização para o usuário;
+
+            return View(new List<Sector>());
+        }
+        catch (TargetParameterCountException ex2)
+        {
+            // EMPTY EXEPTIONS :
+
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
+            TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
+
+            return View(new List<Sector>());
+        }
     }
 
     [HttpPost]
