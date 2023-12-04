@@ -1,0 +1,29 @@
+@using SEP_Web.Models
+
+@model UserEvaluator
+
+@{
+    ViewData["Title"] = "Excluir avaliador";
+}
+
+<!-- Partial View de Exclusão de Usuário -->
+<div>
+
+    <form asp-controller="UserEvaluator" asp-action="Delete" method="post">
+
+        <input type="hidden" asp-for="Id">
+
+        <div class="p-2 text-justify">
+            <span>Tem certeza que deseja excluir o avaliador <b>@Model.Name</b>? Essa ação excluirá a conta de forma <b class="text-danger">permanente</b> e não poderá ser desfeita.</span>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-start p-2">
+            <button type="submit" class="btn btn-sm btn-danger" name="decision" type="submit" value="delete" title="Excluir - @Model.Login"><i class="bi bi-trash"></i></button>
+
+            <a asp-controller="UserEvaluator" asp-action="Index" class="btn btn-sm btn-secondary" title="Cancelar"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
+        </div>
+
+    </form>
+
+</div>
+<!-- / Partial View de Exclusão de Usuário -->
