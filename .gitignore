@@ -7,4 +7,5 @@ Logs/
 .vscode/
 
 Migrations/
+
 .fake
