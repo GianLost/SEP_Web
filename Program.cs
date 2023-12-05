@@ -68,7 +68,7 @@ app.MapControllerRoute(
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Logger(lc2 => lc2
         .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error)
-        .WriteTo.File("Logs/Errors/log-error-{Date}.txt", rollingInterval: RollingInterval.Month) 
+        .WriteTo.File("Logs/Errors/log-error-{Date}.txt", rollingInterval: RollingInterval.Month)
     ).CreateLogger();
 
 var logFac = app.Services.GetRequiredService<ILoggerFactory>();

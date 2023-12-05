@@ -9,7 +9,7 @@ public class Cryptography
     public static bool VerifyPasswordEncrypted(string password, string hashedPassword)
     {
         // VerifyPasswordEncrypted recebe por parâmetro duas strings que correspondem respectivamente a uma senha dada como entrada por um usuário, e um hash recuperado da base de dados para compará-las;
-        
+
         return BCrypt.Net.BCrypt.Verify(password, hashedPassword); // O método Verify retorna true ou false ao fazer uma comparação dada com base no "match" da senha informada e o "salt" gerado pela hash recuperada;
     }
 }

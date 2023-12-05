@@ -23,13 +23,13 @@ public class SectorServices : ISectorServices
         {
             ICollection<Sector> sectors = await _database.Sectors.ToListAsync();
             if (sectors == null)
-                    throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
+                throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
 
-                    if (sectors?.Count == 0)
-                        throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (sectors?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-                        if(_database == null)
-                            throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
+            if (_database == null)
+                throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
             return sectors ?? new List<Sector>();
         }
@@ -102,9 +102,14 @@ public class SectorServices : ISectorServices
         return _database.Sectors.FirstOrDefault(x => x.Id == id);
     }
 
+    public async Task<ICollection<Sector>> GetSectorsAsync(int sectionId)
+    {
+        return await _database.Sectors.Where(s => s.SectionId == sectionId).ToListAsync();
+    }
+
     public async Task<string> SectionName(Sector sector)
     {
-       Section sections = await _database.Sections.Where(x => sector.SectionId == x.Id).FirstOrDefaultAsync();
-       return sections.Name.ToUpper();
+        Section sections = await _database.Sections.Where(x => sector.SectionId == x.Id).FirstOrDefaultAsync();
+        return sections.Name.ToUpper();
     }
 }

@@ -92,6 +92,7 @@ public class UserAdministratorController : Controller
                 return RedirectToAction("Index");
             }
 
+            TempData.Clear();
             return View(user);
         }
         catch (MySqlException dbException)
@@ -133,7 +134,7 @@ public class UserAdministratorController : Controller
     {
         try
         {
-            UserAdministrator userEdit  = _administratorServices.SearchForId(modifyUser.Id);
+            UserAdministrator userEdit = _administratorServices.SearchForId(modifyUser.Id);
 
             if (ModelState.IsValid)
             {
@@ -156,10 +157,10 @@ public class UserAdministratorController : Controller
                 };
 
                 foreach (var (fieldName, value) in fieldsToValidate)
-                    if (_validation.IsFieldChanged(userEdit, fieldName, value)) 
+                    if (_validation.IsFieldChanged(userEdit, fieldName, value))
                         if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
                             ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso.");
-                        
+
                 if (ModelState.ErrorCount > 0)
                     return View(userEdit);
 
@@ -225,7 +226,7 @@ public class UserAdministratorController : Controller
 
                     _administratorServices.DeleteAdministrator(user.Id);
                     return RedirectToAction("Index");
-                }    
+                }
             }
 
             throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);

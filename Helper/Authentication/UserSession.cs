@@ -3,7 +3,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SEP_Web.Database;
-using SEP_Web.Helper.Messages;
 using SEP_Web.Keys;
 using SEP_Web.Models;
 
@@ -18,20 +17,20 @@ public class UserSession : IUserSession
         _httpContext = httpContext;
         _database = database;
     }
-    
+
     public async Task<Users> SearchUserSession()
     {
         string userSession = _httpContext.HttpContext.Session.GetString("userCheckIn");
 
         if (string.IsNullOrEmpty(userSession)) return null;
-        
+
         Users user = new();
 
-        if(userSession.Contains("UserType") == Convert.ToBoolean(UsersTypeEnum.User_Admin))
+        if (userSession.Contains("UserType") == Convert.ToBoolean(UsersTypeEnum.User_Admin))
         {
             user = await JsonSerializer.DeserializeAsync<UserAdministrator>(new MemoryStream(Encoding.UTF8.GetBytes(userSession)));
         }
-        else if(userSession.Contains("UserType") == Convert.ToBoolean(UsersTypeEnum.User_Evaluator))
+        else if (userSession.Contains("UserType") == Convert.ToBoolean(UsersTypeEnum.User_Evaluator))
         {
             user = await JsonSerializer.DeserializeAsync<UserEvaluator>(new MemoryStream(Encoding.UTF8.GetBytes(userSession)));
         }
@@ -42,7 +41,7 @@ public class UserSession : IUserSession
     public void UserCheckIn(Users users)
     {
         string value = JsonSerializer.Serialize(users);
-        
+
         _httpContext.HttpContext.Session.SetString("userCheckIn", value);
         _httpContext.HttpContext.Session.SetInt32("userType", (int)users.UserType);
         _httpContext.HttpContext.Session.SetInt32("userStats", (int)users.UserStats);
@@ -51,7 +50,7 @@ public class UserSession : IUserSession
     public async Task<Users> UserSignIn(int? masp, string login, Controller controller)
     {
         Users user = await _database.Administrators.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper() || x.Masp == masp);
-            user ??= await _database.Evaluators.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper() || x.Masp == masp);
+        user ??= await _database.Evaluators.FirstOrDefaultAsync(x => x.Login.ToUpper() == login.ToUpper() || x.Masp == masp);
 
         return user;
     }

@@ -32,8 +32,8 @@ public class SectionController : Controller
             if (sections == null)
                 throw new ArgumentNullException(nameof(sections), ExceptionMessages.ErrorArgumentNullException);
 
-                if (sections?.Count == 0)
-                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (sections?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
             return View(sections ?? new List<Section>());
         }

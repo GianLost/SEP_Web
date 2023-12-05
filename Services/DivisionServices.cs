@@ -1,4 +1,3 @@
-using System.Data.SqlTypes;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -24,7 +23,7 @@ public class DivisionServices : IDivisionServices
 
         await _database.Divisions.AddAsync(division);
         await _database.SaveChangesAsync();
-        
+
         return division;
     }
 
@@ -54,11 +53,11 @@ public class DivisionServices : IDivisionServices
             if (divisions == null)
                 throw new ArgumentNullException(nameof(divisions), ExceptionMessages.ErrorArgumentNullException);
 
-                if (divisions?.Count == 0)
-                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (divisions?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-                    if(_database == null)
-                        throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
+            if (_database == null)
+                throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
             return divisions ?? new List<Division>();
         }
@@ -104,10 +103,9 @@ public class DivisionServices : IDivisionServices
         return _database.Divisions.FirstOrDefault(x => x.Id == id);
     }
 
-    public string DivisionsName(int? divisionId)
+    public async Task<ICollection<Division>> GetDivisionsAsync(int instituitionId)
     {
-        ICollection<Division> division = _database.Divisions.Where(x => x.Id == divisionId).ToList();
-        return division.FirstOrDefault().Name;
+        return await _database.Divisions.Where(d => d.InstituitionId == instituitionId).ToListAsync();
     }
 
     public async Task<string> InstituitionName(Division division)

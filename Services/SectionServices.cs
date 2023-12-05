@@ -1,4 +1,3 @@
-using System.Data.SqlTypes;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -50,15 +49,15 @@ public class SectionServices : ISectionServices
         try
         {
             ICollection<Section> sections = await _database.Sections.ToListAsync();
-            
+
             if (sections == null)
                 throw new ArgumentNullException(nameof(sections), ExceptionMessages.ErrorArgumentNullException);
 
-                if (sections?.Count == 0)
-                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (sections?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-                    if(_database == null)
-                        throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
+            if (_database == null)
+                throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
             return sections ?? new List<Section>();
         }
@@ -106,13 +105,18 @@ public class SectionServices : ISectionServices
 
     public string SectionsName(int? sectionId)
     {
-       ICollection<Section> section = _database.Sections.Where(x => x.Id == sectionId).ToList();
-       return section.FirstOrDefault().Name;
+        ICollection<Section> section = _database.Sections.Where(x => x.Id == sectionId).ToList();
+        return section.FirstOrDefault().Name;
     }
 
     public async Task<string> DivisionName(Section section)
     {
         Division division = await _database.Divisions.Where(x => section.DivisionId == x.Id).FirstOrDefaultAsync();
         return division.Name.ToUpper();
+    }
+
+    public async Task<ICollection<Section>> GetSectionsAsync(int divisionId)
+    {
+        return await _database.Sections.Where(s => s.DivisionId == divisionId).ToListAsync();
     }
 }

@@ -9,5 +9,6 @@ public interface ISectionServices
     string SectionsName(int? sectionId);
     Task<Section> SectionEdit(Section section);
     Task<string> DivisionName(Section sectionId);
+    Task<ICollection<Section>> GetSectionsAsync(int divisionId);
     void DeleteSection(int id);
 }

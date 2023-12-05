@@ -29,11 +29,11 @@ public class SectorController : Controller
         {
             ICollection<Sector> sectors = await _sectorServices.SectorsList();
             if (sectors == null)
-                    throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
+                throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
 
-                    if (sectors?.Count == 0)
-                        throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
-            return View(sectors ?? new List<Sector>()); 
+            if (sectors?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            return View(sectors ?? new List<Sector>());
         }
         catch (MySqlException dbException)
         {

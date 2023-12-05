@@ -1,4 +1,3 @@
-using System.Data.SqlTypes;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -24,7 +23,7 @@ public class InstituitionServices : IInstituitionServices
 
         await _database.Instituitions.AddAsync(instituition);
         await _database.SaveChangesAsync();
-        
+
         return instituition;
     }
 
@@ -37,11 +36,11 @@ public class InstituitionServices : IInstituitionServices
             if (instituition == null)
                 throw new ArgumentNullException(nameof(instituition), ExceptionMessages.ErrorArgumentNullException);
 
-                if (instituition?.Count == 0)
-                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (instituition?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-                    if(_database == null)
-                        throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
+            if (_database == null)
+                throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
             return instituition ?? new List<Instituition>();
         }
@@ -97,12 +96,6 @@ public class InstituitionServices : IInstituitionServices
 
         _database.Instituitions.Remove(deleteInstituition);
         _database.SaveChanges();
-    }
-
-    public string InstituitionsName(int? instituitionId)
-    {
-        ICollection<Instituition> instituition = _database.Instituitions.Where(x => x.Id == instituitionId).ToList();
-        return instituition.FirstOrDefault().Name;
     }
 
     public Instituition SearchForId(int id)

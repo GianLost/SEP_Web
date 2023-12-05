@@ -1,0 +1,189 @@
+@using SEP_Web.Models
+@using SEP_Web.Services
+@using SEP_Web.Keys
+@inject IInstituitionServices _instituitionServices
+
+@model UserEvaluator
+
+@{
+    ViewData["Title"] = "Cadastro de avaliadores";
+}
+
+<div id="eval-container" class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-md-12 p-0 m-0">
+
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="eval-line"></div>
+                <i style="font-size: 10vh; color: #0077cc;" class="bi bi-person-vcard"></i>
+                <div class="eval-line"></div>
+            </div>
+
+            <form class="evaluator-register register-adm-form" asp-controller="UserEvaluator" asp-action="Register" method="post">
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-register-success" role="alert">
+                        <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                            <span class="close-span" aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="bi bi-shield-fill-check"></i>
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-register-error" role="alert">
+                        <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                            <span class="close-span" aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="bi bi-shield-fill-x"></i>
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <div class="row">
+
+                    <div class="col-md-4 adm-col">
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-masp" hidden></label>
+                            <input type="number" class="form-control" id="evaluator-masp" name="Masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Masp)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-name" hidden></label>
+                            <input type="text" class="form-control" id="evaluator-name" name="Name" asp-for="Name" placeholder="Nome completo" maxlength="50" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-login" hidden></label>
+                            <input type="text" class="form-control" id="evaluator-login" name="Login" asp-for="Login" placeholder="Nome de login" maxlength="35" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Login)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-email" hidden></label>
+                            <input type="text" class="form-control" id="evaluator-email" name="Email" asp-for="Email" placeholder="Informe seu e-mail" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 adm-col">
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-phone" hidden></label>
+                            <input type="tel" class="form-control" onkeyup="handlePhone(event)" id="evaluator-phone" name="phone" asp-for="Phone" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Phone)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-position" hidden></label>
+                            <input type="text" class="form-control" id="evaluator-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="9" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Position)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-password" hidden></label>
+                            <input type="password" class="form-control" id="evaluator-password" name="Password" asp-for="Password" placeholder="Informe uma senha" maxlength="100" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="evaluator-confirmPass" hidden></label>
+                            <input type="password" class="form-control" id="evaluator-confirmPass" name="confirmPass" placeholder="Confirme sua senha" maxlength="100" autocomplete="disabled">
+                            <div class="validate-fields">
+                                <span class="field-validation-error">@TempData["ErrorPass"]</span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-md-4">
+
+                        <div class="form-group">
+                            <select class="evaluator-instituition form-select" name="instituitionId" asp-for="InstituitionId">
+
+                                @foreach (var i in await _instituitionServices.InstituitionsList())
+                                {
+                                    <option value="@i.Id">@i.Name</option>
+                                }
+                            </select>
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.InstituitionId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione a divisão --", new { @class = "evaluator-division form-select w-100" })
+                                <div class="validate-fields">
+                                    @Html.ValidationMessageFor(x => x.DivisionId)
+                                </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione a seção --", new { @class = "evaluator-section form-select w-100" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.SectionId)
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione o setor --", new { @class = "evaluator-sector form-select w-100" })
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.SectorId)
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <button title="Cadastrar usuário ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Cadastrar usuário ..."></i> Salvar</button>
+                    <button asp-controller="UserEvaluator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar cadastro ..."><i class="bi bi-arrow-return-left" title="Cancelar cadastro ..."></i></button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

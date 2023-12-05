@@ -45,5 +45,5 @@ public class ModifyUser
     public DateTime? ModifyDate { get; set; }
 
     [StringLength(35)]
-    public string LastModifiedBy { get; set; }     
+    public string LastModifiedBy { get; set; }
 }

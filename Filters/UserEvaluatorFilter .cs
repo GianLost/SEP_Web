@@ -6,7 +6,7 @@ using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Filters;
-public class UserEvaluatorFilter  : ActionFilterAttribute
+public class UserEvaluatorFilter : ActionFilterAttribute
 {
     public override void OnActionExecuted(ActionExecutedContext context)
     {
@@ -25,12 +25,12 @@ public class UserEvaluatorFilter  : ActionFilterAttribute
             {
                 UserAdministrator administrator = JsonSerializer.Deserialize<UserAdministrator>(userSession);
 
-                if(administrator == null)
+                if (administrator == null)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
                 }
 
-                if(administrator.UserStats != UserStatsEnum.Active)
+                if (administrator.UserStats != UserStatsEnum.Active)
                 {
                     context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
                 }
@@ -38,19 +38,19 @@ public class UserEvaluatorFilter  : ActionFilterAttribute
             if (type == Convert.ToInt32(UsersTypeEnum.User_Evaluator))
             {
                 Users users = JsonSerializer.Deserialize<Users>(userSession);
-                
-                if(!(users == null))
+
+                if (!(users == null))
                 {
                     using SEP_WebContext _database = new();
 
                     UserEvaluator evaluator = _database.Evaluators.FirstOrDefault(x => x.Id == users.Id && x.Name == users.Name);
 
-                    if(evaluator == null)
+                    if (evaluator == null)
                     {
                         context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
                     }
 
-                    if(evaluator.UserStats != UserStatsEnum.Active)
+                    if (evaluator.UserStats != UserStatsEnum.Active)
                     {
                         context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
                     }

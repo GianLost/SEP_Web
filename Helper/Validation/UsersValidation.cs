@@ -3,18 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
-using SEP_Web.Services;
 
 namespace SEP_Web.Helper.Validation;
 public class UsersValidation : IUsersValidation
 {
     private readonly SEP_WebContext _database;
-    private readonly IUserAdministratorServices _administratorServices;
 
-    public UsersValidation(SEP_WebContext database, IUserAdministratorServices administratorServices)
+    public UsersValidation(SEP_WebContext database)
     {
         _database = database;
-        _administratorServices = administratorServices;
     }
 
     public async Task<bool> VerifyIfFieldExistsInBothUsersTable(string fieldName, object value)
@@ -41,14 +38,14 @@ public class UsersValidation : IUsersValidation
 
         foreach (var (fieldName, value) in fieldsToValidate)
             if (await VerifyIfFieldExistsInBothUsersTable(fieldName, value)) duplicateErrors.Add((fieldName, $"O {fieldName.ToLower()} informado já está em uso."));
-        
+
         return duplicateErrors;
     }
-    
+
     public virtual bool ValidatePassword(string pass, string confirmPass, Controller controller)
     {
         bool passwordsMatch = pass == confirmPass;
-        
+
         if (!passwordsMatch)
             controller.TempData["ErrorPass"] = FeedbackMessages.UnMatchedPassords;
 

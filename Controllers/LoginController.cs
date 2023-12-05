@@ -33,10 +33,10 @@ public class LoginController : Controller
         {
             if (ModelState.IsValid)
             {
-                Users users = await _session.UserSignIn(login.Masp, login.LoginName, this);  
+                Users users = await _session.UserSignIn(login.Masp, login.LoginName, this);
 
                 if (!(users == null))
-                { 
+                {
                     if (login.Masp != users.Masp)
                     {
                         _validation.LoginFieldsValidation("InvalidMASP", "O MASP informado é inválido", this);
@@ -54,8 +54,8 @@ public class LoginController : Controller
                         _validation.LoginFieldsValidation("InvalidPass", "A senha informada é inválida", this);
                         return View("Index");
                     }
-                    
-                    if(users.UserStats != UserStatsEnum.Active)
+
+                    if (users.UserStats != UserStatsEnum.Active)
                     {
                         TempData["ErrorMessage"] = FeedbackMessages.ErrorAccountDisable;
                         return View("Index");
@@ -68,12 +68,12 @@ public class LoginController : Controller
 
                 }
 
-                TempData["ErrorMessage"] = ExceptionMessages.LogInDataNull; 
+                TempData["ErrorMessage"] = ExceptionMessages.LogInDataNull;
 
             }
 
             return View("Index");
-            
+
         }
         catch (Exception e)
         {

@@ -22,7 +22,7 @@ public class UserAdministratorServices : IUserAdministratorServices
         try
         {
             if (user == null) throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);
-            
+
             user.UserType = Keys.UsersTypeEnum.User_Admin;
             user.UserStats = Keys.UserStatsEnum.Active;
             user.Password = Cryptography.EncryptPassword(user.Password);
@@ -32,13 +32,13 @@ public class UserAdministratorServices : IUserAdministratorServices
             await _database.SaveChangesAsync();
 
             return user;
-             
+
         }
         catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
         {
             // MYSQL EXEPTIONS :
 
-           _logger.LogError("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
 
             _logger.LogError("[ADMINISTRATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
@@ -47,14 +47,14 @@ public class UserAdministratorServices : IUserAdministratorServices
         }
         catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
         {
-           // NULL EXCEPTION :
+            // NULL EXCEPTION :
 
             _logger.LogWarning("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
 
             _logger.LogWarning("[ADMINISTRATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
-            
+
             user = null;
-            return user; 
+            return user;
         }
     }
 
@@ -114,7 +114,7 @@ public class UserAdministratorServices : IUserAdministratorServices
         {
             // MYSQL EXEPTIONS :
 
-           _logger.LogError("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
 
             _logger.LogError("[ADMINISTRATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
@@ -123,14 +123,14 @@ public class UserAdministratorServices : IUserAdministratorServices
         }
         catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
         {
-           // NULL EXCEPTION :
+            // NULL EXCEPTION :
 
             _logger.LogWarning("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
 
             _logger.LogWarning("[ADMINISTRATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
-            
+
             user = null;
-            return user; 
+            return user;
         }
     }
 

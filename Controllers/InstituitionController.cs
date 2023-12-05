@@ -30,11 +30,11 @@ public class InstituitionController : Controller
         {
             ICollection<Instituition> instituitions = await _instituitionServices.InstituitionsList();
 
-                if (instituitions == null)
-                    throw new ArgumentNullException(nameof(instituitions), ExceptionMessages.ErrorArgumentNullException);
+            if (instituitions == null)
+                throw new ArgumentNullException(nameof(instituitions), ExceptionMessages.ErrorArgumentNullException);
 
-                    if (instituitions?.Count == 0)
-                        throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (instituitions?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
             return View(instituitions ?? new List<Instituition>());
         }

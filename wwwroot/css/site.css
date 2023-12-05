@@ -14,11 +14,7 @@ html {
 }
 
 .material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
 }
 
 body {
@@ -36,7 +32,7 @@ table {
   width: 100%;
 }
 
-table td{
+table td {
   color: #7a7a7a;
 }
 
@@ -133,7 +129,7 @@ button.accept-policy {
   margin-left: 10vh;
 }
 
-.pop-up .alert i{
+.pop-up .alert i {
   margin-right: 1.5vh;
 }
 
@@ -156,14 +152,13 @@ button.accept-policy {
 }
 
 #evaluator-table tr > td:first-child,
-#evaluator-table tr > th:first-child{
+#evaluator-table tr > th:first-child {
   width: 20%;
   white-space: nowrap;
   text-align: center;
 }
 
-#evaluator-table tr > td:nth-child(6)
-#evaluator-table tr > th:nth-child(6) {
+#evaluator-table tr > td:nth-child(6) #evaluator-table tr > th:nth-child(6) {
   width: 1%;
   white-space: nowrap;
   text-align: center;
@@ -172,7 +167,7 @@ button.accept-policy {
 #evaluator-table tr > td:nth-child(2),
 #evaluator-table tr > td:nth-child(3),
 #evaluator-table tr > td:nth-child(4),
-#evaluator-table tr > td:nth-child(5){
+#evaluator-table tr > td:nth-child(5) {
   width: 98%;
   white-space: nowrap;
   text-align: left;
@@ -181,7 +176,7 @@ button.accept-policy {
 #servant-table tr > td:first-child,
 #servant-table tr > th:first-child,
 #servant-table tr > td:nth-child(2),
-#servant-table tr > th:nth-child(2){
+#servant-table tr > th:nth-child(2) {
   width: 5%;
   white-space: nowrap;
   text-align: center;
@@ -190,13 +185,13 @@ button.accept-policy {
 #servant-table tr > td:nth-child(3),
 #servant-table tr > td:nth-child(4),
 #servant-table tr > td:nth-child(5),
-#servant-table tr > td:nth-child(6){
+#servant-table tr > td:nth-child(6) {
   width: 10%;
   white-space: nowrap;
   text-align: justify;
 }
 
-#servant-table tr > td:nth-child(7){
+#servant-table tr > td:nth-child(7) {
   width: 2%;
   white-space: nowrap;
   text-align: center;
@@ -210,31 +205,28 @@ button.accept-policy {
 }
 
 .servant-col {
-  display:flex; 
-  flex-direction:column; 
-  justify-content:center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 #servant-phone {
   margin-top: 1vh;
 }
 
-.servant-col .validate-fields{
+.servant-col .validate-fields {
   margin-bottom: -2vh;
   padding: 0%;
 }
 
-
-
 /* START: Chrome e outros - Ocultar setas do input type="number" */
 
-input[type=number]::-webkit-inner-spin-button { 
+input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
-  
 }
-input[type=number] { 
- -moz-appearance: textfield;
- appearance: textfield;
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 input::-webkit-outer-spin-button,
@@ -263,13 +255,6 @@ input::-webkit-inner-spin-button {
   border-radius: 2vh;
 }
 
-.evaluator-col {
-  height: 10vh; 
-  display:flex; 
-  flex-direction:column; 
-  justify-content:center;
-}
-
 .sorting::before {
   color: #0077cc;
   margin: 1px;
@@ -281,15 +266,16 @@ input::-webkit-inner-spin-button {
 }
 
 .disabled-box:hover {
-  cursor:not-allowed;
+  cursor: not-allowed;
 }
 
-#statsServantActive, 
+#statsServantActive,
 #statsServantInactive:hover {
   cursor: pointer;
 }
 
-.field-validation-error, .select-validation-error {
+.field-validation-error,
+.select-validation-error {
   color: #e01d1d;
   font-size: 0.7em;
   font-style: italic;
@@ -300,4 +286,19 @@ input::-webkit-inner-spin-button {
   margin-bottom: -20px;
   height: 4vh;
   padding: 0;
+}
+
+#eval-container {
+  width: 100%;
+}
+
+.eval-line {
+  background-color: #0077cc;
+  width: 43vh;
+  height: 1.5px;
+  margin: 15px;
+}
+
+.evaluator-col .form-group {
+  margin: 12px;
 }

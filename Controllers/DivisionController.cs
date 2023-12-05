@@ -32,8 +32,8 @@ public class DivisionController : Controller
             if (divisions == null)
                 throw new ArgumentNullException(nameof(divisions), ExceptionMessages.ErrorArgumentNullException);
 
-                if (divisions?.Count == 0)
-                    throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            if (divisions?.Count == 0)
+                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
             return View(divisions ?? new List<Division>());
         }

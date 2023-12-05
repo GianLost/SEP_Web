@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    
+
     const passwordInput = document.getElementById("login-password");
     const togglePasswordButton = document.getElementById("toggle-password");
     const passwordIcon = document.getElementById("password-icon");

@@ -30,7 +30,7 @@ $(document).ready(function () {
 
 /* JavaScript responsável pelo POST do formulário de edição de órgãos */
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $(document).on("click", "[data-toggle='modal'][data-target^='#edit-instituitionModal']", function () {
         let url = '@Url.Action("Edit", "Instituition")/' + $(this).data('id');
