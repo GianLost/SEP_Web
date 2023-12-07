@@ -1,7 +1,7 @@
 @model ICollection<Sector>
 @using SEP_Web.Models
 @using SEP_Web.Services
-@inject ISectorServices _sectorServices
+@inject ISectionServices _sectionServices
 @{
     ViewData["Title"] = "Setores";
 }
@@ -80,12 +80,12 @@
 
                         @foreach (Sector sectors in Model)
                         {
-                            string sections = await _sectorServices.SectionName(sectors);
+                            string sectionName = await _sectionServices.SectionsName(sectors.SectionId);
 
                             <tr class="table-light border-light">
 
                                 <td scope="row">@sectors.Name.ToUpper()</td>
-                                <td scope="row">@sections</td>
+                                <td scope="row">@sectionName.ToUpper()</td>
 
                                 <td scope="row">
 

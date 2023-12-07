@@ -6,6 +6,8 @@ using SEP_Web.Services;
 using MySqlConnector;
 using SEP_Web.Helper.Validation;
 using SEP_Web.Helper.Messages;
+using SEP_Web.Keys;
+using SEP_Web.Helper.Authentication;
 
 namespace SEP_Web.Controllers;
 
@@ -18,8 +20,9 @@ public class UserEvaluatorController : Controller
     private readonly ISectionServices _sectionServices;
     private readonly ISectorServices _sectorServices;
     private readonly IUsersValidation _validation;
+    private readonly IUserSession _session;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices, IUsersValidation validation)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices, IUsersValidation validation, IUserSession session)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
@@ -27,6 +30,7 @@ public class UserEvaluatorController : Controller
         _sectionServices = sectionServices;
         _sectorServices = sectorServices;
         _validation = validation;
+        _session = session;
     }
 
     public async Task<IActionResult> Index()
@@ -163,4 +167,137 @@ public class UserEvaluatorController : Controller
         }
     }
 
+    public IActionResult Edit(int id)
+    {
+        UserEvaluator user = _evaluatorServices.SearchForId(id);
+        return View(user);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(ModifyUser modifyUser)
+    {
+        try
+        {
+            UserEvaluator userEdit = _evaluatorServices.SearchForId(modifyUser.Id);
+
+            if (ModelState.IsValid)
+            {
+                Users userInSession = await _session.SearchUserSession();
+
+                // bool enableAccount = Request.Form["enableDisableAccount"] == "on";
+
+                // if (enableAccount)
+                // {
+                //     userEdit.UserStats = userEdit.UserStats == UserStatsEnum.Active ? UserStatsEnum.Inactive : UserStatsEnum.Active;
+                // }
+
+                var fieldsToValidate = new List<(string FieldName, object Value)>
+                {
+                    ("Masp", modifyUser.Masp),
+                    ("Name", modifyUser.Name),
+                    ("Login", modifyUser.Login),
+                    ("Email", modifyUser.Email),
+                    ("Phone", modifyUser.Phone),
+                };
+
+                foreach (var (fieldName, value) in fieldsToValidate)
+                    if (_validation.IsFieldChanged(userEdit, fieldName, value))
+                        if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
+                            ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso.");
+
+                if (ModelState.ErrorCount > 0)
+                    return View(userEdit);
+
+                userEdit = new UserEvaluator()
+                {
+                    Id = modifyUser.Id,
+                    Masp = modifyUser.Masp,
+                    Name = modifyUser.Name,
+                    Login = modifyUser.Login,
+                    Email = modifyUser.Email,
+                    Phone = modifyUser.Phone,
+                    Position = modifyUser.Position,
+                    UserStats = userEdit.UserStats,
+                    LastModifiedBy = userInSession.Login
+                };
+
+                TempData["SuccessMessage"] = FeedbackMessages.SuccessEvaluatorEdit;
+
+                await _evaluatorServices.EvaluatorsEdit(userEdit);
+                return RedirectToAction("Index");
+            }
+
+            return View(userEdit);
+        }
+        catch (MySqlException dbException)
+        {
+            // MYSQL EXEPTIONS :
+
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorEdit} {ExceptionMessages.ErrorDatabaseConnection}";
+
+            _logger.LogError("[EVALUATOR_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
+
+            _logger.LogError("[EVALUATOR_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
+
+            modifyUser = null;
+            return View(modifyUser);
+        }
+        catch (ArgumentNullException nullException)
+        {
+            // NULL EXEPTIONS :
+
+            TempData["ErrorMessage"] = FeedbackMessages.ErrorEvaluatorEdit;
+
+            _logger.LogWarning("[EVALUATOR_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+
+            _logger.LogWarning("[EVALUATOR_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
+
+            modifyUser = null;
+            return View(modifyUser);
+        }
+    }
+
+    [HttpPost]
+    public IActionResult Delete(string decision, UserEvaluator user)
+    {
+        try
+        {
+            if (decision == "delete")
+            {
+                if (user.Id != 0)
+                {
+                    TempData["SuccessMessage"] = FeedbackMessages.SuccessEvaluatorDelete;
+
+                    _evaluatorServices.DeleteEvaluator(user.Id);
+                    return RedirectToAction("Index");
+                }
+            }
+
+            throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);
+        }
+        catch (MySqlException dbException)
+        {
+            // MYSQL EXEPTIONS :
+
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorDelete} {ExceptionMessages.ErrorDatabaseConnection}";
+
+            _logger.LogError("[EVALUATOR_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
+
+            _logger.LogError("[EVALUATOR_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
+
+            return RedirectToAction("Index");
+        }
+        catch (ArgumentNullException nullException)
+        {
+            // NULL EXEPTIONS :
+
+            TempData["ErrorMessage"] = FeedbackMessages.ErrorEvaluatorDelete; // Mensagem de vizualização para o usuário;
+
+            _logger.LogWarning("[EVALUATOR_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+
+            _logger.LogWarning("[EVALUATOR_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
+
+            return RedirectToAction("Index");
+        }
+    }
 }

@@ -39,9 +39,8 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         {
             // MYSQL EXEPTIONS :
 
-            _logger.LogError("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-
-            _logger.LogError("[ADMINISTRATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+            _logger.LogError("[EVALUATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
             user = null;
             return user;
@@ -50,9 +49,8 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         {
             // NULL EXCEPTION :
 
-            _logger.LogWarning("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
-
-            _logger.LogWarning("[ADMINISTRATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
 
             user = null;
             return user;
@@ -74,8 +72,8 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         {
             // MYSQL EXEPTIONS :
 
-            _logger.LogError("[ADMINISTRATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-            _logger.LogError("[ADMINISTRATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+            _logger.LogError("[EVALUATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
             return new List<UserEvaluator>();
         }
@@ -83,21 +81,79 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         {
             // NULL EXCEPTION :
 
-            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
-            _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
 
             return new List<UserEvaluator>();
         }
     }
 
-    public Task<UserEvaluator> EvaluatorsEdit(UserEvaluator user)
+    public async Task<UserEvaluator> EvaluatorsEdit(UserEvaluator user)
     {
-        throw new NotImplementedException();
+        try
+        {
+            UserEvaluator userEdit = SearchForId(user.Id) ?? throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);
+
+            userEdit.Masp = user.Masp;
+            userEdit.Name = user.Name;
+            userEdit.Login = user.Login;
+            userEdit.Email = user.Email;
+            userEdit.Phone = user.Phone;
+            userEdit.Position = user.Position;
+            userEdit.UserStats = user.UserStats;
+            userEdit.LastModifiedBy = user.LastModifiedBy;
+            userEdit.ModifyDate = DateTime.Now;
+
+            _database.Evaluators.Update(userEdit);
+            await _database.SaveChangesAsync();
+
+            return userEdit;
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[EVALUATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            user = null;
+            return user;
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            user = null;
+            return user;
+        }
     }
 
     public void DeleteEvaluator(int id)
     {
-        throw new NotImplementedException();
+        try
+        {
+            UserEvaluator searchUser = SearchForId(id) ?? throw new ArgumentNullException(nameof(searchUser), ExceptionMessages.ErrorArgumentNullException);
+
+            _database.Evaluators.Remove(searchUser);
+            _database.SaveChanges();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[EVALUATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[EVALUATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
+        }
     }
 
     public UserEvaluator SearchForId(int id)

@@ -1,0 +1,204 @@
+@using SEP_Web.Models
+@using SEP_Web.Services
+@using SEP_Web.Keys
+@inject IInstituitionServices _instituitionServices
+@inject IDivisionServices _divisionServices
+@inject ISectionServices _sectionServices
+@inject ISectorServices _sectorServices
+
+@model UserEvaluator
+
+@{
+    ViewData["Title"] = "Edição de avaliadores";
+}
+
+<div id="edit-eval-container" class="container-fluid">
+
+    <div style="position: absolute; right: 20vh; margin-top: 5px;" class="change-pass">
+
+        <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item dropdown">
+
+                <a class="nav-link dropdown-toggle" id="eval-menu-config" title="Menu de modificações do usuário" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-gear-fill"></i></a>
+
+                <ul class="dropdown-menu" aria-labelledby="eval-menu-config">
+                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#eval-change-pass" title="Alterar senha do usuário !" class="dropdown-item"><i title="Altere a senha do usuário !" class="bi bi-file-earmark-lock2"> </i>Alterar senha</a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-structures" title="Altere as entidades órgão, divisão, seção ou setor do usuário!" class="dropdown-item"><i title="Altere as entidades órgão, divisão seção ou setor do usuário!" class="bi bi-building-fill-gear"> </i>Alterar entidades</a>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-12 p-0 m-0">
+
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="eval-line"></div>
+                <i style="font-size: 10vh; color: #0077cc;" class="bi bi-person-lines-fill"></i>
+                <div class="eval-line"></div>
+            </div>
+
+            <form class="evaluator-register register-adm-form" asp-controller="UserEvaluator" asp-action="Edit" method="post">
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-register-success" role="alert">
+                        <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                            <span class="close-span" aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="bi bi-shield-fill-check"></i>
+                        @TempData["SuccessMessage"]
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-register-error" role="alert">
+                        <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                            <span class="close-span" aria-hidden="true">&times;</span>
+                        </button>
+                        <i class="bi bi-shield-fill-x"></i>
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
+
+                <div class="row">
+
+                    <div class="col-md-4 adm-col">
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-masp" hidden></label>
+                            <input type="number" class="form-control" id="edit-evaluator-masp" name="Masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Masp)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-name" hidden></label>
+                            <input type="text" class="form-control" id="edit-evaluator-name" name="Name" asp-for="Name" placeholder="Nome completo" maxlength="50" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-login" hidden></label>
+                            <input type="text" class="form-control" id="edit-evaluator-login" name="Login" asp-for="Login" placeholder="Nome de login" maxlength="35" minlength="10" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Login)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-email" hidden></label>
+                            <input type="text" class="form-control" id="edit-evaluator-email" name="Email" asp-for="Email" placeholder="Informe seu e-mail" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4 adm-col">
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-phone" hidden></label>
+                            <input type="tel" class="form-control" onkeyup="handlePhone(event)" id="edit-evaluator-phone" name="phone" asp-for="Phone" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Phone)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-position" hidden></label>
+                            <input type="text" class="form-control" id="edit-evaluator-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="9" autocomplete="disabled">
+                            <div class="validate-fields">
+                                @Html.ValidationMessageFor(x => x.Position)
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-password" hidden></label>
+                            <input type="password" class="form-control disabled-box" id="edit-evaluator-password" placeholder="Informe uma senha..." title="Para alterar a senha utilize o menu 'Alterar senha'." disabled>
+                            <div class="validate-fields"></div>
+
+                        </div>
+
+                        <div class="form-group">
+
+                            <label class="form-label" for="edit-evaluator-confirmPass" hidden></label>
+                            <input type="password" class="form-control disabled-box" id="edit-evaluator-confirmPass" placeholder="Confirme sua senha..." title="Para alterar a senha utilize o menu 'Alterar senha'." disabled>
+                            <div class="validate-fields"></div>
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="col-md-4 adm-col">
+
+                        <div class="form-group">
+                            <label class="form-label text-secondary" for="disable-instituition-id" hidden>Órgão:</label>
+                            <select title="Altere o órgão no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-instituition-id" disabled>
+                                <option selected>Órgão: @await _instituitionServices.InstituitionsName(@Model.InstituitionId)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label text-secondary" for="disable-division-id" hidden>Divisão:</label>
+                            <select title="Altere a divisão no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-division-id" disabled>
+                                <option selected>Divisão: @await _divisionServices.DivisionsName(@Model.DivisionId)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label text-secondary" for="disable-section-id" hidden>Seção:</label>
+                            <select title="Altere a seção no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-section-id" disabled>
+                                <option selected>Seção: @await _sectionServices.SectionsName(@Model.SectionId)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label text-secondary" for="disable-sector-id" hidden>Setor:</label>
+                            <select title="Altere o setor no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-sector-id" disabled>
+                                <option selected>Setor: @await _sectorServices.SectorsName(@Model.SectorId)</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <button title="Editar avaliador ..." type="submit" class="btn btn-primary"><i title="Editar avaliador" class="bi bi-pencil-fill"></i> Editar</button>
+                    <button asp-controller="UserEvaluator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar ..."><i class="bi bi-arrow-return-left" title="Cancelar ..."></i></button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

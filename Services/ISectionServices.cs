@@ -6,9 +6,8 @@ public interface ISectionServices
     Section SearchForId(int id);
     Task<Section> RegisterSection(Section section);
     Task<ICollection<Section>> SectionsList();
-    string SectionsName(int? sectionId);
     Task<Section> SectionEdit(Section section);
-    Task<string> DivisionName(Section sectionId);
+    Task<string> SectionsName(int? sectionId);
     Task<ICollection<Section>> GetSectionsAsync(int divisionId);
     void DeleteSection(int id);
 }

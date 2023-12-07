@@ -7,7 +7,7 @@ public interface IDivisionServices
     Task<Division> RegisterDivision(Division division);
     Task<ICollection<Division>> DivisionsList();
     Task<Division> DivisionEdit(Division division);
-    Task<string> InstituitionName(Division divisionId);
+    Task<string> DivisionsName(int? divisionId);
     Task<ICollection<Division>> GetDivisionsAsync(int instituitionId);
     void DeleteDivision(int id);
 }

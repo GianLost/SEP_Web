@@ -1,7 +1,7 @@
 @model ICollection<Division>
 @using SEP_Web.Models
 @using SEP_Web.Services
-@inject IDivisionServices _divisionServices
+@inject IInstituitionServices _instituitionServices
 @{
     ViewData["Title"] = "Divisões";
 }
@@ -81,12 +81,11 @@
 
                         @foreach (Division division in Model)
                         {
-                            string instituition = await _divisionServices.InstituitionName(division);
-
+                            string instituitionName = await _instituitionServices.InstituitionsName(division.InstituitionId);
                             <tr class="table-light border-light">
 
                                 <td scope="row">@division.Name.ToUpper()</td>
-                                <td scope="row">@instituition</td>
+                                <td scope="row">@instituitionName.ToUpper()</td>
 
                                 <td scope="row">
 

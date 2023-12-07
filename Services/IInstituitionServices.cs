@@ -7,5 +7,6 @@ public interface IInstituitionServices
     Task<Instituition> RegisterInstituition(Instituition instituition);
     Task<ICollection<Instituition>> InstituitionsList();
     Task<Instituition> InstituitionEdit(Instituition instituition);
+    Task<string> InstituitionsName(int? instituitionId);
     void DeleteInstituition(int id);
 }

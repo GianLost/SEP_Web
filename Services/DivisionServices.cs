@@ -108,9 +108,9 @@ public class DivisionServices : IDivisionServices
         return await _database.Divisions.Where(d => d.InstituitionId == instituitionId).ToListAsync();
     }
 
-    public async Task<string> InstituitionName(Division division)
+    public async Task<string> DivisionsName(int? divisionId)
     {
-        Instituition instituition = await _database.Instituitions.Where(x => division.InstituitionId == x.Id).FirstOrDefaultAsync();
-        return instituition.Name.ToUpper();
+        ICollection<Division> division =  await _database.Divisions.Where(x => x.Id == divisionId).ToListAsync();
+        return division.FirstOrDefault().Name;
     }
 }

@@ -90,6 +90,12 @@ public class InstituitionServices : IInstituitionServices
         return instituitionEdit;
     }
 
+    public async Task<string> InstituitionsName(int? instituitionId)
+    {
+        ICollection<Instituition> instituition =  await _database.Instituitions.Where(x => x.Id == instituitionId).ToListAsync();
+        return instituition.FirstOrDefault().Name;
+    }
+
     public void DeleteInstituition(int id)
     {
         Instituition deleteInstituition = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do órgão");

@@ -103,16 +103,10 @@ public class SectionServices : ISectionServices
         return _database.Sections.FirstOrDefault(x => x.Id == id);
     }
 
-    public string SectionsName(int? sectionId)
+    public async Task<string> SectionsName(int? sectionId)
     {
-        ICollection<Section> section = _database.Sections.Where(x => x.Id == sectionId).ToList();
+        ICollection<Section> section =  await _database.Sections.Where(x => x.Id == sectionId).ToListAsync();
         return section.FirstOrDefault().Name;
-    }
-
-    public async Task<string> DivisionName(Section section)
-    {
-        Division division = await _database.Divisions.Where(x => section.DivisionId == x.Id).FirstOrDefaultAsync();
-        return division.Name.ToUpper();
     }
 
     public async Task<ICollection<Section>> GetSectionsAsync(int divisionId)

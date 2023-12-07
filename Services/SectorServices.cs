@@ -107,9 +107,9 @@ public class SectorServices : ISectorServices
         return await _database.Sectors.Where(s => s.SectionId == sectionId).ToListAsync();
     }
 
-    public async Task<string> SectionName(Sector sector)
+    public async Task<string> SectorsName(int? sectorId)
     {
-        Section sections = await _database.Sections.Where(x => sector.SectionId == x.Id).FirstOrDefaultAsync();
-        return sections.Name.ToUpper();
+        ICollection<Sector> sector =  await _database.Sectors.Where(x => x.Id == sectorId).ToListAsync();
+        return sector.FirstOrDefault().Name;
     }
 }
