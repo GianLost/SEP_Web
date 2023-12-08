@@ -59,6 +59,18 @@
   width: 100vh;
 }
 
+.alert-edit-success {
+  display: flex;
+  align-items: center;
+  margin: auto;
+  margin-bottom: -5vh;
+  width: 100%;
+}
+
+.alert-edit-success i {
+  margin-right: 3vh;
+}
+
 .adm-line {
   background-color: #0077cc;
   width: 43vh;

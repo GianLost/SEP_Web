@@ -6,7 +6,6 @@ using SEP_Web.Services;
 using MySqlConnector;
 using SEP_Web.Helper.Messages;
 using System.Reflection;
-using SEP_Web.Database;
 
 namespace SEP_Web.Controllers;
 

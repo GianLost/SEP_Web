@@ -1,0 +1,41 @@
+@model ChangePassword
+@using SEP_Web.Models
+
+@{
+    ViewData["Title"] = "Editar Senha";
+}
+
+<div>
+
+    <form class="passwordForm">
+
+        <input class="password-Id" type="hidden" asp-for="Id">
+        <input class="password-Masp" type="hidden" asp-for="Masp">
+
+        <div class="form-group p-2 mt-2">
+            <label for="change-password" hidden>Digite uma senha: </label>
+            <input type="password" id="change-password" placeholder="Informe uma senha..."
+                class="changedPass form-control form-control-sm" maxlength="100" asp-for="Password" />
+            <div class="validate-fields">
+                <span class="field-validation-error"></span>
+            </div>
+        </div>
+
+        <div class="form-group p-2 mb-2">
+            <label for="conf-change-password" hidden>Confirme sua senha: </label>
+            <input type="password" id="conf-change-password" placeholder="Confirme sua senha..."
+                class="confPass form-control form-control-sm" asp-for="ComparePassword" />
+            <div class="validate-fields">
+                <span class="field-validation-error compPass"></span>
+            </div>
+        </div>
+
+        <div class="modal-footer d-flex justify-content-start p-2">
+            <button type="submit" id="btn-cgPass" class="btn btn-primary btn-sm">Salvar</button>
+            <a data-bs-dismiss="modal" class="btn btn-secondary btn-sm" title="Cancelar"><i
+                    class="bi bi-arrow-return-left" title="Cancelar"></i></a>
+        </div>
+
+    </form>
+
+</div>

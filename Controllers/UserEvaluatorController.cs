@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using SEP_Web.Filters;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -16,19 +15,13 @@ public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;
     private readonly IUserEvaluatorServices _evaluatorServices;
-    private readonly IDivisionServices _divisionServices;
-    private readonly ISectionServices _sectionServices;
-    private readonly ISectorServices _sectorServices;
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices, IUsersValidation validation, IUserSession session)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IUsersValidation validation, IUserSession session)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
-        _divisionServices = divisionServices;
-        _sectionServices = sectionServices;
-        _sectorServices = sectorServices;
         _validation = validation;
         _session = session;
     }
@@ -58,48 +51,6 @@ public class UserEvaluatorController : Controller
 
             return View(new List<UserEvaluator>());
         }
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetDivisionsByInstituition(int instituitionId)
-    {
-        ICollection<Division> divisions = await _divisionServices.GetDivisionsAsync(instituitionId);
-
-        IEnumerable<SelectListItem> divisionList = divisions.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-
-        return Json(divisionList);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetSectionsByDivisions(int divisionId)
-    {
-        ICollection<Section> sections = await _sectionServices.GetSectionsAsync(divisionId);
-
-        IEnumerable<SelectListItem> sectionList = sections.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-
-        return Json(sectionList);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> GetSectorsBySections(int sectionId)
-    {
-        ICollection<Sector> sectors = await _sectorServices.GetSectorsAsync(sectionId);
-
-        IEnumerable<SelectListItem> sectorList = sectors.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-
-        return Json(sectorList);
     }
 
     public IActionResult Register()
@@ -184,12 +135,12 @@ public class UserEvaluatorController : Controller
             {
                 Users userInSession = await _session.SearchUserSession();
 
-                // bool enableAccount = Request.Form["enableDisableAccount"] == "on";
+                bool enableAccount = Request.Form["enableDisableAccount"] == "on";
 
-                // if (enableAccount)
-                // {
-                //     userEdit.UserStats = userEdit.UserStats == UserStatsEnum.Active ? UserStatsEnum.Inactive : UserStatsEnum.Active;
-                // }
+                if (enableAccount)
+                {
+                    userEdit.UserStats = userEdit.UserStats == UserStatsEnum.Active ? UserStatsEnum.Inactive : UserStatsEnum.Active;
+                }
 
                 var fieldsToValidate = new List<(string FieldName, object Value)>
                 {

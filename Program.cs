@@ -32,6 +32,7 @@ builder.Services.AddScoped<IDivisionServices, DivisionServices>();
 builder.Services.AddScoped<ISectionServices, SectionServices>();
 builder.Services.AddScoped<ISectorServices, SectorServices>();
 
+builder.Services.AddScoped<IUsersServices, UsersServices>();
 builder.Services.AddScoped<IUserAdministratorServices, UserAdministratorServices>();
 builder.Services.AddScoped<IUserEvaluatorServices, UserEvaluatorServices>();
 builder.Services.AddScoped<ICivilServantServices, CivilServantServices>();

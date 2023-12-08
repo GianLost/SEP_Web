@@ -26,7 +26,7 @@
                     <li><a type="button" data-bs-toggle="modal" data-bs-target="#eval-change-pass" title="Alterar senha do usuário !" class="dropdown-item"><i title="Altere a senha do usuário !" class="bi bi-file-earmark-lock2"> </i>Alterar senha</a>
                     </li>
                     <li class="dropdown-divider"></li>
-                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-structures" title="Altere as entidades órgão, divisão, seção ou setor do usuário!" class="dropdown-item"><i title="Altere as entidades órgão, divisão seção ou setor do usuário!" class="bi bi-building-fill-gear"> </i>Alterar entidades</a>
+                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-eval-structures" title="Altere as entidades órgão, divisão, seção ou setor do usuário!" class="dropdown-item"><i title="Altere as entidades órgão, divisão seção ou setor do usuário!" class="bi bi-building-fill-gear"> </i>Alterar entidades</a>
                     </li>
                 </ul>
 
@@ -50,7 +50,7 @@
 
                 @if (TempData["SuccessMessage"] != null)
                 {
-                    <div class="alert alert-success alert-register-success" role="alert">
+                    <div class="alert alert-success alert-edit-success" role="alert">
                         <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
                             <span class="close-span" aria-hidden="true">&times;</span>
                         </button>
@@ -61,7 +61,7 @@
 
                 @if (TempData["ErrorMessage"] != null)
                 {
-                    <div class="alert alert-danger alert-register-error" role="alert">
+                    <div class="alert alert-danger alert-edit-error" role="alert">
                         <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
                             <span class="close-span" aria-hidden="true">&times;</span>
                         </button>
@@ -77,7 +77,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-evaluator-masp" hidden></label>
-                            <input type="number" class="form-control" id="edit-evaluator-masp" name="Masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
+                            <input type="number" class="form-control userMasp" id="edit-evaluator-masp" name="Masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Masp)
                             </div>
@@ -191,8 +191,27 @@
                 </div>
 
                 <div class="form-group">
-                    <button title="Editar avaliador ..." type="submit" class="btn btn-primary"><i title="Editar avaliador" class="bi bi-pencil-fill"></i> Editar</button>
-                    <button asp-controller="UserEvaluator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar ..."><i class="bi bi-arrow-return-left" title="Cancelar ..."></i></button>
+
+                    <div class="mt-0 div-enableDisable">
+
+                        <button title="Salve as alterações ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Salve as alterações ..."></i> Salvar</button>
+                        <button asp-controller="UserEvaluator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar edição ..."><i class="bi bi-arrow-return-left" title="Cancelar edição ..."></i></button>
+
+                        <div class="btn-enableDisable">
+                            @if (Model.UserStats == UserStatsEnum.Active)
+                            {
+                                <input class="form-check-input enableDisableAccount" id="disable-account" type="checkbox" name="enableDisableAccount">
+                                <label class="form-check-label" for="disable-account">Desabilitar usuário</label>
+                            }
+                            else
+                            {
+                                <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox" name="enableDisableAccount">
+                                <label class="form-check-label" for="enable-account">Habilitar usuário</label>
+                            }
+                        </div>
+                        
+                    </div>
+                    
                 </div>
 
             </form>
@@ -202,3 +221,91 @@
     </div>
 
 </div>
+
+@* Start enable/disable user Modal *@
+
+    <div class="modal fade confirmationModal" id="confirmationEvalModal" tabindex="-1" role="dialog" aria-labelledby="confirmationEvalModalLabel" aria-hidden="true">
+
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header bg-danger p-3">
+                    <h3 class="modal-title text-light text-center fs-4 mb-0 p-0" id="confirmationEvalModalLabel">
+                        Alerta</h3>
+                    <button type="button" title="Fechar modal" id="modal-close" class="btn-close bg-light text-light" data-bs-dismiss="modal"
+                        aria-label="Close"> 
+                    </button>
+                </div>
+
+               @if(Model.UserStats == UserStatsEnum.Active)
+               {
+
+                <div class="modal-body enableDisableModal p-3">
+                    <span class="text-danger fw-bold">Atenção!</span> desabilitar o usuário fará com que ele perca o <span class="fw-bold">completo acesso ao sistema</span>. Ao prosseguir você concorda em <span class="fw-bold">desabilitar</span> o usuário <span class="fw-bold">@Model.Login</span>.
+                </div>
+
+               }
+               else
+               {
+                    <div class="modal-body enableDisableModal p-3">
+                        <span class="text-danger fw-bold">Atenção!</span> habilitar o usuário fará com que ele retome o <span class="fw-bold">completo acesso ao sistema</span>. Ao prosseguir você concorda em <span class="fw-bold">habilitar</span> novamente o usuário <span class="fw-bold">@Model.Login</span>.
+                    </div>
+               }
+
+                <div class="modal-footer modal-footer-sm d-flex justify-content-start">
+                    <button type="button" title="cancelar ..." class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-circle-fill"></i></button>
+                    <button type="button" title="confirmar ..." class="btn btn-sm btn-primary confirmAction"><i class="bi bi-check-circle-fill"></i></button>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+@* Finish enable/disable user Modal *@
+
+@* Início do Modal de Edição da senha do usuário *@
+
+<div class="modal fade" id="eval-change-pass" tabindex="-1" role="dialog" aria-labelledby="change-evaluatorTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-evaluatorTitle">Alterar senha</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body p-1">
+                    @await Html.PartialAsync("../ChangePassword/_ChangePass.cshtml", new ChangePassword())
+                </div>
+        </div>
+
+    </div>
+
+</div>
+
+@* Fim do Modal de Edição da senha do usuário *@
+
+@* Início do Modal de Edição das estruturas do usuário *@
+
+<div class="modal fade" id="change-eval-structures" tabindex="-1" role="dialog" aria-labelledby="section-editTitle" aria-hidden="true">
+
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header bg-light p-3">
+                <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="section-editTitle">Alterar entidades</h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                <div class="modal-body">
+                    @*await Html.PartialAsync("../UserEvaluator/_EvaluatorStructures.cshtml", new ModifyStructures())*@
+                </div>
+        </div>
+
+    </div>
+
+</div>
+
+@* Fim do Modal de Edição das das estruturas do usuário *@

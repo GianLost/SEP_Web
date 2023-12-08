@@ -8,7 +8,7 @@ $('.evaluator-register').show(function () {
 
         var selectedInstituitionId = $(this).val();
         if (selectedInstituitionId) {
-            $.get('/UserEvaluator/GetDivisionsByInstituition', { instituitionId: selectedInstituitionId }, function (data) {
+            $.get('/Structure/GetDivisionsByInstituition', { instituitionId: selectedInstituitionId }, function (data) {
                 $('.evaluator-division').empty();
                 $('.evaluator-division').append($('<option>').text(' -- selecione a divisão -- ').val(''));
                 $.each(data, function (index, item) {
@@ -24,7 +24,7 @@ $('.evaluator-register').show(function () {
     $('.evaluator-division').change(function () {
         var selectedSectionId = $(this).val();
         if (selectedSectionId) {
-            $.get('/UserEvaluator/GetSectionsByDivisions', { DivisionId: selectedSectionId }, function (data) {
+            $.get('/Structure/GetSectionsByDivisions', { DivisionId: selectedSectionId }, function (data) {
                 $('.evaluator-section').empty();
                 $('.evaluator-section').append($('<option>').text(' -- selecione a seção -- ').val(''));
                 $.each(data, function (index, item) {
@@ -40,7 +40,7 @@ $('.evaluator-register').show(function () {
     $('.evaluator-section').change(function () {
         var selectedSectorId = $(this).val();
         if (selectedSectorId) {
-            $.get('/UserEvaluator/GetSectorsBySections', { SectionId: selectedSectorId }, function (data) {
+            $.get('/Structure/GetSectorsBySections', { SectionId: selectedSectorId }, function (data) {
                 $('.evaluator-sector').empty();
                 $('.evaluator-sector').append($('<option>').text(' -- selecione o setor -- ').val(''));
                 $.each(data, function (index, item) {

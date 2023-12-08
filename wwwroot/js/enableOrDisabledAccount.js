@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     checkboxes.change(function () {
         if (checkboxes.is(':checked') && !confirmed) {
-            $('#confirmationModal').modal('show');
+            $('.confirmationModal').modal('show');
 
             $('.confirmAction').click(function () {
                 // Marque o checkbox manualmente
@@ -14,10 +14,10 @@ $(document).ready(function () {
                 confirmed = true;
 
                 // Feche o modal de confirmação
-                $('#confirmationModal').modal('hide');
+                $('.confirmationModal').modal('hide');
             });
 
-            $('#confirmationModal').on('hidden.bs.modal', function () {
+            $('.confirmationModal').on('hidden.bs.modal', function () {
                 // Se o usuário fechar o modal sem confirmar, desmarque o checkbox
                 if (!confirmed) {
                     checkboxes.prop('checked', false);
