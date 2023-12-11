@@ -28,36 +28,36 @@ public class ChangePasswordController : Controller
 
             if (!ModelState.IsValid)
             {
-                return Json(new { stats = ChangePasswordEnum.ERROR});
+                return Json(new { stats = StatsAJAXEnum.ERROR});
             }
 
             if(changePassword.Password != changePassword.ComparePassword)
             {
-                return Json(new { stats = ChangePasswordEnum.INVALID });
+                return Json(new { stats = StatsAJAXEnum.INVALID });
             }
 
             if(changePassword.Password.Length < 8 || changePassword.ComparePassword.Length < 8)
             {
-                return Json(new { stats = ChangePasswordEnum.INVALID_LENGTH });
+                return Json(new { stats = StatsAJAXEnum.INVALID_LENGTH });
             }
 
             await _usersServices.ChangePassword(changePassword);
 
-            if(changePassword.Id == userInSession.Id)
+            if(changePassword.Masp == userInSession.Masp)
             {
                 _session.UserCheckOut();
-                return Json(new { stats = ChangePasswordEnum.END_SESSION });
+                return Json(new { stats = StatsAJAXEnum.END_SESSION });
             }
 
             TempData["SuccessMessage"] = "Senha editada com sucesso.";
-            return Json(new { stats = ChangePasswordEnum.OK });
+            return Json(new { stats = StatsAJAXEnum.OK });
 
         }
         catch (Exception ex)
         {
             TempData["ErrorMessage"] = "Não foi possível editar a senha.";
             _logger.LogError("Não foi possível editar a senha", ex.Message);
-            return Json(new { stats = ChangePasswordEnum.ERROR, message = "Ocorreu um erro ao editar a senha!" });
+            return Json(new { stats = StatsAJAXEnum.ERROR, message = "Ocorreu um erro ao editar a senha!" });
         }
     }
 }

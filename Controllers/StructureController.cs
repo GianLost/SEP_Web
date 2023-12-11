@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SEP_Web.Filters;
+using SEP_Web.Keys;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -10,13 +11,15 @@ namespace SEP_Web.Controllers;
 public class StructureController : Controller
 {
     private readonly ILogger<StructureController> _logger;
+     private readonly IUserEvaluatorServices _evaluatorServices;
     private readonly IDivisionServices _divisionServices;
     private readonly ISectionServices _sectionServices;
     private readonly ISectorServices _sectorServices;
 
-    public StructureController(ILogger<StructureController> logger, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices)
+    public StructureController(ILogger<StructureController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices)
     {
         _logger = logger;
+        _evaluatorServices = evaluatorServices;
         _divisionServices = divisionServices;
         _sectionServices = sectionServices;
         _sectorServices = sectorServices;
@@ -62,5 +65,27 @@ public class StructureController : Controller
         });
 
         return Json(sectorList);
+    }
+
+    public async Task<IActionResult> ModifyStructures(ModifyStructures modifyStructures)
+    {
+        try
+        {
+
+            if (ModelState.IsValid)
+            {
+                await _evaluatorServices.EditStructures(modifyStructures);
+                TempData["SuccessMessage"] = "Estruturas editadas com sucesso !";
+                return Json(new { stats = StatsAJAXEnum.OK });
+            }
+
+            return Json(new { stats = StatsAJAXEnum.ERROR});
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível editar as estruturas.";
+            _logger.LogError("Não foi possível editar as estruturas", e.Message);
+            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível editar as estruturas!" });
+        }
     }
 }

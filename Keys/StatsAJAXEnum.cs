@@ -1,5 +1,5 @@
 namespace SEP_Web.Keys;
-public enum ChangePasswordEnum
+public enum StatsAJAXEnum
 {
     OK = 1,
     ERROR = 2,

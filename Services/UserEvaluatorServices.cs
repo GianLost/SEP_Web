@@ -156,6 +156,22 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         }
     }
 
+    public async Task<UserEvaluator> EditStructures(ModifyStructures modifyStructures)
+    {
+        UserEvaluator searchEvaluator = SearchForId(modifyStructures.Id) ?? throw new ArgumentNullException(nameof(modifyStructures), "Houve um erro ao buscar o avaliador para editar as estruturas !");
+
+        searchEvaluator.InstituitionId = modifyStructures.InstituitionId;
+        searchEvaluator.DivisionId = modifyStructures.DivisionId;
+        searchEvaluator.SectionId = modifyStructures.SectionId;
+        searchEvaluator.SectorId = modifyStructures.SectorId;
+        searchEvaluator.ModifyDate = DateTime.Now;
+
+        _database.Evaluators.Update(searchEvaluator);
+        await _database.SaveChangesAsync();
+
+        return searchEvaluator;
+    }
+
     public UserEvaluator SearchForId(int id)
     {
         return _database.Evaluators.FirstOrDefault(x => x.Id == id);

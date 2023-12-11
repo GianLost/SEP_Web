@@ -275,7 +275,7 @@
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
                 <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-evaluatorTitle">Alterar senha</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <a type="button" class="btn-close" asp-action="Edit" asp-controller="UserEvaluator" asp-route-Id="@Model.Id"></a>
             </div>
                 <div class="modal-body p-1">
                     @await Html.PartialAsync("../ChangePassword/_ChangePass.cshtml", new ChangePassword())
@@ -297,10 +297,10 @@
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
                 <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="section-editTitle">Alterar entidades</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <a type="button" class="btn-close" asp-action="Edit" asp-controller="UserEvaluator" asp-route-Id="@Model.Id"></a>
             </div>
                 <div class="modal-body">
-                    @*await Html.PartialAsync("../UserEvaluator/_EvaluatorStructures.cshtml", new ModifyStructures())*@
+                    @await Html.PartialAsync("../Structure/_ModifyStructures.cshtml", new ModifyStructures())
                 </div>
         </div>
 

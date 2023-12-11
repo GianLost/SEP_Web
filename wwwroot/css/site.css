@@ -302,3 +302,14 @@ input::-webkit-inner-spin-button {
 .evaluator-col .form-group {
   margin: 12px;
 }
+
+#btn-cgPass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btn-cgPass span {
+  font-size: 2.5vh;
+  padding: 0.3vh;
+}
