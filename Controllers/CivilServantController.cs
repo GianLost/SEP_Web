@@ -69,13 +69,11 @@ public class CivilServantController : Controller
                 foreach (var (FieldName, Message) in duplicateErrors)
                     ModelState.AddModelError(FieldName, Message);
 
-                if (ModelState.ErrorCount > 0)
-                    return View(servant);
+                    if (ModelState.ErrorCount > 0)
+                        return View(servant);
 
-                if (!_validation.ValidatePassword(servant.Password, confirmPass, this))
-                    return View(servant);
-
-                /* Assim que todos os dados forem validados de acordo com as exigências; */
+                        if (!_validation.ValidatePassword(servant.Password, confirmPass, this))
+                            return View(servant);
 
                 TempData["SuccessMessage"] = FeedbackMessages.SuccessServantRegister;
 
