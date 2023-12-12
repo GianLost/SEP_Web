@@ -22,7 +22,10 @@ public class FeedbackMessages
     public const string ErrorEvaluatorList = "Erro ao obter a coleção de avaliadores.";
 
 
+    public const string SuccessServantRegister = "Servidor cadastrado com sucesso !";
+    public const string ErrorServantRegister = "Erro ao registrar o servidor.";
     public const string ErrorServantList = "Erro ao obter a coleção de servidores.";
+
     public const string ErrorEmptyCollection = "A coleção acessada está vazia, portanto não possui registros a serem exibidos !";
 
 

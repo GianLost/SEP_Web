@@ -54,10 +54,7 @@ public class UserAdministratorController : Controller
         }
     }
 
-    public IActionResult Register()
-    {
-        return View();
-    }
+    public IActionResult Register() => View();
 
     [HttpPost]
     public async Task<IActionResult> Register(UserAdministrator user, string confirmPass)
@@ -123,11 +120,7 @@ public class UserAdministratorController : Controller
         }
     }
 
-    public IActionResult Edit(int id)
-    {
-        UserAdministrator user = _administratorServices.SearchForId(id);
-        return View(user);
-    }
+    public IActionResult Edit(int id) => View(_administratorServices.SearchForId(id));
 
     [HttpPost]
     public async Task<IActionResult> Edit(ModifyUser modifyUser)

@@ -53,10 +53,7 @@ public class UserEvaluatorController : Controller
         }
     }
 
-    public IActionResult Register()
-    {
-        return View();
-    }
+    public IActionResult Register() => View();
 
     [HttpPost]
     public async Task<IActionResult> Register(UserEvaluator evaluator, string confirmPass)
@@ -118,11 +115,7 @@ public class UserEvaluatorController : Controller
         }
     }
 
-    public IActionResult Edit(int id)
-    {
-        UserEvaluator user = _evaluatorServices.SearchForId(id);
-        return View(user);
-    }
+    public IActionResult Edit(int id) => View(_evaluatorServices.SearchForId(id));
 
     [HttpPost]
     public async Task<IActionResult> Edit(ModifyUser modifyUser)

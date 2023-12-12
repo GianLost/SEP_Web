@@ -27,19 +27,13 @@ public class ChangePasswordController : Controller
             Users userInSession = await _session.SearchUserSession();
 
             if (!ModelState.IsValid)
-            {
                 return Json(new { stats = StatsAJAXEnum.ERROR});
-            }
 
-            if(changePassword.Password != changePassword.ComparePassword)
-            {
-                return Json(new { stats = StatsAJAXEnum.INVALID });
-            }
+                if(changePassword.Password != changePassword.ComparePassword)
+                    return Json(new { stats = StatsAJAXEnum.INVALID });
 
-            if(changePassword.Password.Length < 8 || changePassword.ComparePassword.Length < 8)
-            {
-                return Json(new { stats = StatsAJAXEnum.INVALID_LENGTH });
-            }
+                    if(changePassword.Password.Length < 8 || changePassword.ComparePassword.Length < 8)
+                        return Json(new { stats = StatsAJAXEnum.INVALID_LENGTH });
 
             await _usersServices.ChangePassword(changePassword);
 

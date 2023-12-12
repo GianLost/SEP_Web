@@ -172,6 +172,15 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         return searchEvaluator;
     }
 
+    public async Task<ICollection<UserEvaluator>> GetFirstEvaluatorForRelationToServantAsync(int instituitionId)
+    {
+        return await _database.Evaluators.Where(d => d.InstituitionId == instituitionId).ToListAsync();
+    }
+    public async Task<ICollection<UserEvaluator>> GetSecondEvaluatorForRelationToServantAsync(int firstEvaluator, int instituitionId)
+    {
+        return await _database.Evaluators.Where(d =>  d.Id != firstEvaluator && d.InstituitionId == instituitionId).ToListAsync();
+    }
+
     public UserEvaluator SearchForId(int id)
     {
         return _database.Evaluators.FirstOrDefault(x => x.Id == id);

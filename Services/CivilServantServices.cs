@@ -1,6 +1,106 @@
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using SEP_Web.Database;
+using SEP_Web.Helper.Authentication;
+using SEP_Web.Helper.Messages;
+using SEP_Web.Models;
+
 namespace SEP_Web.Services;
 
 public class CivilServantServices : ICivilServantServices
-{ 
+{
+    private readonly ILogger<ICivilServantServices> _logger;
+    private readonly SEP_WebContext _database;
+
+    public CivilServantServices(ILogger<ICivilServantServices> logger, SEP_WebContext database)
+    {
+        _logger = logger;
+        _database = database;
+    }
+
+    public async Task<CivilServant> RegisterServant(CivilServant user)
+    {
+        try
+        {
+            if (user == null) throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);
+
+            user.UserType = Keys.UsersTypeEnum.User_Server;
+            user.UserStats = Keys.UserStatsEnum.Active;
+            user.Password = Cryptography.EncryptPassword(user.Password);
+            user.RegisterDate = DateTime.Now;
+
+            await _database.Servants.AddAsync(user);
+            await _database.SaveChangesAsync();
+
+            return user;
+
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[SERVANT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[SERVANT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            user = null;
+            return user;
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[SERVANT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[SERVANT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            user = null;
+            return user;
+        }
+    }
+
+    public async Task<ICollection<CivilServant>> ServantsList()
+    {
+        try
+        {
+            ICollection<CivilServant> servants = await _database.Servants.ToListAsync();
+
+            if (servants?.Count == 0)
+                throw new ArgumentNullException(nameof(servants), ExceptionMessages.ErrorArgumentNullException);
+
+            return servants ?? new List<CivilServant>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[SERVANT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[SERVANT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<CivilServant>();
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[SERVANT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[SERVANT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            return new List<CivilServant>();
+        }
+    }
+
+    public Task<CivilServant> ServantsEdit(CivilServant user)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void DeleteServant(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public CivilServant SearchForId(int id)
+    {
+        throw new NotImplementedException();
+    }
 
 }
