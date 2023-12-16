@@ -21,6 +21,7 @@ public class UsersServices : IUsersServices
 
         searchUser.Password = Cryptography.EncryptPassword(changePassword.Password);
         searchUser.ModifyDate = DateTime.Now;
+        searchUser.LastModifiedBy = changePassword.LastModifiedBy;
 
         if (searchUser.UserType == UsersTypeEnum.User_Admin)
         {
