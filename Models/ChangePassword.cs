@@ -18,4 +18,7 @@ public class ChangePassword
     [StringLength(150), MaxLength(150, ErrorMessage = "A senha pode conter no máximo 150 caracteres.")]
     [MinLength(8, ErrorMessage = "A senha deve conter no mínimo 8 caracteres.")]
     public string ComparePassword { get; set; }
+    
+    [StringLength(35)]
+    public string LastModifiedBy { get; set; }
 }
