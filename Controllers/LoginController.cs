@@ -78,7 +78,7 @@ public class LoginController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorLogin} {ExceptionMessages.ErrorDatabaseConnection}";
-            _logger.LogError(FeedbackMessages.ErrorLogin, e.Message);
+            _logger.LogError("{exceptionMessage} : {Message} | InnerExeption = '{InnerExeption}' | data = {Data} | stackTrace = {StackTrace} | source = {source} | helpLink = {HelpLink} | target = {TargetSite}",FeedbackMessages.ErrorLogin, e.Message, e.InnerException, e.Data, e.StackTrace, e.Source, e.HelpLink, e.TargetSite);
             return RedirectToAction("Index");
         }
     }

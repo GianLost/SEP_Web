@@ -34,8 +34,7 @@ public class ChangePasswordController : Controller
 
                     if(changePassword.Password.Length < 8 || changePassword.ComparePassword.Length < 8)
                         return Json(new { stats = StatsAJAXEnum.INVALID_LENGTH });
-            
-            changePassword.LastModifiedBy = userInSession.Login;
+
             await _usersServices.ChangePassword(changePassword);
 
             if(changePassword.Masp == userInSession.Masp)
