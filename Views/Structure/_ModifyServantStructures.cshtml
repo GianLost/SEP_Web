@@ -1,0 +1,86 @@
+@model ModifyServantStructures
+@using SEP_Web.Models
+@using SEP_Web.Services
+@inject IInstituitionServices _instituitionServices
+
+@{
+    ViewData["Title"] = "Edição de estruturas";
+}
+
+<div>
+    <form id="edit-servant-structures-form">
+
+        <input class="modify-servant-structure-Id" id="edit-servant-structure-Id" type="hidden" asp-for="Id">
+                
+        <div class="row">
+
+            <div class="evaluator-col col-md-6 m-0">
+                <div class="form-group">
+                    <select class="servant-instituition form-select form-select-sm m-0" name="instituitionId" asp-for="InstituitionId">
+                        <option value=""> -- selecione o ógão -- </option>
+                        @foreach (var i in await _instituitionServices.InstituitionsList())
+                        {
+                            <option value="@i.Id" selected>@i.Name</option>
+                        }
+                    </select>
+                    <div class="validate-fields">
+                        <span class="field-validation-error instituition-validation-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="evaluator-col col-md-6 m-0">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.DivisionId, Enumerable.Empty<SelectListItem>(), "-- selecione a divisão --", new { @class = "servant-division form-select m-0 form-select form-select-sm w-100" })
+                    <div class="validate-fields">
+                        <span class="field-validation-error division-validation-error"></span>
+                    </div>
+                </div>        
+            </div>
+
+            <div class="evaluator-col col-md-6 m-0">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.SectionId, Enumerable.Empty<SelectListItem>(), "-- selecione a seção --", new { @class = "servant-section form-select m-0 form-select form-select-sm w-100" })
+                    <div class="validate-fields">
+                        <span class="field-validation-error section-validation-error"></span>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="evaluator-col col-md-6 m-0">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.SectorId, Enumerable.Empty<SelectListItem>(), "-- selecione o setor --", new { @class = "servant-sector form-select m-0 form-select form-select-sm w-100" })
+                    <div class="validate-fields">
+                        <span class="field-validation-error sector-validation-error"></span>
+                    </div>
+                </div>                     
+            </div>
+
+            <div class="evaluator-col col-md-6 m-0">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.UserEvaluatorId1, Enumerable.Empty<SelectListItem>(), "-- selecione o avaliador 1 --", new { @class = "servant-evaluator-first form-select m-0 form-select form-select-sm w-100" })
+                    <div class="validate-fields">
+                        <span class="field-validation-error first-eval-validation-error"></span>
+                    </div>
+                </div>      
+            </div>
+
+            <div class="evaluator-col col-md-6 m-0">
+                <div class="form-group">
+                    @Html.DropDownListFor(model => model.UserEvaluatorId2, Enumerable.Empty<SelectListItem>(), "-- selecione o avaliador 2 --", new { @class = "servant-evaluator-second fform-select m-0 form-select form-select-sm w-100" })
+                    <div class="validate-fields">
+                        <span class="field-validation-error second-eval-validation-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-start p-0 mt-2">
+                <button type="submit" class="btn btn-primary ms-4 btn-sm mt-3" title="salvar alterações"><i class="bi bi-building-up" title="salvar alterações"></i> Salvar</button>
+                <a asp-controller="CivilServant" asp-action="Edit" class="btn btn-secondary btn-sm mt-3" title="Cancelar ..."><i class="bi bi-arrow-return-left" title="Cancelar ..."></i></a>
+            </div>
+
+        </div>
+
+    </form>
+    
+</div>

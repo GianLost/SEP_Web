@@ -11,15 +11,17 @@ namespace SEP_Web.Controllers;
 public class StructureController : Controller
 {
     private readonly ILogger<StructureController> _logger;
-     private readonly IUserEvaluatorServices _evaluatorServices;
+    private readonly IUserEvaluatorServices _evaluatorServices;
+    private readonly ICivilServantServices _civilServantServices;
     private readonly IDivisionServices _divisionServices;
     private readonly ISectionServices _sectionServices;
     private readonly ISectorServices _sectorServices;
 
-    public StructureController(ILogger<StructureController> logger, IUserEvaluatorServices evaluatorServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices)
+    public StructureController(ILogger<StructureController> logger, IUserEvaluatorServices evaluatorServices, ICivilServantServices civilServantServices, IDivisionServices divisionServices, ISectorServices sectorServices, ISectionServices sectionServices)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
+        _civilServantServices = civilServantServices;
         _divisionServices = divisionServices;
         _sectionServices = sectionServices;
         _sectorServices = sectorServices;
@@ -101,6 +103,28 @@ public class StructureController : Controller
             if (ModelState.IsValid)
             {
                 await _evaluatorServices.EditStructures(modifyStructures);
+                TempData["SuccessMessage"] = "Estruturas editadas com sucesso !";
+                return Json(new { stats = StatsAJAXEnum.OK });
+            }
+
+            return Json(new { stats = StatsAJAXEnum.ERROR});
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível editar as estruturas.";
+            _logger.LogError("Não foi possível editar as estruturas", e.Message);
+            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível editar as estruturas!" });
+        }
+    }
+
+    public async Task<IActionResult> ModifyServantStructures(ModifyServantStructures modifyStructures)
+    {
+        try
+        {
+
+            if (ModelState.IsValid)
+            {
+                await _civilServantServices.EditStructures(modifyStructures);
                 TempData["SuccessMessage"] = "Estruturas editadas com sucesso !";
                 return Json(new { stats = StatsAJAXEnum.OK });
             }

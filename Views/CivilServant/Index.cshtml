@@ -72,15 +72,11 @@
 
                                 @if (u.UserStats == UserStatsEnum.Active)
                                 {
-                                    <td scope="row"><span title="Ativo" id="statsEvaluatorActive"
-                                            class="material-symbols-outlined text-success fs-5 m-1 p-1">radio_button_checked</span>
-                                    </td>
+                                    <td scope="row"><span title="Ativo" id="statsEvaluatorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1">radio_button_checked</span></td>
                                 }
                                 else
                                 {
-                                    <td scope="row"><span title="Inativo" id="statsEvaluatorInactive"
-                                            class="material-symbols-outlined text-danger fs-5 m-1 p-1">radio_button_checked</span>
-                                    </td>
+                                    <td scope="row"><span title="Inativo" id="statsEvaluatorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1">radio_button_checked</span></td>
                                 }
 
                                 <td scope="row">@u.Masp</td>
@@ -90,8 +86,7 @@
                                 <td scope="row">@u.Phone</td>
 
                                 <td scope="row">
-                                    <a title="Editar servidor ..." role="button" asp-route-id="@u.Id"
-                                        asp-controller="CivilSevant" asp-action="Edit"
+                                    <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id"
                                         class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..."
                                             class="bi bi-person-vcard"></i></a>
 
@@ -105,8 +100,7 @@
 
                             @* Start Delete Modal *@
 
-                            <div class="modal fade" id="serv-delete-@(u.Id)" tabindex="-1" role="dialog"
-                                aria-labelledby="serv-delete-@(u.Id)" aria-hidden="true">
+                            <div class="modal fade" id="serv-delete-@(u.Id)" tabindex="-1" role="dialog" aria-labelledby="serv-delete-@(u.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
@@ -121,7 +115,7 @@
                                         </div>
 
                                         <div class="modal-body p-1">
-                                            @*await Html.PartialAsync("_Delete.cshtml", @u)*@
+                                            @await Html.PartialAsync("_Delete.cshtml", @u)
                                         </div>
 
                                     </div>

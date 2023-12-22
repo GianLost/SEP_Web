@@ -25,6 +25,10 @@ public class FeedbackMessages
     public const string SuccessServantRegister = "Servidor cadastrado com sucesso !";
     public const string ErrorServantRegister = "Erro ao registrar o servidor.";
     public const string ErrorServantList = "Erro ao obter a coleção de servidores.";
+    public const string SuccessServantDelete = "Servidor excluído com sucesso.";
+    public const string ErrorServantDelete = "Erro ao excluir o servidor.";
+    public const string SuccessServantEdit = "Servidor editado com sucesso.";
+    public const string ErrorServantEdit = "Erro ao editar o servidor.";
 
     public const string ErrorEmptyCollection = "A coleção acessada está vazia, portanto não possui registros a serem exibidos !";
 

@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Helper.Validation;
+using SEP_Web.Keys;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -11,12 +13,14 @@ public class CivilServantController : Controller
 {
     private readonly ILogger<CivilServantController> _logger;
     private readonly IUsersValidation _validation;
+    private readonly IUserSession _session;
     private readonly ICivilServantServices _civilServantServices;
 
-    public CivilServantController(ILogger<CivilServantController> logger, IUsersValidation validation, ICivilServantServices civilServantServices)
+    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices)
     {
         _logger = logger;
         _validation = validation;
+        _session = session;
         _civilServantServices = civilServantServices;
     }
 
@@ -104,6 +108,136 @@ public class CivilServantController : Controller
 
             servant = null;
             return View(servant);
+        }
+    }
+
+    public IActionResult Edit(int id) => View(_civilServantServices.SearchForId(id));
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(ModifyUser modifyUser)
+    {
+        try
+        {
+            CivilServant userEdit = _civilServantServices.SearchForId(modifyUser.Id);
+
+            if (ModelState.IsValid)
+            {
+                Users userInSession = await _session.SearchUserSession();
+
+                bool enableAccount = Request.Form["enableDisableAccount"] == "on";
+
+                if (enableAccount)
+                {
+                    userEdit.UserStats = userEdit.UserStats == UserStatsEnum.Active ? UserStatsEnum.Inactive : UserStatsEnum.Active;
+                }
+
+                var fieldsToValidate = new List<(string FieldName, object Value)>
+                {
+                    ("Masp", modifyUser.Masp),
+                    ("Name", modifyUser.Name),
+                    ("Login", modifyUser.Login),
+                    ("Email", modifyUser.Email),
+                    ("Phone", modifyUser.Phone),
+                };
+
+                foreach (var (fieldName, value) in fieldsToValidate)
+                    if (_validation.IsFieldChanged(userEdit, fieldName, value))
+                        if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
+                            ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso.");
+
+                if (ModelState.ErrorCount > 0)
+                    return View(userEdit);
+
+                userEdit = new CivilServant()
+                {
+                    Id = modifyUser.Id,
+                    Masp = modifyUser.Masp,
+                    Name = modifyUser.Name,
+                    Login = modifyUser.Login,
+                    Email = modifyUser.Email,
+                    Phone = modifyUser.Phone,
+                    Position = modifyUser.Position,
+                    UserStats = userEdit.UserStats,
+                    LastModifiedBy = userInSession.Login
+                };
+
+                TempData["SuccessMessage"] = FeedbackMessages.SuccessServantEdit;
+
+                await _civilServantServices.ServantsEdit(userEdit);
+                return RedirectToAction("Index");
+            }
+
+            return View(userEdit);
+        }
+        catch (MySqlException dbException)
+        {
+            // MYSQL EXEPTIONS :
+
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorEdit} {ExceptionMessages.ErrorDatabaseConnection}";
+
+            _logger.LogError("[SERVANT_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
+
+            _logger.LogError("[SERVANT_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
+
+            modifyUser = null;
+            return View(modifyUser);
+        }
+        catch (ArgumentNullException nullException)
+        {
+            // NULL EXEPTIONS :
+
+            TempData["ErrorMessage"] = FeedbackMessages.ErrorServantEdit;
+
+            _logger.LogWarning("[SERVANT_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+
+            _logger.LogWarning("[SERVANT_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
+
+            modifyUser = null;
+            return View(modifyUser);
+        }
+    }
+
+    [HttpPost]
+    public IActionResult Delete(string decision, CivilServant user)
+    {
+        try
+        {
+            if (decision == "delete")
+            {
+                if (user.Id != 0)
+                {
+                    TempData["SuccessMessage"] = FeedbackMessages.SuccessServantDelete;
+
+                    _civilServantServices.DeleteServant(user.Id);
+                    return RedirectToAction("Index");
+                }
+            }
+
+            throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);
+        }
+        catch (MySqlException dbException)
+        {
+            // MYSQL EXEPTIONS :
+
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorDelete} {ExceptionMessages.ErrorDatabaseConnection}";
+
+            _logger.LogError("[SERVANT_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
+
+            _logger.LogError("[SERVANT_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
+
+            return RedirectToAction("Index");
+        }
+        catch (ArgumentNullException nullException)
+        {
+            // NULL EXEPTIONS :
+
+            TempData["ErrorMessage"] = FeedbackMessages.ErrorEvaluatorDelete; // Mensagem de vizualização para o usuário;
+
+            _logger.LogWarning("[SERVANT_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+
+            _logger.LogWarning("[SERVANT_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
+
+            return RedirectToAction("Index");
         }
     }
 }
