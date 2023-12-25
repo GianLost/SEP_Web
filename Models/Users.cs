@@ -3,6 +3,31 @@ using SEP_Web.Keys;
 
 namespace SEP_Web.Models;
 
+/// <summary>
+/// 
+///     <para>Classe pai que representa os diversos tipos de usuário presentes no sistema.
+///     A classe <b>Users</b> contém atributos em comum que podem ser herdados pelos diversos níveis de usuário.</para>
+///     
+///     <para><b>Níveis de usuário:</b></para> 
+///     
+///     <para><b>- Usuário Administrador:</b></para>
+///      
+///     <para>Representa o nível mais avançado de um utilizador do sistema, possuindo todos os privilégios
+///     de acesso e modificação sobre os demais usuários e estruturas presentes no sistema.</para>
+///     
+///     <para><b>- Usuário Avaliador:</b></para> 
+///     
+///     <para>Representa um nível inferior ao usuário administrador. O avaliador possui permissões
+///     de acesso e modificação apenas sobre si mesmo e sobre os servidores públicos, que representam o nível mais básico de usuário.</para>
+///     
+///     <para><b>- Servidores Públicos:</b></para>
+///     
+///     <para>Representa o nível de usuário mais inferior do sistema. Os servidores públicos podem apenas 
+///     ser registrados no sistema para que possam ser gerenciados pelos usuários superiores e possuem acesso apenas ao seu
+///     relatório de estágio.</para>
+///     
+/// </summary>
+
 public class Users
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório !")]
@@ -32,7 +57,7 @@ public class Users
     public string Email { get; set; }
 
     [StringLength(15), Required(ErrorMessage = "Informe um telefone !")]
-    [RegularExpression(@"^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$", ErrorMessage = "O número de telefone é inválido. Tente: (XX) XXXXX-XXXX")]
+    [RegularExpression(@"^\([1-9]{2}\) (?:[2-8]|9[0-9])[0-9]{3}\-[0-9]{4}$", ErrorMessage = "O número de telefone é inválido. Tente:(XX) XXXXX-XXXX")]
     public string Phone { get; set; }
 
     [Required(ErrorMessage = "Informe seu cargo !")]
@@ -58,3 +83,4 @@ public class Users
     [StringLength(35)]
     public string LastModifiedBy { get; set; }
 }
+

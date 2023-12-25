@@ -3,6 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP_Web.Models;
 
+/// <summary>
+///     <para><b>Avaliadores:</b></para>
+///     <para>- Os avaliadores herdam seus atributos da classe base <b>SEP_Web.Models.Users</b> e também possuem atributos próprios.
+///     Eles possuem permissão de acesso e modificação apenas sobre si mesmos e sobre os servidores públicos.</para>
+///     <para>- A classe <b>UserEvalator</b> é usada para mapear uma tabela do banco de dados,
+///     representando uma entidade gerada pelo <b>EF Core</b>.</para>
+///     <para><b>Nome da Tabela:</b></para>
+///     <para>- Evaluators;</para>
+/// </summary>
+
 [Table("Evaluators")]
 public class UserEvaluator : Users
 {

@@ -1,6 +1,7 @@
 using SEP_Web.Database;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Validation;
+using SEP_Web.Models;
 using SEP_Web.Services;
 using Serilog;
 using Serilog.Events;

@@ -3,6 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP_Web.Models;
 
+/// <summary>
+///     <para><b>Servidores Públicos:</b></para>
+///     <para>- Os servidores herdam seus atributos da classe base <b>SEP_Web.Models.Users</b> e também possuem atributos próprios.
+///     Servidores são apenas um objeto de manipulação e possuem permissão de acesso apenas ao seu relatório de estágio.</para>
+///     <para>- A classe <b>CivilServant</b> é usada para mapear uma tabela do banco de dados,
+///     representando uma entidade gerada pelo <b>EF Core</b>.</para>
+///     <para><b>Nome da Tabela:</b></para>
+///     <para>- Servants;</para>
+/// </summary>
+
 [Table("Servants")]
 public class CivilServant : Users
 {
