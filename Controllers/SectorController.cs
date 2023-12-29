@@ -102,7 +102,7 @@ public class SectorController : Controller
                 sector.LastModifiedBy = userInSession.Login;
 
                 await _sectorServices.SectorEdit(sector);
-                TempData["SuccessMessage"] = "Setor editada com sucesso.";
+                TempData["SuccessMessage"] = "Setor editado com sucesso.";
                 return Json(new { stats = "OK" });
             }
 

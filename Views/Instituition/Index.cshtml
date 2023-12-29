@@ -47,8 +47,7 @@
 
                 <div class="modal-header bg-primary text-light p-3">
                     <h3 class="modal-title fs-4 text-center">Adicionar órgão</h3>
-                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                    <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="Instituition"></a>
                 </div>
                 <div class="modal-body p-1">
                     @await Html.PartialAsync("_Register.cshtml", new Instituition())
