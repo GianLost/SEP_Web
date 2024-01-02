@@ -1,6 +1,8 @@
 @using SEP_Web.Models
 @using SEP_Web.Keys
 
+@inject IHttpContextAccessor _httpContext
+
 @model ICollection<CivilServant>
 
 @{
@@ -11,9 +13,7 @@
 
     <div class="container-fluid justify-content-start w-100 pop-up">
 
-        <a title="Cadastrar novo servidor ..." style="width: 15vh;" role="button" asp-controller="CivilServant"
-            asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i
-                class="bi bi-person-plus-fill"></i> Novo</a>
+        <a title="Cadastrar novo servidor ..." style="width: 15vh;" role="button" asp-controller="CivilServant" asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i class="bi bi-person-plus-fill"></i> Novo</a>
 
         @if (TempData["SuccessMessage"] != null)
         {
@@ -86,14 +86,18 @@
                                 <td scope="row">@u.Phone</td>
 
                                 <td scope="row">
-                                    <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id"
-                                        class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..."
-                                            class="bi bi-person-vcard"></i></a>
+                                    @if (_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
+                                    {
+                                        <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..." class="bi bi-person-vcard"></i></a>
 
-                                    <button title="Excluir servidor ..." type="button" data-bs-toggle="modal"
-                                        asp-route-id="@u.Id" data-bs-target="#serv-delete-@(u.Id)"
-                                        class="btn btn-sm btn-outline-danger"><i title="Excluir servidor ..."
-                                            class="bi bi-person-dash"></i></button>
+                                        <a title="Avaliações ..." role="button" asp-action="IndexForId" asp-controller="Assessments" asp-route-id="@u.Id" class="btn btn-sm btn-outline-secondary"><i title="Avaliações ..." class="bi bi-journal-bookmark-fill"></i></a>
+
+                                        <button title="Excluir servidor ..." type="button" data-bs-toggle="modal" asp-route-id="@u.Id" data-bs-target="#serv-delete-@(u.Id)" class="btn btn-sm btn-outline-danger"><i title="Excluir servidor ..." class="bi bi-person-dash"></i></button>
+                                    }
+                                    else
+                                    {
+                                        <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..." class="bi bi-person-vcard"></i></a>
+                                    }
                                 </td>
 
                             </tr>

@@ -1,0 +1,135 @@
+@using SEP_Web.Models
+@using SEP_Web.Services
+@using SEP_Web.Keys
+
+@inject IAssessmentServices _assessmentServices
+@model ICollection<Assessment>
+
+@{
+    ViewData["Title"] = "Todas as Avaliações";
+
+    var groupedData = Model.GroupBy(u => u.Stats);
+}
+
+<div>
+
+    <div class="container-fluid justify-content-start w-100 pop-up">
+
+        <a title="Cadastrar novo avaliador ..." style="width: 15vh;" role="button" asp-controller="Assessments"
+            asp-action="Index" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i
+                class="bi bi-person-plus-fill"></i> Novo</a>
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                    <span class="close-span" aria-hidden="true">&times;</span>
+                </button>
+                <i class="bi bi-shield-fill-check"></i>
+                @TempData["SuccessMessage"]
+            </div>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                    <span class="close-span" aria-hidden="true">&times;</span>
+                </button>
+                <i class="bi bi-shield-fill-x"></i>
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-header bg-primary text-light">
+            <span class="fw-bold">Avaliações :</span>
+        </div>
+
+        <div class="card-body">
+
+            <div class="table-responsive">
+
+                <table class="table table-sm table-bordered table-striped table-light table-style users-table p-0">
+
+                    <thead class="table-light bg-danger border-light text-primary">
+
+                        <tr>
+                            <th scope="col">Status</th>
+                            <th scope="col">Etapa</th>
+                            <th scope="col">Masp</th>
+                            <th scope="col">Servidor</th>
+                            <th scope="col">Avaliação gerada</th>
+                            <th scope="col">Período de Avaliação</th>
+                            <th scope="col"></th>
+                        </tr>
+                        
+                    </thead>
+
+                    <tbody>
+                        
+                        @foreach(var group in groupedData)
+                        {
+                            var rowColor = group.Key == AssessmentStatsEnum.EVALUATED ? "table-success" : "table-danger";
+
+                            foreach(var item in group)
+                            {
+                                <tr class="border-light @rowColor">
+
+                                    @if (item.Stats == AssessmentStatsEnum.EVALUATED)
+                                    {
+                                        <td scope="row"><span title="Avaliado" id="statsEvaluatorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1"> <p hidden>@item.Stats</p> radio_button_checked</span></td>
+                                    }
+                                    else
+                                    {
+                                        <td scope="row" ><span title="Não avaliado" id="statsEvaluatorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1"> <p hidden>@item.Stats</p> radio_button_checked</span></td>
+                                    }
+                                    <td scope="row">@item.Phase</td>
+                                    <td scope="row">@item.Masp</td>
+                                    <td scope="row">@await _assessmentServices.ServantName(@item.CivilServantId)</td>
+                                    <td scope="row">@DateTime.Now.ToString("dd/MM/yyyy")</td>
+                                    <td scope="row">De @Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy") à @Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
+                                    <td scope="row">
+                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                        <a title="Gerar Boletim ..." role="button" asp-action="GenerateEvaluation" asp-controller="Assessments"class="btn btn-sm btn-outline-secondary"><i title="Gerar Boletim ..." class="bi bi-printer-fill"></i></a>
+                                        <button title="Excluir avaliação ..." type="button" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger"><i title="Excluir avaliação ..." class="bi bi-journal-x"></i></button>                               
+                                    </td>
+
+                                </tr>
+                            }
+                        }
+
+                        @* Start Delete Modal *@
+
+                        <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-light p-3">
+                                        <h3 class="modal-title text-center fs-4 mb-0 p-0" id="deleteTitle">
+                                            Alerta</h3>
+                                        <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"
+                                            aria-label="Close">
+                                        </button>
+                                    </div>
+                                    <div class="modal-body p-1">   
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @* Finish Delete Modal *@
+   
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

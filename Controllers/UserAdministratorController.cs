@@ -140,6 +140,13 @@ public class UserAdministratorController : Controller
                     userEdit.UserStats = userEdit.UserStats == UserStatsEnum.Active ? UserStatsEnum.Inactive : UserStatsEnum.Active;
                 }
 
+                if (enableAccount == true && userInSession.Masp == modifyUser.Masp)
+                {
+                    TempData["ErrorMessage"] = "Você desabilitou sua conta. Não será possível realizar login novamente com as suas credenciais. Entre em contato com um administrador!";
+                    
+                    _session.UserCheckOut();
+                }
+
                 var fieldsToValidate = new List<(string FieldName, object Value)>
                 {
                     ("Masp", modifyUser.Masp),

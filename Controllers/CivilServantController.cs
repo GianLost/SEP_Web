@@ -15,13 +15,15 @@ public class CivilServantController : Controller
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
     private readonly ICivilServantServices _civilServantServices;
+    private readonly IAssessmentServices _assessmentServices;
 
-    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices)
+    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices, IAssessmentServices assessmentServices)
     {
         _logger = logger;
         _validation = validation;
         _session = session;
         _civilServantServices = civilServantServices;
+        _assessmentServices = assessmentServices;
     }
 
     public async Task<IActionResult> Index()
@@ -82,6 +84,20 @@ public class CivilServantController : Controller
                 TempData["SuccessMessage"] = FeedbackMessages.SuccessServantRegister;
 
                 await _civilServantServices.RegisterServant(servant);
+
+                for(int stage = 1; stage <= 4; stage++)
+                {
+                    Assessment newTest = new ()
+                    {
+                        Stats = AssessmentStatsEnum.NOT_EVALUATED,
+                        Phase = stage,
+                        Masp = servant.Masp,
+                        CivilServantId = servant.Id,
+                        UserEvaluatorId = servant.UserEvaluatorId1
+                    };
+                    await _assessmentServices.RegisterAssessments(newTest);
+                }
+
                 return RedirectToAction("Index");
             }
 

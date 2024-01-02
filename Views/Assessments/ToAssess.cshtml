@@ -1,0 +1,296 @@
+@using SEP_Web.Models
+@using SEP_Web.Services
+@using SEP_Web.Keys
+
+@inject IAssessmentServices _assessmentServices
+@inject IUserEvaluatorServices _evaluatorServices
+
+@model Assessment
+
+@{
+    ViewData["Title"] = "Avaliações";
+}
+
+<div class="container mt-4">
+
+    <div class="container">
+
+        <div class="row m-auto">
+            <div class="col-md-12">
+                <section class="form-control fw-bold" disabled>Nome do(a) Servidor(a): <span  class="fw-normal">@await _assessmentServices.ServantName(@Model.CivilServantId)</span></section>
+            </div>
+            <div class="col-md-7 mt-1">
+                <section class="form-control fw-bold" disabled>Nome do(a) avaliador(a): <span class="fw-normal">@await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId)</span></section>
+            </div>
+            <div class="col-md-3 mt-1">
+                <section class="form-control fw-bold" disabled>Nº da matrícula: <span class="fw-normal">@Model.Masp</span></section>
+            </div>
+            <div class="col-md-2 mt-1">
+                <section class="form-control fw-bold" disabled>Etapa: <span class="fw-normal">@Model.Phase</span></section>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-bottom: -5vh;" class="validate-fields mt-2">
+        <span class="field-validation-error">@TempData["ValidationMessage"]</span>
+    </div>
+
+    <form style="background-color: #5858588f; heigth: 100vh;" class="p-3 mt-5" asp-action="ToAssess" asp-controller="Assessments" method="post">
+
+        <input type="hidden" name="id" asp-for="Id">
+        <input type="hidden" name="masp" asp-for="Masp">
+        <input type="hidden" name="phase" asp-for="Phase">
+        <input type="hidden" name="civilServantId" asp-for="CivilServantId">
+        <input type="hidden" name="userEvaluatorId" asp-for="UserEvaluatorId">
+
+        <div class="mt-4">
+            <ul class="nav nav-tabs" id="avaliacaoTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="desempenho-tab" data-bs-toggle="tab" data-bs-target="#desempenho" type="button" role="tab" aria-controls="desempenho" aria-selected="true">Desempenho</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="adaptacao-tab" data-bs-toggle="tab" data-bs-target="#adaptacao" type="button" role="tab" aria-controls="adaptacao" aria-selected="false">Adaptação</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="proatividade-tab" data-bs-toggle="tab" data-bs-target="#proatividade" type="button" role="tab" aria-controls="proatividade" aria-selected="false">Proatividade</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="prazos-tab" data-bs-toggle="tab" data-bs-target="#prazos" type="button" role="tab" aria-controls="prazos" aria-selected="false">Cumprimento de Prazos</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="habilidades-tab" data-bs-toggle="tab" data-bs-target="#habilidades" type="button" role="tab" aria-controls="habilidades" aria-selected="false">Habilidades Técnicas</button>
+                </li>
+            </ul>
+
+            <div class="tab-content mt-2" id="avaliacaoTabContent">
+
+                <div class="tab-pane fade show active" id="desempenho" role="tabpanel" aria-labelledby="desempenho-tab">
+                    <ul class="list-group">
+
+                        <li class="list-group-item">Precisão na realização das tarefas 
+                            <select class="form-select form-select-sm" asp-for="Crit1_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Consistência na entrega de trabalho de alta qualidade 
+                            <select class="form-select form-select-sm" asp-for="Crit1_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Capacidade de seguir padrões e procedimentos estabelecidos 
+                            <select class="form-select form-select-sm" asp-for="Crit1_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="adaptacao" role="tabpanel" aria-labelledby="adaptacao-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">Precisão na realização das tarefas 
+                            <select class="form-select form-select-sm" asp-for="Crit2_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Consistência na entrega de trabalho de alta qualidade 
+                            <select class="form-select form-select-sm" asp-for="Crit2_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Capacidade de seguir padrões e procedimentos estabelecidos 
+                            <select class="form-select form-select-sm" asp-for="Crit2_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+                    </ul>
+
+                </div>
+                <!-- Repita a estrutura acima para as outras abas -->
+                <div class="tab-pane fade" id="proatividade" role="tabpanel" aria-labelledby="proatividade-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">Capacidade de cumprir prazos e metas estabelecidas 
+                            <select class="form-select form-select-sm" asp-for="Crit3_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Eficiência na conclusão das tarefas designadas 
+                            <select class="form-select form-select-sm" asp-for="Crit3_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Uso eficaz do tempo de trabalho 
+                            <select class="form-select form-select-sm" asp-for="Crit3_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="prazos" role="tabpanel" aria-labelledby="prazos-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">Cumprimento consistente de prazos definidos para projetos e tarefas 
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Capacidade de planejar e organizar o trabalho para atender aos prazos 
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Capacidade de identificar potenciais atrasos e agir proativamente para evitá-los 
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="habilidades" role="tabpanel" aria-labelledby="habilidades-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">Domínio das habilidades específicas necessárias para o cargo 
+                            <select class="form-select form-select-sm" asp-for="Crit5_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Atualização constante das competências técnicas relevantes ao trabalho 
+                            <select class="form-select form-select-sm" asp-for="Crit5_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">Capacidade de adaptação com a equipe 
+                            <select class="form-select form-select-sm" asp-for="Crit5_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1 - ruim</option>
+                                <option value="2">2 - mediano</option>
+                                <option value="3">3 - bom</option>
+                                <option value="4">4 - muito bom</option>
+                                <option value="5">5 - ótimo</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-md btn-primary mt-4"><i title="Avaliar ..." class="bi bi-journal-bookmark-fill"></i> Avaliar</button>
+            <a class="btn btn-md btn-secondary mt-4" title="Cancelar" asp-action="Index" asp-controller="Assessments"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
+        </div>
+
+    </form>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#avaliacaoTab a').on('click', function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+                var targetTab = $(this).attr('data-bs-target');
+                $(targetTab + ' select').empty(); // Limpa as listas suspensas ao trocar de aba
+                // Preencha aqui as listas suspensas com as opções de notas para cada subitem
+            });
+        });
+    </script>
+}

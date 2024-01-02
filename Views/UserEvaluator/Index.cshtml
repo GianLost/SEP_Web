@@ -1,6 +1,8 @@
 @using SEP_Web.Models
 @using SEP_Web.Keys
 
+@inject IHttpContextAccessor _httpContext
+
 @model ICollection<UserEvaluator>
 
 @{
@@ -90,15 +92,25 @@
                                 <td scope="row">@u.Phone</td>
 
                                 <td scope="row">
-                                    <a title="Editar avaliador ..." role="button" asp-route-id="@u.Id"
+
+                                    @if (_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
+                                    {
+                                        <a title="Editar avaliador ..." role="button" asp-route-id="@u.Id"
                                         asp-controller="UserEvaluator" asp-action="Edit"
                                         class="btn btn-sm btn-outline-primary"><i title="Editar avaliador ..."
                                             class="bi bi-person-vcard"></i></a>
 
-                                    <button title="Excluir avaliador ..." type="button" data-bs-toggle="modal"
+                                        <button title="Excluir avaliador ..." type="button" data-bs-toggle="modal"
                                         asp-route-id="@u.Id" data-bs-target="#eval-delete-@(u.Id)"
                                         class="btn btn-sm btn-outline-danger"><i title="Excluir avaliador ..."
-                                            class="bi bi-person-dash"></i></button>
+                                            class="bi bi-person-dash"></i></button>                               
+                                    }else{
+                                        <a title="Editar avaliador ..." role="button" asp-route-id="@u.Id"
+                                        asp-controller="UserEvaluator" asp-action="Edit"
+                                        class="btn btn-sm btn-outline-primary"><i title="Editar avaliador ..."
+                                            class="bi bi-person-vcard"></i></a>
+                                    }
+
                                 </td>
 
                             </tr>

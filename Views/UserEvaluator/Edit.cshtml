@@ -1,6 +1,8 @@
 @using SEP_Web.Models
 @using SEP_Web.Services
 @using SEP_Web.Keys
+
+@inject IHttpContextAccessor _httpContext
 @inject IInstituitionServices _instituitionServices
 @inject IDivisionServices _divisionServices
 @inject ISectionServices _sectionServices
@@ -196,19 +198,24 @@
 
                         <button title="Salve as alterações ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Salve as alterações ..."></i> Salvar</button>
                         <button asp-controller="UserEvaluator" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar edição ..."><i class="bi bi-arrow-return-left" title="Cancelar edição ..."></i></button>
-
-                        <div class="btn-enableDisable">
-                            @if (Model.UserStats == UserStatsEnum.Active)
-                            {
-                                <input class="form-check-input enableDisableAccount" id="disable-account" type="checkbox" name="enableDisableAccount">
-                                <label class="form-check-label" for="disable-account">Desabilitar usuário</label>
-                            }
-                            else
-                            {
-                                <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox" name="enableDisableAccount">
-                                <label class="form-check-label" for="enable-account">Habilitar usuário</label>
-                            }
-                        </div>
+                        
+                        @if (_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
+                        {
+                            <div class="btn-enableDisable">
+                                
+                                @if (Model.UserStats == UserStatsEnum.Active)
+                                {
+                                    <input class="form-check-input enableDisableAccount" id="disable-account" type="checkbox" name="enableDisableAccount">
+                                    <label class="form-check-label" for="disable-account">Desabilitar usuário</label>
+                                }
+                                else
+                                {
+                                    <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox" name="enableDisableAccount">
+                                    <label class="form-check-label" for="enable-account">Habilitar usuário</label>
+                                }
+                                
+                            </div>
+                        }
                         
                     </div>
                     

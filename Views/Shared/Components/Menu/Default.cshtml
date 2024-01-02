@@ -19,14 +19,12 @@
                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
             </li>
 
-            @if (Model.UserType == UsersTypeEnum.User_Admin)
-            {
-                <li class="nav-item dropdown">
+            <li class="nav-item dropdown">
 
-                    <a class="nav-link dropdown-toggle" href="#" id="menu-users" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuários</a>
-
-                    <ul class="dropdown-menu" aria-labelledby="menu-users">
-
+                <a class="nav-link dropdown-toggle" href="#" id="menu-users" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Usuários</a>
+                <ul class="dropdown-menu" aria-labelledby="menu-users">
+                    @if (Model.UserType == UsersTypeEnum.User_Admin)
+                    {
                         <li>
                             <a class="dropdown-item" asp-controller="UserAdministrator" asp-action="Index">Administradores</a>
                         </li>
@@ -34,23 +32,22 @@
                         <li>
                             <hr class="dropdown-divider">
                         </li>
+                    }
+                    <li>
+                        <a class="dropdown-item" asp-controller="UserEvaluator" asp-action="Index">Avaliadores</a>
+                    </li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="CivilServant" asp-action="Index">Servidores</a>
+                    </li>
+                </ul>
 
-                        <li>
-                            <a class="dropdown-item" asp-controller="UserEvaluator" asp-action="Index">Avaliadores</a>
-                        </li>
+            </li>
 
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item" asp-controller="CivilServant" asp-action="Index">Servidores</a>
-                        </li>
-
-                    </ul>
-
-                </li>
-
+            @if (Model.UserType == UsersTypeEnum.User_Admin)
+            {
                 <li class="nav-item dropdown">
 
                     <a class="nav-link dropdown-toggle" href="#" id="menu-structure" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estrutura</a>
@@ -112,15 +109,9 @@
                 </li>
 
             }
-            else if (Model.UserType == UsersTypeEnum.User_Evaluator)
-            {
-                <li class="nav-item">
-                    <a class="nav-link" asp-area="" asp-controller="UserEvaluator" asp-action="Index">Avaliadores</a>
-                </li>
-            }
 
             <li class="nav-item">
-                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Avaliações</a>
+                <a class="nav-link" asp-area="" asp-controller="Assessments" asp-action="Index">Avaliações</a>
             </li>
 
             <li class="nav-item">

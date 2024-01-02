@@ -33,6 +33,8 @@ public class SEP_WebContext : DbContext
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<Sector> Sectors => Set<Sector>();
 
+    public DbSet<Assessment> Assessments => Set<Assessment>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Adiciona como índice exclusivo as propriedades que não podem ser duplicadas na tabela de administradores presente no banco de dados;
