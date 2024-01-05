@@ -61,38 +61,91 @@ public class AssessmentServices : IAssessmentServices
             assessmentEdit.StartEvaluationPeriod = DateTime.Now;
             assessmentEdit.EndEvaluationPeriod = DateTime.Now.AddMonths(12);
             assessmentEdit.Crit1_Clau1 = assess.Crit1_Clau1;
-            assessmentEdit.Crit1_Clau2 = assess.Crit1_Clau2;
-            assessmentEdit.Crit1_Clau3 = assess.Crit1_Clau3;
+
             assessmentEdit.Crit2_Clau1 = assess.Crit2_Clau1;
             assessmentEdit.Crit2_Clau2 = assess.Crit2_Clau2;
             assessmentEdit.Crit2_Clau3 = assess.Crit2_Clau3;
+            assessmentEdit.Crit2_Clau4 = assess.Crit2_Clau4;
+            assessmentEdit.Crit2_Clau5 = assess.Crit2_Clau5;
+
             assessmentEdit.Crit3_Clau1 = assess.Crit3_Clau1;
             assessmentEdit.Crit3_Clau2 = assess.Crit3_Clau2;
             assessmentEdit.Crit3_Clau3 = assess.Crit3_Clau3;
+            assessmentEdit.Crit3_Clau4 = assess.Crit3_Clau4;
+            assessmentEdit.Crit3_Clau5 = assess.Crit3_Clau5;
+
             assessmentEdit.Crit4_Clau1 = assess.Crit4_Clau1;
             assessmentEdit.Crit4_Clau2 = assess.Crit4_Clau2;
             assessmentEdit.Crit4_Clau3 = assess.Crit4_Clau3;
+            assessmentEdit.Crit4_Clau4 = assess.Crit4_Clau4;
+            assessmentEdit.Crit4_Clau5 = assess.Crit4_Clau5;
+
             assessmentEdit.Crit5_Clau1 = assess.Crit5_Clau1;
             assessmentEdit.Crit5_Clau2 = assess.Crit5_Clau2;
             assessmentEdit.Crit5_Clau3 = assess.Crit5_Clau3;
+            assessmentEdit.Crit5_Clau4 = assess.Crit5_Clau4;
+            assessmentEdit.Crit5_Clau5 = assess.Crit5_Clau5;
 
-            assessmentEdit.Tot_Crit1 = assess.Crit1_Clau1 + assess.Crit1_Clau2 + assess.Crit1_Clau3;
-            assessmentEdit.Average_Crit1 = Convert.ToDouble(assessmentEdit.Tot_Crit1)/3;
+            assessmentEdit.Crit6_Clau1 = assess.Crit6_Clau1;
+            assessmentEdit.Crit6_Clau2 = assess.Crit6_Clau2;
+            assessmentEdit.Crit6_Clau3 = assess.Crit6_Clau3;
+            assessmentEdit.Crit6_Clau4 = assess.Crit6_Clau4;
+            assessmentEdit.Crit6_Clau5 = assess.Crit6_Clau5;
 
-            assessmentEdit.Tot_Crit2 = assess.Crit2_Clau1 + assess.Crit2_Clau2 + assess.Crit2_Clau3;
-            assessmentEdit.Average_Crit2 = Convert.ToDouble(assessmentEdit.Tot_Crit2)/3;
+            assessmentEdit.Crit5_Clau1 = assess.Crit5_Clau1;
+            assessmentEdit.Crit5_Clau2 = assess.Crit5_Clau2;
+            assessmentEdit.Crit5_Clau3 = assess.Crit5_Clau3;
+            assessmentEdit.Crit5_Clau4 = assess.Crit5_Clau4;
+            assessmentEdit.Crit5_Clau5 = assess.Crit5_Clau5;
 
-            assessmentEdit.Tot_Crit3 = assess.Crit3_Clau1 + assess.Crit3_Clau2 + assess.Crit3_Clau3;
-            assessmentEdit.Average_Crit3 = Convert.ToDouble(assessmentEdit.Tot_Crit3)/3;
+            assessmentEdit.Crit7_Clau1 = assess.Crit7_Clau1;
+            assessmentEdit.Crit7_Clau2 = assess.Crit7_Clau2;
+            assessmentEdit.Crit7_Clau3 = assess.Crit7_Clau3;
+            assessmentEdit.Crit7_Clau4 = assess.Crit7_Clau4;
+            assessmentEdit.Crit7_Clau5 = assess.Crit7_Clau5;
+            
+            assessmentEdit.Crit8_Clau1 = assess.Crit8_Clau1;
 
-            assessmentEdit.Tot_Crit4 = assess.Crit4_Clau1 + assess.Crit4_Clau2 + assess.Crit4_Clau3;
-            assessmentEdit.Average_Crit4 = Convert.ToDouble(assessmentEdit.Tot_Crit4)/3;
+            assessmentEdit.Crit9_Clau1 = assess.Crit9_Clau1;
+            assessmentEdit.Crit9_Clau2 = assess.Crit9_Clau2;
+            assessmentEdit.Crit9_Clau3 = assess.Crit9_Clau3;
+            assessmentEdit.Crit9_Clau4 = assess.Crit9_Clau4;
+            assessmentEdit.Crit9_Clau5 = assess.Crit9_Clau5;
 
-            assessmentEdit.Tot_Crit5 = assess.Crit5_Clau1 + assess.Crit5_Clau2 + assess.Crit5_Clau3;
-            assessmentEdit.Average_Crit5 = Convert.ToDouble(assessmentEdit.Tot_Crit5)/3;
+            assessmentEdit.MedicalRestriction = assess.MedicalRestriction;
+            assessmentEdit.Crit10_Justification = assess.Crit10_Justification;
+            assessmentEdit.ForwardingDate = assess.ForwardingDate;
+
+
+            assessmentEdit.Tot_Crit1 = assess.Crit1_Clau1;
+            assessmentEdit.Average_Crit1 = Convert.ToDouble(assessmentEdit.Tot_Crit1);
+
+            assessmentEdit.Tot_Crit2 = assess.Crit2_Clau1 + assess.Crit2_Clau2 + assess.Crit2_Clau3 + assess.Crit2_Clau4 + assess.Crit2_Clau5;
+            assessmentEdit.Average_Crit2 = Convert.ToDouble(assessmentEdit.Tot_Crit2)/5;
+
+            assessmentEdit.Tot_Crit3 = assess.Crit3_Clau1 + assess.Crit3_Clau2 + assess.Crit3_Clau3 + assess.Crit3_Clau4 + assess.Crit3_Clau5;
+            assessmentEdit.Average_Crit3 = Convert.ToDouble(assessmentEdit.Tot_Crit3)/5;
+
+            assessmentEdit.Tot_Crit4 = assess.Crit4_Clau1 + assess.Crit4_Clau2 + assess.Crit4_Clau3 + assess.Crit4_Clau4 + assess.Crit4_Clau5;
+            assessmentEdit.Average_Crit4 = Convert.ToDouble(assessmentEdit.Tot_Crit4)/5;
+
+            assessmentEdit.Tot_Crit5 = assess.Crit5_Clau1 + assess.Crit5_Clau2 + assess.Crit5_Clau3 + assess.Crit5_Clau4 + assess.Crit5_Clau5;
+            assessmentEdit.Average_Crit5 = Convert.ToDouble(assessmentEdit.Tot_Crit5)/5;
+
+            assessmentEdit.Tot_Crit6 = assess.Crit6_Clau1 + assess.Crit6_Clau2 + assess.Crit6_Clau3 + assess.Crit6_Clau4 + assess.Crit6_Clau5;
+            assessmentEdit.Average_Crit6 = Convert.ToDouble(assessmentEdit.Tot_Crit6)/5;
+
+            assessmentEdit.Tot_Crit7 = assess.Crit7_Clau1 + assess.Crit7_Clau2 + assess.Crit7_Clau3 + assess.Crit7_Clau4 + assess.Crit7_Clau5;
+            assessmentEdit.Average_Crit7 = Convert.ToDouble(assessmentEdit.Tot_Crit7)/5;
+
+            assessmentEdit.Tot_Crit8 = assess.Crit5_Clau1;
+            assessmentEdit.Average_Crit8 = Convert.ToDouble(assessmentEdit.Tot_Crit8);
+
+            assessmentEdit.Tot_Crit9 = assess.Crit9_Clau1 + assess.Crit9_Clau2 + assess.Crit9_Clau3 + assess.Crit9_Clau4 + assess.Crit9_Clau5;
+            assessmentEdit.Average_Crit9 = Convert.ToDouble(assessmentEdit.Tot_Crit9)/5;
 
             assessmentEdit.Grand_Tot = assessmentEdit.Tot_Crit1 + assessmentEdit.Tot_Crit2 + assessmentEdit.Tot_Crit3 + assessmentEdit.Tot_Crit4 + assessmentEdit.Tot_Crit5;
-            assessmentEdit.Overall_Average = Convert.ToDouble(assessmentEdit.Grand_Tot)/5;
+            assessmentEdit.Overall_Average = Convert.ToDouble(assessmentEdit.Grand_Tot)/10;
 
 
             _database.Assessments.Update(assessmentEdit);
@@ -104,8 +157,8 @@ public class AssessmentServices : IAssessmentServices
         {
             // MYSQL EXEPTIONS :
 
-            _logger.LogError("[EVALUATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+            _logger.LogError("[ASSESSMENTS_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[ASSESSMENTS_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
             assess = null;
             return assess;
@@ -114,8 +167,8 @@ public class AssessmentServices : IAssessmentServices
         {
             // NULL EXCEPTION :
 
-            _logger.LogWarning("[EVALUATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
-            _logger.LogWarning("[EVALUATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
+            _logger.LogWarning("[ASSESSMENTS_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[ASSESSMENTS_SERVICE]: {Description}", nullException.StackTrace.Trim());
 
             assess = null;
             return assess;

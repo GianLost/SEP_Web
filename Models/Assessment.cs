@@ -36,65 +36,162 @@ public class Assessment
     public UserEvaluator UserEvaluator { get; set; }
 
 
-    [Required(ErrorMessage = "Avalie a cláusula I em 'Desempenho' !")]
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Assiduidade' !")]
     public int Crit1_Clau1 { get; set; }
-
-    [Required(ErrorMessage = "Avalie a cláusula II em 'Desempenho' !")]
-    public int Crit1_Clau2 { get; set; }
-
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Desempenho' !")]
-    public int Crit1_Clau3 { get; set; }
 
     public int Tot_Crit1 { get; set; }
     public double Average_Crit1 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula I em 'Adaptação' !")]
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Disciplina' !")]
     public int Crit2_Clau1 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula II em 'Adaptação' !")]
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Disciplina' !")]
     public int Crit2_Clau2 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Adaptação' !")]
+    [Required(ErrorMessage = "Avalie a cláusula III em 'Disciplina' !")]
     public int Crit2_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Disciplina' !")]
+    public int Crit2_Clau4 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Disciplina' !")]
+    public int Crit2_Clau5 { get; set; }
 
     public int Tot_Crit2 { get; set; }
     public double Average_Crit2 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula I em 'Proatividade' !")]
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Iniciativa' !")]
     public int Crit3_Clau1 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula II em 'Proatividade' !")]
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Iniciativa' !")]
     public int Crit3_Clau2 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Produtividade' !")]
+    [Required(ErrorMessage = "Avalie a cláusula III em 'Iniciativa' !")]
     public int Crit3_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Iniciativa' !")]
+    public int Crit3_Clau4 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Iniciativa' !")]
+    public int Crit3_Clau5 { get; set; }
 
     public int Tot_Crit3 { get; set; }
     public double Average_Crit3 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula I em 'Cumprimento de Prazos' !")]
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Responsabilidade' !")]
     public int Crit4_Clau1 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula II em 'Cumprimento de Prazos' !")]
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Responsabilidade' !")]
     public int Crit4_Clau2 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Cumprimento de Prazos' !")]
+    [Required(ErrorMessage = "Avalie a cláusula III em 'Responsabilidade' !")]
     public int Crit4_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Responsabilidade' !")]
+    public int Crit4_Clau4 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Responsabilidade' !")]
+    public int Crit4_Clau5 { get; set; }
 
     public int Tot_Crit4 { get; set; }
     public double Average_Crit4 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Habilidades Técnicas' !")]
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Produtividade' !")]
     public int Crit5_Clau1 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Habilidades Técnicas' !")]
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Produtividade' !")]
     public int Crit5_Clau2 { get; set; }
 
-    [Required(ErrorMessage = "Avalie a cláusula III em 'Habilidades Técnicas' !")]
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Produtividade' !")]
     public int Crit5_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Produtividade' !")]
+    public int Crit5_Clau4 { get; set; }
+    
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Produtividade' !")]
+    public int Crit5_Clau5 { get; set; }
 
     public int Tot_Crit5 { get; set; }
     public double Average_Crit5 { get; set; }
+
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Relacionamento Interpessoal' !")]
+    public int Crit6_Clau1 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Relacionamento Interpessoal' !")]
+    public int Crit6_Clau2 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula III em 'Relacionamento Interpessoal' !")]
+    public int Crit6_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Relacionamento Interpessoal' !")]
+    public int Crit6_Clau4 { get; set; }
+    
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Relacionamento Interpessoal' !")]
+    public int Crit6_Clau5 { get; set; }
+
+    public int Tot_Crit6 { get; set; }
+    public double Average_Crit6 { get; set; }
+
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Zelo com o Patrimônio' !")]
+    public int Crit7_Clau1 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Zelo com o Patrimônio' !")]
+    public int Crit7_Clau2 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula III em 'Zelo com o Patrimônio' !")]
+    public int Crit7_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Zelo com o Patrimônio' !")]
+    public int Crit7_Clau4 { get; set; }
+    
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Zelo com o Patrimônio' !")]
+    public int Crit7_Clau5 { get; set; }
+
+    public int Tot_Crit7 { get; set; }
+    public double Average_Crit7 { get; set; }
+
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Pontualidade' !")]
+    public int Crit8_Clau1 { get; set; }
+
+    public int Tot_Crit8 { get; set; }
+    public double Average_Crit8 { get; set; }
+
+
+    [Required(ErrorMessage = "Avalie a cláusula I em 'Eficiência' !")]
+    public int Crit9_Clau1 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula II em 'Eficiência' !")]
+    public int Crit9_Clau2 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula III em 'Eficiência' !")]
+    public int Crit9_Clau3 { get; set; }
+
+    [Required(ErrorMessage = "Avalie a cláusula IV em 'Eficiência' !")]
+    public int Crit9_Clau4 { get; set; }
+    
+    [Required(ErrorMessage = "Avalie a cláusula V em 'Eficiência' !")]
+    public int Crit9_Clau5 { get; set; }
+
+    public int Tot_Crit9 { get; set; }
+    public double Average_Crit9 { get; set; }
+
+
+    public int MedicalRestriction { get; set; }
+
+    [StringLength(40)]
+    public string Crit10_Justification{ get; set; }
+
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+    public DateTime ForwardingDate { get; set; }
+
 
     public int Grand_Tot { get; set; }
     public double Overall_Average { get; set; }

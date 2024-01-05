@@ -97,9 +97,9 @@ namespace SEP_Web.Controllers
 
                 TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorEdit} {ExceptionMessages.ErrorDatabaseConnection}";
 
-                _logger.LogError("[SERVANT_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
+                _logger.LogError("[ASSESSMENTS_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
 
-                _logger.LogError("[SERVANT_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
+                _logger.LogError("[ASSESSMENTS_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
 
                 assess = null;
                 return View(assess);
@@ -110,9 +110,9 @@ namespace SEP_Web.Controllers
 
                 TempData["ErrorMessage"] = FeedbackMessages.ErrorServantEdit;
 
-                _logger.LogWarning("[SERVANT_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+                _logger.LogWarning("[ASSESSMENTS_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
 
-                _logger.LogWarning("[SERVANT_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
+                _logger.LogWarning("[ASSESSMENTS_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
 
                 assess = null;
                 return View(assess);

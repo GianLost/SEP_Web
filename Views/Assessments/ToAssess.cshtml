@@ -47,57 +47,49 @@
         <div class="mt-4">
             <ul class="nav nav-tabs" id="avaliacaoTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="desempenho-tab" data-bs-toggle="tab" data-bs-target="#desempenho" type="button" role="tab" aria-controls="desempenho" aria-selected="true">Desempenho</button>
+                    <button class="nav-link active" id="attendance-tab" data-bs-toggle="tab" data-bs-target="#attendance" type="button" role="tab" aria-controls="attendance" aria-selected="true">Assiduidade</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="adaptacao-tab" data-bs-toggle="tab" data-bs-target="#adaptacao" type="button" role="tab" aria-controls="adaptacao" aria-selected="false">Adaptação</button>
+                    <button class="nav-link" id="discipline-tab" data-bs-toggle="tab" data-bs-target="#discipline" type="button" role="tab" aria-controls="discipline" aria-selected="false">Disciplina</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="proatividade-tab" data-bs-toggle="tab" data-bs-target="#proatividade" type="button" role="tab" aria-controls="proatividade" aria-selected="false">Proatividade</button>
+                    <button class="nav-link" id="initiative-tab" data-bs-toggle="tab" data-bs-target="#initiative" type="button" role="tab" aria-controls="initiative" aria-selected="false">Capacidade de iniciativa</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="prazos-tab" data-bs-toggle="tab" data-bs-target="#prazos" type="button" role="tab" aria-controls="prazos" aria-selected="false">Cumprimento de Prazos</button>
+                    <button class="nav-link" id="responsibility-tab" data-bs-toggle="tab" data-bs-target="#responsibility" type="button" role="tab" aria-controls="responsibility" aria-selected="false">Responsabilidade</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="habilidades-tab" data-bs-toggle="tab" data-bs-target="#habilidades" type="button" role="tab" aria-controls="habilidades" aria-selected="false">Habilidades Técnicas</button>
+                    <button class="nav-link" id="productivity-tab" data-bs-toggle="tab" data-bs-target="#productivity" type="button" role="tab" aria-controls="productivity" aria-selected="false">Produtividade</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="interpersonalRelationship-tab" data-bs-toggle="tab" data-bs-target="#interpersonalRelationship" type="button" role="tab" aria-controls="interpersonalRelationship" aria-selected="false">Relacionamento inter-pessoal</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="zealForHeritage-tab" data-bs-toggle="tab" data-bs-target="#zealForHeritage" type="button" role="tab" aria-controls="zealForHeritage" aria-selected="false">Zêlo com o patrimônio</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="punctuality-tab" data-bs-toggle="tab" data-bs-target="#punctuality" type="button" role="tab" aria-controls="punctuality" aria-selected="false">Pontualidade</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="efficiency-tab" data-bs-toggle="tab" data-bs-target="#efficiency" type="button" role="tab" aria-controls="efficiency" aria-selected="false">Eficiência</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="others-tab" data-bs-toggle="tab" data-bs-target="#others" type="button" role="tab" aria-controls="others" aria-selected="false">Outros</button>
                 </li>
             </ul>
 
             <div class="tab-content mt-2" id="avaliacaoTabContent">
 
-                <div class="tab-pane fade show active" id="desempenho" role="tabpanel" aria-labelledby="desempenho-tab">
+                <div class="tab-pane fade show active" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
                     <ul class="list-group">
 
-                        <li class="list-group-item">Precisão na realização das tarefas 
+                        <li class="list-group-item">1 - ASSIDUIDADE: 
                             <select class="form-select form-select-sm" asp-for="Crit1_Clau1">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
-                            </select>
-                        </li>
-
-                        <li class="list-group-item">Consistência na entrega de trabalho de alta qualidade 
-                            <select class="form-select form-select-sm" asp-for="Crit1_Clau2">
-                                <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
-                            </select>
-                        </li>
-
-                        <li class="list-group-item">Capacidade de seguir padrões e procedimentos estabelecidos 
-                            <select class="form-select form-select-sm" asp-for="Crit1_Clau3">
-                                <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="15">15</option>
+                                <option value="12">12</option>
+                                <option value="9">9</option>
+                                <option value="6">6</option>
                             </select>
                         </li>
 
@@ -105,80 +97,179 @@
 
                 </div>
 
-                <div class="tab-pane fade" id="adaptacao" role="tabpanel" aria-labelledby="adaptacao-tab">
+                <div class="tab-pane fade" id="discipline" role="tabpanel" aria-labelledby="discipline-tab">
 
                     <ul class="list-group">
 
-                        <li class="list-group-item">Precisão na realização das tarefas 
+                        <li class="list-group-item">2 - DISCIPLINA: </li>
+
+                        <li class="list-group-item">2.1 - Cumpre as ordens superiores sem resistência injustificada. 
                             <select class="form-select form-select-sm" asp-for="Crit2_Clau1">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Consistência na entrega de trabalho de alta qualidade 
+                        <li class="list-group-item">2.2 - Ausenta-se do local de trabalho sem autorização da chefia. 
                             <select class="form-select form-select-sm" asp-for="Crit2_Clau2">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Capacidade de seguir padrões e procedimentos estabelecidos 
+                        <li class="list-group-item">2.3 - Observa e cumpre a legislação, em especial as normas da Prefeitura. 
                             <select class="form-select form-select-sm" asp-for="Crit2_Clau3">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
+
+                        <li class="list-group-item">2.4 Executa suas atividades sem interrupções desnecessárias. 
+                            <select class="form-select form-select-sm" asp-for="Crit2_Clau4">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">2.5 Sofreu alguma penalidade disciplinar. 
+                            <select class="form-select form-select-sm" asp-for="Crit2_Clau5">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
                     </ul>
 
                 </div>
-                <!-- Repita a estrutura acima para as outras abas -->
-                <div class="tab-pane fade" id="proatividade" role="tabpanel" aria-labelledby="proatividade-tab">
+
+                <div class="tab-pane fade" id="initiative" role="tabpanel" aria-labelledby="initiative-tab">
 
                     <ul class="list-group">
 
-                        <li class="list-group-item">Capacidade de cumprir prazos e metas estabelecidas 
+                        <li class="list-group-item">3 - CAPACIDADE DE INICIATIVA: </li>
+
+                        <li class="list-group-item">3.1 - Independe de cobrança pra executar seu trabalho. 
                             <select class="form-select form-select-sm" asp-for="Crit3_Clau1">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Eficiência na conclusão das tarefas designadas 
+                        <li class="list-group-item">3.2 - Age adequadamente diante de situações novas imprevistas. 
                             <select class="form-select form-select-sm" asp-for="Crit3_Clau2">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Uso eficaz do tempo de trabalho 
+                        <li class="list-group-item">3.3 - Mantém medidas preventivas, a fim de evitar ocorrência de problemas. 
                             <select class="form-select form-select-sm" asp-for="Crit3_Clau3">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">3.4 - Busca por iniciativa própria, conhecimentos e habilidades no desempenho de seu trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit3_Clau4">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">3.5 - Apresenta sugestões para a melhoria do trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit3_Clau5">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
@@ -186,40 +277,89 @@
 
                 </div>
 
-                <div class="tab-pane fade" id="prazos" role="tabpanel" aria-labelledby="prazos-tab">
+                <div class="tab-pane fade" id="responsibility" role="tabpanel" aria-labelledby="responsibility-tab">
 
                     <ul class="list-group">
 
-                        <li class="list-group-item">Cumprimento consistente de prazos definidos para projetos e tarefas 
+                        <li class="list-group-item">4 - RESPONSABILIDADE: </li>
+
+                        <li class="list-group-item">4.1 - Preocupa em atingir os resultados das tarefas que lhe são confiadas.
                             <select class="form-select form-select-sm" asp-for="Crit4_Clau1">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Capacidade de planejar e organizar o trabalho para atender aos prazos 
+                        <li class="list-group-item">4.2 - Tem compromisso e co-responsabilidade no alcance dos resultados. 
                             <select class="form-select form-select-sm" asp-for="Crit4_Clau2">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Capacidade de identificar potenciais atrasos e agir proativamente para evitá-los 
+                        <li class="list-group-item">4.3 - Estimula o exercício da democracia e da cidadania. 
                             <select class="form-select form-select-sm" asp-for="Crit4_Clau3">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">4.4 - Assume os próprios erros e procura corrigi-los.
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">4.5 - Apresenta comportamentos adequados à ética, moral e bons costumes. 
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
@@ -227,40 +367,395 @@
 
                 </div>
 
-                <div class="tab-pane fade" id="habilidades" role="tabpanel" aria-labelledby="habilidades-tab">
+                <div class="tab-pane fade" id="productivity" role="tabpanel" aria-labelledby="productivity-tab">
 
                     <ul class="list-group">
 
-                        <li class="list-group-item">Domínio das habilidades específicas necessárias para o cargo 
+                        <li class="list-group-item">5 - PRODUTIVIDADE: </li>
+
+                        <li class="list-group-item">5.1 - Produz a quantidade mínima exigida em cada atividade do cargo. 
                             <select class="form-select form-select-sm" asp-for="Crit5_Clau1">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Atualização constante das competências técnicas relevantes ao trabalho 
+                        <li class="list-group-item">5.2 - Demonstra conhecimento prático, técnico ou teórico no desempenho de suas funções. 
                             <select class="form-select form-select-sm" asp-for="Crit5_Clau2">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
                             </select>
                         </li>
 
-                        <li class="list-group-item">Capacidade de adaptação com a equipe 
+                        <li class="list-group-item">5.3 - Executa as atividades do cargo corretamente evitando refazer o trabalho. 
                             <select class="form-select form-select-sm" asp-for="Crit5_Clau3">
                                 <option value=""> </option>
-                                <option value="1">1 - ruim</option>
-                                <option value="2">2 - mediano</option>
-                                <option value="3">3 - bom</option>
-                                <option value="4">4 - muito bom</option>
-                                <option value="5">5 - ótimo</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">5.4 - Procura atualizar-se para o desempenho das funções do cargo.
+                            <select class="form-select form-select-sm" asp-for="Crit5_Clau4">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">5 - Os bens e ou serviços produzidos têm qualidade. 
+                            <select class="form-select form-select-sm" asp-for="Crit5_Clau5">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="interpersonalRelationship" role="tabpanel" aria-labelledby="interpersonalRelationship-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">6 - RELACIONAMENTO INTERPESSOAL: </li>
+
+                        <li class="list-group-item">6.1 - Tem bom relacionamento com as chefias e colegas de trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit6_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">6.2 - Colabora com a equipe de trabalho, visando o bom andamento do serviço. 
+                            <select class="form-select form-select-sm" asp-for="Crit6_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">6.3 - Trata o público com respeito, cortesia e sem discriminação, prestando as orientações e informações solicitadas, ressalvadas as protegidas por sigilo. 
+                            <select class="form-select form-select-sm" asp-for="Crit6_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">6.4 - Auxilia o colega em suas dificuldades de trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit6_Clau4">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">6.5 - Aceita críticas visando a melhoria do trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit6_Clau5">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="zealForHeritage" role="tabpanel" aria-labelledby="zealForHeritage-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">7 - ZELO COM O PATRIMÔNIO: </li>
+
+                        <li class="list-group-item">7.1 - Sabe usar e conservar as máquinas, veículos e outros equipamentos utilizados no trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit7_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">7.2 - Ajuda a zelar dos bens móveis e imáveis do Município. 
+                            <select class="form-select form-select-sm" asp-for="Crit7_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">7.3 - Utiliza sem desperdício os materiais de consumo necessários ao desenvolvimento das suas atividades. 
+                            <select class="form-select form-select-sm" asp-for="Crit7_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">7.4 - Procura conhecer e aperfeiçoar suas técnicas de utilização de máquinas e equipamentos. 
+                            <select class="form-select form-select-sm" asp-for="Crit7_Clau4">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">7.5 - Facilita a utilização de máquinas e equipamentos sob sua guarda para os colegas de trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit7_Clau5">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="punctuality" role="tabpanel" aria-labelledby="punctuality-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">8 - PONTUALIDADE:
+                            <select class="form-select form-select-sm" asp-for="Crit8_Clau1">
+                                <option value=""> </option>
+                                <option value="15">15</option>
+                                <option value="12">12</option>
+                                <option value="9">9</option>
+                                <option value="6">6</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="efficiency" role="tabpanel" aria-labelledby="efficiency-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">9 - EFICIÊNCIA: </li>
+
+                        <li class="list-group-item">9.1 - Demonstra flexibilidade na execução do trabalho. 
+                            <select class="form-select form-select-sm" asp-for="Crit9_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">9.2 - Planeja, organiza e executa as tarefas corretamente. 
+                            <select class="form-select form-select-sm" asp-for="Crit9_Clau2">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">9.3 - Na solução de problemas, utiliza corretamente os recursos disponíveis. 
+                            <select class="form-select form-select-sm" asp-for="Crit9_Clau3">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">9.4 - Avalia a satisfação ou insatisfação das pessoas para melhorar a qualidade de seus serviços. 
+                            <select class="form-select form-select-sm" asp-for="Crit9_Clau4">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                        <li class="list-group-item">9.5 - Participa de reuniões, cursos ou treinamentos para aperfeiçoamento ou especialização, quando oferecidos. 
+                            <select class="form-select form-select-sm" asp-for="Crit9_Clau5">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
+
+                    <ul class="list-group">
+
+                        <li class="list-group-item">10 - OUTROS:
+                            <select class="form-select form-select-sm" asp-for="Crit8_Clau1">
+                                <option value=""> </option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
                             </select>
                         </li>
 
