@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/Login.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/administrator-pages.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/assessments-pages.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/enableDisable-Button.css" asp-append-version="true" />
 
 
@@ -34,7 +35,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow border-bottom p-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow fixed-top border-bottom p-3">
             @await Component.InvokeAsync("Menu") @* chamada do componente de menu implementado em ViewsComponent *@
         </nav>
     </header>
@@ -75,6 +76,7 @@
     <script src="~/js/changePassword.js" asp-append-version="true"></script>
     <script src="~/js/modifyStructures.js" asp-append-version="true"></script>
     <script src="~/js/modifyServantStructures.js" asp-append-version="true"></script>
+    <script src="~/js/assessments.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

@@ -1,41 +1,40 @@
 
 /* Lista de administradores => (Index.cshtml) */
-.users-table tr > th:first-child,
-.users-table tr > th:nth-child(2) {
-  width: 5%;
-  white-space: nowrap;
-  text-align: left;
-}
 
+.users-table tr > th:first-child,
 .users-table tr > td:first-child,
-.users-table tr > td:nth-child(2) {
-  width: 5%;
+.users-table tr > td:nth-child(7),
+.users-table tr > th:nth-child(7) {
+  width: 8%;
+  white-space: nowrap;
   text-align: center;
 }
 
+.users-table tr > td:nth-child(2) {
+  width: auto;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.users-table tr > th:nth-child(2),
 .users-table tr > td:nth-child(3),
 .users-table tr > th:nth-child(3),
 .users-table tr > td:nth-child(5),
-.users-table tr > th:nth-child(5){
-  width: 20%;
-  white-space: nowrap;
-  text-align: left;
-}
-
+.users-table tr > th:nth-child(5),
 .users-table tr > td:nth-child(4),
 .users-table tr > th:nth-child(4),
 .users-table tr > td:nth-child(6),
 .users-table tr > th:nth-child(6) {
-  width: 10%;
+  width: auto;
   white-space: nowrap;
   text-align: left;
 }
 
-.users-table tr > td:nth-child(7),
-.users-table tr > th:nth-child(7) {
-  width: 5%;
+
+.assessments-table tr > th:nth-child(5) {
+  width: auto;
   white-space: nowrap;
-  text-align: center;
+  text-align: left;
 }
 
 /* Formulário de registro de administradores => (Register.cshtml) */
@@ -109,4 +108,41 @@
   flex-direction:column; 
   justify-content:center;
   margin: -0.2vh;
+}
+
+@media screen and (min-width: 500px) and (max-width: 1100px) {
+
+  .dataTables_wrapper .row .col-sm-12:nth-child(1){
+    width: auto;
+  }
+
+  .dataTables_wrapper .row .col-sm-12:nth-child(2) {
+    width: auto;
+  }
+
+  .dataTables_wrapper .row:nth-child(2){
+    width: 55rem;
+  }
+
+  #DataTables_Table_0_info {
+    padding: 0%;
+    margin: 1vh 0vh 0vh 0vh;
+  }
+
+  .dataTables_wrapper .row:nth-child(1){
+    display: flex;
+    justify-content: space-between;
+    width: 55rem;
+    margin: 0%;
+    padding: 0%;
+  }
+
+  .dataTables_wrapper .row:nth-child(3){
+    display: flex;
+    justify-content: space-between;
+    width: 55rem;
+    margin: 0%;
+    padding: 0%;
+  }
+
 }

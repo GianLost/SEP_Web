@@ -158,70 +158,80 @@
                     </div>
 
                 </div>
-                    <hr class="m-0">
-                <div class="row">
+
+                <hr class="m-0">
+
+                <div style="margin-top: -3vh;" class="row">
+
                     <div class="col-md-6 servant-col">
 
-                        <div style="margin-top: 1vh;" class="form-group">
+                        <div class="form-group">
                             <label class="form-label text-secondary" for="disable-instituition-servant-id" hidden>Órgão:</label>
-                            <select title="Altere o órgão no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-instituition-servant-id" disabled>
+                            <select title="Altere o órgão no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-instituition-servant-id" disabled>
                                 <option selected>Órgão: @await _instituitionServices.InstituitionsName(@Model.InstituitionId)</option>
                             </select>
+                            <div class="validate-fields"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label text-secondary" for="disable-division-servant-id" hidden>Divisão:</label>
-                            <select title="Altere a divisão no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-division-servant-id" disabled>
+                            <label class="form-label" for="disable-division-servant-id" hidden>Divisão:</label>
+                            <select title="Altere a divisão no menu 'Alterar entidades'." class=" form-control" id="disable-division-servant-id" disabled>
                                 <option selected>Divisão: @await _divisionServices.DivisionsName(@Model.DivisionId)</option>
                             </select>
+                            <div class="validate-fields"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label text-secondary" for="disable-section-servant-id" hidden>Seção:</label>
-                            <select title="Altere a seção no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-section-servant-id" disabled>
+                            <label class="form-label" for="disable-section-servant-id" hidden>Seção:</label>
+                            <select title="Altere a seção no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-section-servant-id" disabled>
                                 <option selected>Seção: @await _sectionServices.SectionsName(@Model.SectionId)</option>
                             </select>
+                            <div class="validate-fields"></div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label text-secondary" for="disable-sector-id" hidden>Setor:</label>
-                            <select title="Altere o setor no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-sector-id" disabled>
+                            <label class="form-label" for="disable-sector-id" hidden>Setor:</label>
+                            <select title="Altere o setor no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-sector-id" disabled>
                                 <option selected>Setor: @await _sectorServices.SectorsName(@Model.SectorId)</option>
                             </select>
+                            <div class="validate-fields"></div>
                         </div>
 
                     </div>
 
                     <div class="col-md-6 servant-col">
 
-                        <div style="margin-top: 1vh;" class="form-group">
-                            <label class="form-label text-secondary" for="disable-first-evaluator-id" hidden>Avaliador 1:</label>
-                            <select title="Altere o avaliador 1 no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-first-evaluator-id" disabled>
+                        <div class="form-group">
+                            <label class="form-label" for="disable-first-evaluator-id" hidden>Avaliador 1:</label>
+                            <select title="Altere o avaliador 1 no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-first-evaluator-id" disabled>
                                 <option selected>Avaliador 1: @await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId1)</option>
                             </select>
+                            <div class="validate-fields"></div>
                         </div>
 
-                        <div style="margin-top: -1.5vh;" class="form-group">
-                            <label class="form-label text-secondary" for="disable-second-evaluator-id" hidden>Avaliador 2:</label>
-                            <select title="Altere o avaliador 2 no menu 'Alterar entidades'." class="disabled-box form-select" id="disable-second-evaluator-id" disabled>
+                        <div class="form-group">
+                            <label class="form-label" for="disable-second-evaluator-id" hidden>Avaliador 2:</label>
+                            <select title="Altere o avaliador 2 no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-second-evaluator-id" disabled>
                                 <option selected>Avaliador 2: @await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId2)</option>
                             </select>
+                            <div class="validate-fields"></div>
                         </div>
 
-                        <div style="margin-top: -1.5vh;" class="form-group">
-
+                        <div class="form-group">
                             <label class="form-label" for="servant-admission" hidden></label>
                             <input type="text" value="Data de Admissão: @Model.AdmissionDate" class="form-control" id="servant-admission" asp-for="AdmissionDate" disabled>
-                            <div class="validate-fields">
-                                @Html.ValidationMessageFor(x => x.AdmissionDate)
-                            </div>
-
                         </div>
+                        <div class="validate-fields"></div>
+
+                        <div class="form-group"></div>
+                        <div class="validate-fields"></div>
 
                     </div>
+
                 </div>
 
                 <div class="form-group">
+
                     <div class="mt-0 div-enableDisable">
 
                         <button title="Salve as alterações ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Salve as alterações ..."></i> Salvar</button>
@@ -230,8 +240,8 @@
                         <div class="btn-enableDisable">
                             @if (Model.UserStats == UserStatsEnum.Active)
                             {
-                                <input class="form-check-input enableDisableAccount" id="disable-account" type="checkbox" name="enableDisableAccount">
-                                <label class="form-check-label" for="disable-account">Desabilitar usuário</label>
+                                <input class="form-check-input enableDisableAccount ml-1 mt-0" id="disable-account" type="checkbox" name="enableDisableAccount">
+                                <label class="form-check-label ml-1 mt-0" for="disable-account">Desabilitar usuário</label>
                             }
                             else
                             {
@@ -241,6 +251,7 @@
                         </div>
                         
                     </div>
+                    
                 </div>
 
             </form>
@@ -338,18 +349,3 @@
 </div>
 
 @* Fim do Modal de Edição das das estruturas do usuário *@
-
-<script>
-    document.getElementById('servant-admission').addEventListener('input', function (e) {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        
-        if (value.length > 2) {
-            value = value.substring(0, 2) + '/' + value.substring(2);
-        }
-        if (value.length > 5) {
-            value = value.substring(0, 5) + '/' + value.substring(5, 9);
-        }
-        e.target.value = value;
-    });
-</script>

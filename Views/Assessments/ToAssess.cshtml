@@ -332,7 +332,7 @@
                         </li>
 
                         <li class="list-group-item">4.4 - Assume os próprios erros e procura corrigi-los.
-                            <select class="form-select form-select-sm" asp-for="Crit4_Clau1">
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau4">
                                 <option value=""> </option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -348,7 +348,7 @@
                         </li>
 
                         <li class="list-group-item">4.5 - Apresenta comportamentos adequados à ética, moral e bons costumes. 
-                            <select class="form-select form-select-sm" asp-for="Crit4_Clau1">
+                            <select class="form-select form-select-sm" asp-for="Crit4_Clau5">
                                 <option value=""> </option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -750,7 +750,7 @@
                     <ul class="list-group">
 
                         <li class="list-group-item">10 - OUTROS:
-                            <select class="form-select form-select-sm" asp-for="Crit8_Clau1">
+                            <select class="form-select form-select-sm" asp-for="Crit10_Justification">
                                 <option value=""> </option>
                                 <option value="1">1</option>
                                 <option value="2">2</option>
@@ -775,17 +775,3 @@
     </form>
 
 </div>
-
-@section Scripts {
-    <script>
-        $(document).ready(function() {
-            $('#avaliacaoTab a').on('click', function(e) {
-                e.preventDefault();
-                $(this).tab('show');
-                var targetTab = $(this).attr('data-bs-target');
-                $(targetTab + ' select').empty(); // Limpa as listas suspensas ao trocar de aba
-                // Preencha aqui as listas suspensas com as opções de notas para cada subitem
-            });
-        });
-    </script>
-}

@@ -1,0 +1,26 @@
+/* Lista de avaliações => (Index.cshtml) */
+
+.assessments-table tr > th:first-child,
+.assessments-table tr > td:first-child {
+  width: 8%;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.assessments-table tr > td:nth-child(4) {
+  width: auto;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.assessments-table tr > th:nth-child(2),
+.assessments-table tr > td:nth-child(2)
+.assessments-table tr > td:nth-child(3),
+.assessments-table tr > td:nth-child(5),
+.assessments-table tr > td:nth-child(6),
+.assessments-table tr > td:nth-child(7),
+.assessments-table tr > th:nth-child(7) {
+  width: auto;
+  white-space: nowrap;
+  text-align: center;
+}

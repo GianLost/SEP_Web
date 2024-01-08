@@ -217,18 +217,3 @@
     </div>
 
 </div>
-
-<script>
-    document.getElementById('servant-admission').addEventListener('input', function (e) {
-        let value = e.target.value;
-        value = value.replace(/\D/g, '');
-        
-        if (value.length > 2) {
-            value = value.substring(0, 2) + '/' + value.substring(2);
-        }
-        if (value.length > 5) {
-            value = value.substring(0, 5) + '/' + value.substring(5, 9);
-        }
-        e.target.value = value;
-    });
-</script>
