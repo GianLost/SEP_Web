@@ -24,3 +24,28 @@
   white-space: nowrap;
   text-align: center;
 }
+
+#assessments-header .nav-tabs{
+  display: flex;
+  flex-direction: row;
+  font-size: 79.9%;
+}
+
+#avaliacaoTabContent ul{
+  height: 18em;
+}
+
+#avaliacaoTabContent li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: smaller;
+}
+
+#avaliacaoTabContent li span {
+  font-weight: bold;
+}
+
+.assessments-form {
+  height: 100%;
+}
