@@ -16,9 +16,6 @@ public class Assessment
     [Required(ErrorMessage = "A etapa da avaliação é obrigatória !")]
     public int Phase { get; set; }
 
-    [Required(ErrorMessage = "O campo masp é obrigatório !")]
-    public int? Masp { get; set; }
-
     [DataType(DataType.DateTime)]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
     public DateTime? StartEvaluationPeriod { get; set; }
@@ -190,9 +187,12 @@ public class Assessment
 
     [DataType(DataType.DateTime)]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-    public DateTime ForwardingDate { get; set; }
+    public DateTime? ForwardingDate { get; set; }
 
 
-    public int Grand_Tot { get; set; }
+    public double Grand_Tot { get; set; }
     public double Overall_Average { get; set; }
+
+
+    public AssessmentResultEnum? AssessmentResult { get; set; }
 }

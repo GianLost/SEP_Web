@@ -8,5 +8,6 @@ public interface IAssessmentServices
     Task<ICollection<Assessment>> AssessmentsList();
     Task<ICollection<Assessment>> AssessmentsList(int id);
     Task<string> ServantName(int? Id);
+    int? ServantMasp(int Id);
     Assessment SearchForId(int id);
 }

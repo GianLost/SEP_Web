@@ -85,16 +85,22 @@ public class CivilServantController : Controller
 
                 await _civilServantServices.RegisterServant(servant);
 
+                DateTime evaluationDate = DateTime.Now.AddMonths(7); 
+
                 for(int stage = 1; stage <= 4; stage++)
                 {
+                    
                     Assessment newTest = new ()
                     {
                         Stats = AssessmentStatsEnum.NOT_EVALUATED,
                         Phase = stage,
-                        Masp = servant.Masp,
+                        StartEvaluationPeriod = stage == 1 ? DateTime.Now.AddMonths(7) : evaluationDate,
                         CivilServantId = servant.Id,
                         UserEvaluatorId = servant.UserEvaluatorId1
                     };
+
+                    evaluationDate = Convert.ToDateTime(newTest.StartEvaluationPeriod).AddMonths(7);
+
                     await _assessmentServices.RegisterAssessments(newTest);
                 }
 

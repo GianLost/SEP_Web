@@ -28,7 +28,11 @@
 #assessments-header .nav-tabs{
   display: flex;
   flex-direction: row;
-  font-size: 79.9%;
+  font-size: 82%;
+}
+
+#assessments-header button {
+  font-weight: 500;
 }
 
 #avaliacaoTabContent ul{
@@ -48,4 +52,14 @@
 
 .assessments-form {
   height: 100%;
+}
+
+#clau10-row {
+  width: 75%;
+  display: flex;
+  align-items: center;
+}
+
+#justification {
+  width: 45em;
 }

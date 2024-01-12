@@ -88,7 +88,7 @@
                                         <td scope="row" ><span title="Não avaliado" id="statsEvaluatorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1"> <p hidden>@item.Stats</p> radio_button_checked</span></td>
                                     }
                                     <td scope="row">@item.Phase</td>
-                                    <td scope="row">@item.Masp</td>
+                                    <td scope="row">@($"{_assessmentServices.ServantMasp(@item.CivilServantId):D8}")</td>
                                     <td scope="row">@await _assessmentServices.ServantName(@item.CivilServantId)</td>
                                     <td scope="row">@DateTime.Now.ToString("dd/MM/yyyy")</td>
                                     <td scope="row">De @Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy") à @Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>

@@ -58,8 +58,7 @@ public class AssessmentServices : IAssessmentServices
             Assessment assessmentEdit = SearchForId(assess.Id) ?? throw new ArgumentNullException(nameof(assess), ExceptionMessages.ErrorArgumentNullException);
 
             assessmentEdit.Stats = AssessmentStatsEnum.EVALUATED;
-            assessmentEdit.StartEvaluationPeriod = DateTime.Now;
-            assessmentEdit.EndEvaluationPeriod = DateTime.Now.AddMonths(12);
+            assessmentEdit.EndEvaluationPeriod = DateTime.Now;
             assessmentEdit.Crit1_Clau1 = assess.Crit1_Clau1;
 
             assessmentEdit.Crit2_Clau1 = assess.Crit2_Clau1;
@@ -138,20 +137,21 @@ public class AssessmentServices : IAssessmentServices
             assessmentEdit.Tot_Crit7 = assess.Crit7_Clau1 + assess.Crit7_Clau2 + assess.Crit7_Clau3 + assess.Crit7_Clau4 + assess.Crit7_Clau5;
             assessmentEdit.Average_Crit7 = Convert.ToDouble(assessmentEdit.Tot_Crit7)/5;
 
-            assessmentEdit.Tot_Crit8 = assess.Crit5_Clau1;
+            assessmentEdit.Tot_Crit8 = assess.Crit8_Clau1;
             assessmentEdit.Average_Crit8 = Convert.ToDouble(assessmentEdit.Tot_Crit8);
 
             assessmentEdit.Tot_Crit9 = assess.Crit9_Clau1 + assess.Crit9_Clau2 + assess.Crit9_Clau3 + assess.Crit9_Clau4 + assess.Crit9_Clau5;
             assessmentEdit.Average_Crit9 = Convert.ToDouble(assessmentEdit.Tot_Crit9)/5;
 
-            assessmentEdit.Grand_Tot = assessmentEdit.Tot_Crit1 + assessmentEdit.Tot_Crit2 + assessmentEdit.Tot_Crit3 + assessmentEdit.Tot_Crit4 + assessmentEdit.Tot_Crit5;
-            assessmentEdit.Overall_Average = Convert.ToDouble(assessmentEdit.Grand_Tot)/10;
+            assessmentEdit.Grand_Tot = assessmentEdit.Average_Crit1 + assessmentEdit.Average_Crit2 + assessmentEdit.Average_Crit3 + assessmentEdit.Average_Crit4 + assessmentEdit.Average_Crit5 + assessmentEdit.Average_Crit6 + assessmentEdit.Average_Crit7 + assessmentEdit.Average_Crit8 + assessmentEdit.Average_Crit9;
+            assessmentEdit.Overall_Average = Convert.ToDouble(assessmentEdit.Grand_Tot)/9;
 
+            assessmentEdit.AssessmentResult = (assessmentEdit.Grand_Tot <= 50 && assessmentEdit.Overall_Average <= 50.0) ? AssessmentResultEnum.APT : AssessmentResultEnum.INAPT;
 
             _database.Assessments.Update(assessmentEdit);
             await _database.SaveChangesAsync();
 
-            return assessmentEdit;
+            return assessmentEdit; 
         }
         catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
         {
@@ -241,6 +241,12 @@ public class AssessmentServices : IAssessmentServices
     {
         ICollection<CivilServant> servant =  await _database.Servants.Where(x => x.Id == CivilServantId).ToListAsync();
         return servant.FirstOrDefault().Name;
+    }
+
+    public int? ServantMasp(int CivilServantId)
+    {
+        ICollection<CivilServant> servant =  _database.Servants.Where(x => x.Id == CivilServantId).ToList();
+        return servant.FirstOrDefault().Masp;
     }
 
     public Assessment SearchForId(int id)
