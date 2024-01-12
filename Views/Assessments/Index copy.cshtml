@@ -3,6 +3,7 @@
 @using SEP_Web.Keys
 
 @inject IAssessmentServices _assessmentServices
+@inject IHttpContextAccessor _httpContext
 @model ICollection<Assessment>
 
 @{
@@ -14,10 +15,6 @@
 <div>
 
     <div class="container-fluid justify-content-start w-100 pop-up">
-
-        <a title="Cadastrar novo avaliador ..." style="width: 15vh;" role="button" asp-controller="Assessments"
-            asp-action="Index" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i
-                class="bi bi-person-plus-fill"></i> Novo</a>
 
         @if (TempData["SuccessMessage"] != null)
         {
@@ -53,7 +50,7 @@
 
             <div class="table-responsive">
 
-                <table class="table table-sm table-bordered table-striped table-light table-style users-table p-0">
+                <table class="table table-sm table-bordered table-striped table-light table-style assessments-table p-0">
 
                     <thead class="table-light bg-danger border-light text-primary">
 
@@ -62,8 +59,8 @@
                             <th scope="col">Etapa</th>
                             <th scope="col">Masp</th>
                             <th scope="col">Servidor</th>
-                            <th scope="col">Avaliação gerada</th>
-                            <th scope="col">Período de Avaliação</th>
+                            <th scope="col">Data Etapa</th>
+                            <th scope="col">Data Avaliação</th>
                             <th scope="col"></th>
                         </tr>
                         
@@ -90,12 +87,16 @@
                                     <td scope="row">@item.Phase</td>
                                     <td scope="row">@($"{_assessmentServices.ServantMasp(@item.CivilServantId):D8}")</td>
                                     <td scope="row">@await _assessmentServices.ServantName(@item.CivilServantId)</td>
-                                    <td scope="row">@DateTime.Now.ToString("dd/MM/yyyy")</td>
-                                    <td scope="row">De @Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy") à @Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
+                                    <td scope="row">@Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy")</td>
+                                    <td scope="row">@Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">
-                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
-                                        <a title="Gerar Boletim ..." role="button" asp-action="GenerateEvaluation" asp-controller="Assessments"class="btn btn-sm btn-outline-secondary"><i title="Gerar Boletim ..." class="bi bi-printer-fill"></i></a>
-                                        <button title="Excluir avaliação ..." type="button" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger"><i title="Excluir avaliação ..." class="bi bi-journal-x"></i></button>                               
+                                        @if(_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
+                                        {
+                                            <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                            <button title="Excluir avaliação ..." type="button" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger"><i title="Excluir avaliação ..." class="bi bi-journal-x"></i></button>
+                                        }else{  
+                                            <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>                             
+                                        }
                                     </td>
 
                                 </tr>

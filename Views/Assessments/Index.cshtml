@@ -3,6 +3,7 @@
 @using SEP_Web.Keys
 
 @inject IAssessmentServices _assessmentServices
+@inject IHttpContextAccessor _httpContext
 @model ICollection<Assessment>
 
 @{
@@ -89,9 +90,13 @@
                                     <td scope="row">@Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">@Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">
-                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
-                                        <a title="Gerar Boletim ..." role="button" asp-action="GenerateEvaluation" asp-controller="Assessments"class="btn btn-sm btn-outline-secondary"><i title="Gerar Boletim ..." class="bi bi-printer-fill"></i></a>
-                                        <button title="Excluir avaliação ..." type="button" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger"><i title="Excluir avaliação ..." class="bi bi-journal-x"></i></button>                               
+                                        @if(_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
+                                        {
+                                            <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                            <button title="Excluir avaliação ..." type="button" data-bs-toggle="modal" class="btn btn-sm btn-outline-danger"><i title="Excluir avaliação ..." class="bi bi-journal-x"></i></button>
+                                        }else{  
+                                            <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>                             
+                                        }
                                     </td>
 
                                 </tr>

@@ -90,7 +90,7 @@
                                     {
                                         <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..." class="bi bi-person-vcard"></i></a>
 
-                                        <a title="Avaliações ..." role="button" asp-action="IndexForId" asp-controller="Assessments" asp-route-id="@u.Id" class="btn btn-sm btn-outline-secondary"><i title="Avaliações ..." class="bi bi-journal-bookmark-fill"></i></a>
+                                        <a title="Boletim ..." role="button" asp-action="GenerateEvaluation" asp-controller="Assessments" asp-route-id="@u.Id" class="btn btn-sm btn-outline-secondary"><i title="Boletim ..." class="bi bi bi-printer-fill"></i></a>
 
                                         <button title="Excluir servidor ..." type="button" data-bs-toggle="modal" asp-route-id="@u.Id" data-bs-target="#serv-delete-@(u.Id)" class="btn btn-sm btn-outline-danger"><i title="Excluir servidor ..." class="bi bi-person-dash"></i></button>
                                     }

@@ -44,33 +44,6 @@ namespace SEP_Web.Controllers
             }
         }
 
-        public async Task<IActionResult> IndexForId(int id)
-        {
-            try
-            {
-                ICollection<Assessment> users = await _assessmentServices.AssessmentsList(id);
-                return View(users);
-            }
-            catch (MySqlException ex)
-            {
-                // MYSQL EXEPTIONS :
-
-                _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode);
-                TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorServantList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
-
-                return View(new List<Assessment>());
-            }
-            catch (ArgumentNullException ex2)
-            {
-                // NULL EXEPTIONS :
-
-                _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
-                TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
-
-                return View(new List<Assessment>());
-            }
-        }
-
         public IActionResult ToAssess(int id) => View(_assessmentServices.SearchForId(id));
 
         [HttpPost]
