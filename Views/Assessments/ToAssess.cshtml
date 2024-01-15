@@ -11,24 +11,28 @@
     ViewData["Title"] = "Avaliações";
 }
 
-<div class="row m-auto">
-    <div class="col-md-12">
-        <section class="form-control fw-bold" disabled>Nome do(a) Servidor(a): <span class="fw-normal">@await _assessmentServices.ServantName(@Model.CivilServantId)</span></section>
+<hr class="bg-secondary mb-0">
+
+    <div id="assessments-data" class="row">
+        <div class="col-md-12">
+            <section class="form-control fw-bold" disabled>Nome do(a) Servidor(a): <span class="fw-normal">@await _assessmentServices.ServantName(@Model.CivilServantId)</span></section>
+        </div>
+        <div class="col-md-3 mt-1">
+            <section class="form-control fw-bold" disabled>Nº da matrícula: <span class="fw-normal">@_assessmentServices.ServantMasp(@Model.CivilServantId)</span></section>
+        </div>
+        <div class="col-md-2 mt-1">
+            <section class="form-control fw-bold" disabled>Etapa: <span class="fw-normal">@Model.Phase</span></section>
+        </div>
+        <div class="col-md-7 mt-1">
+            <section class="form-control fw-bold" disabled>Nome do(a) avaliador(a): <span class="fw-normal">@await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId)</span></section>
+        </div>
     </div>
-    <div class="col-md-7 mt-1">
-        <section class="form-control fw-bold" disabled>Nome do(a) avaliador(a): <span class="fw-normal">@await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId)</span></section>
-    </div>
-    <div class="col-md-3 mt-1">
-        <section class="form-control fw-bold" disabled>Nº da matrícula: <span class="fw-normal">@_assessmentServices.ServantMasp(@Model.CivilServantId)</span></section>
-    </div>
-    <div class="col-md-2 mt-1">
-        <section class="form-control fw-bold" disabled>Etapa: <span class="fw-normal">@Model.Phase</span></section>
-    </div>
-</div>
+
+<hr class="bg-secondary mt-0 mb-0">
 
 <div class="container">
 
-    <div style="margin-bottom: -5vh;" class="validate-fields mt-2">
+    <div class="validate-fields mt-2">
         <span class="field-validation-error">@TempData["ValidationMessage"]</span>
     </div>
 
@@ -134,11 +138,11 @@
                 @await Html.PartialAsync("_Others.cshtml", @Model)
             </div>
 
-        </div>
+            <div class="assessments-button">
+                <button type="submit" class="btn btn-md btn-primary"><i title="Avaliar ..." class="bi bi-journal-bookmark-fill"></i> Avaliar</button>
+                <a class="btn btn-md btn-secondary" title="Cancelar" asp-action="Index" asp-controller="Assessments"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
+            </div>
 
-        <div class="assessments-button">
-            <button type="submit" class="btn btn-md btn-primary"><i title="Avaliar ..." class="bi bi-journal-bookmark-fill"></i> Avaliar</button>
-            <a class="btn btn-md btn-secondary" title="Cancelar" asp-action="Index" asp-controller="Assessments"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
         </div>
 
     </form>

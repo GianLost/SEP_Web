@@ -1,4 +1,17 @@
 /* Lista de avaliações => (Index.cshtml) */
+#assessments-data {
+  padding: 1.5vh;
+}
+
+#assessments-data section{
+  border: 1px solid #b7b6b6;
+  background-color: #cdcdcda6;
+  color: #636262;
+}
+
+#assessments-data section:hover {
+  cursor: pointer;
+}
 
 .assessments-table tr > th:first-child,
 .assessments-table tr > td:first-child {
@@ -25,6 +38,10 @@
   text-align: center;
 }
 
+#assessments-header {
+  margin-top: -3%;
+}
+
 #assessments-header .nav-tabs{
   display: flex;
   flex-direction: row;
@@ -33,6 +50,25 @@
 
 #assessments-header button {
   font-weight: 500;
+}
+
+#assessments-header .nav-item button:hover {
+  background-color: #0077cc53 !important;
+  color: #fff;
+  box-shadow: 2px 2px 5px #00000061;
+}
+
+#assessments-header .nav-item>button.active {
+  background-color: #0077cca5 !important;
+  color: #fff;
+  box-shadow: 2px 2px 5px #00000061;
+}
+
+#avaliacaoTabContent {
+  padding: 1.5vh;
+  background-color: #cdcdcdd3;
+  border-radius: 0.5vh;
+  box-shadow: 2px 5px 20px #00000049;
 }
 
 #avaliacaoTabContent ul{

@@ -15,27 +15,7 @@
 
 <div class="container">
 
-    <div style="position: absolute; right: 20vh; margin-top: 5px;" class="change-pass">
-
-        <ul class="navbar-nav ml-auto">
-
-            <li class="nav-item dropdown">
-
-                <a class="nav-link dropdown-toggle" id="servant-menu-config" title="Menu de modificações do usuário" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="bi bi-gear-fill"></i></a>
-
-                <ul class="dropdown-menu" aria-labelledby="eval-menu-config">
-                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#servant-change-pass" title="Alterar senha do usuário !" class="dropdown-item"><i title="Altere a senha do usuário !" class="bi bi-file-earmark-lock2"> </i>Alterar senha</a>
-                    </li>
-                    <li class="dropdown-divider"></li>
-                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-servant-structures" title="Altere as entidades órgão, divisão, seção ou setor do usuário!" class="dropdown-item"><i title="Altere as entidades órgão, divisão seção ou setor do usuário!" class="bi bi-building-fill-gear"> </i>Alterar entidades</a>
-                    </li>
-                </ul>
-
-            </li>
-
-        </ul>
-
-    </div>
+    @await Html.PartialAsync("../Shared/Components/Menu/_UserSettings.cshtml")
 
     <div class="row justify-content-center">
 
@@ -49,27 +29,7 @@
 
             <form class="servant-register register-adm-form justify-content-center" asp-controller="CivilServant" asp-action="Edit" method="post">
 
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success alert-edit-success" role="alert">
-                        <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                            <span class="close-span" aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="bi bi-shield-fill-check"></i>
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    <div class="alert alert-danger alert-edit-error" role="alert">
-                        <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                            <span class="close-span" aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="bi bi-shield-fill-x"></i>
-                        @TempData["ErrorMessage"]
-                    </div>
-                }
+                @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
 
                 <div class="row">
 
@@ -175,7 +135,7 @@
 
                         <div class="form-group">
                             <label class="form-label" for="disable-division-servant-id" hidden>Divisão:</label>
-                            <select title="Altere a divisão no menu 'Alterar entidades'." class=" form-control" id="disable-division-servant-id" disabled>
+                            <select title="Altere a divisão no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-division-servant-id" disabled>
                                 <option selected>Divisão: @await _divisionServices.DivisionsName(@Model.DivisionId)</option>
                             </select>
                             <div class="validate-fields"></div>
@@ -219,7 +179,7 @@
 
                         <div class="form-group">
                             <label class="form-label" for="servant-admission" hidden></label>
-                            <input type="text" value="Data de Admissão: @Model.AdmissionDate" class="form-control" id="servant-admission" asp-for="AdmissionDate" disabled>
+                            <input type="text" value="Data de Admissão: @Model.AdmissionDate" class="disabled-box form-control" id="servant-admission" asp-for="AdmissionDate" disabled>
                         </div>
                         <div class="validate-fields"></div>
 
@@ -308,13 +268,13 @@
 
 @* Início do Modal de Edição da senha do usuário *@
 
-<div class="modal fade" id="servant-change-pass" tabindex="-1" role="dialog" aria-labelledby="change-servantTitle" aria-hidden="true">
+<div class="modal fade" id="change-pass" tabindex="-1" role="dialog" aria-labelledby="change-Title" aria-hidden="true">
 
     <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
 
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-servantTitle">Alterar senha</h3>
+                <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-Title">Alterar senha</h3>
                 <a type="button" class="btn-close" asp-action="Edit" asp-controller="CivilServant" asp-route-Id="@Model.Id"></a>
             </div>
                 <div class="modal-body p-1">
@@ -330,13 +290,13 @@
 
 @* Início do Modal de Edição das estruturas do usuário *@
 
-<div class="modal fade" id="change-servant-structures" tabindex="-1" role="dialog" aria-labelledby="change-servantTitle" aria-hidden="true">
+<div class="modal fade" id="change-structures" tabindex="-1" role="dialog" aria-labelledby="change-Title" aria-hidden="true">
 
     <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
-                <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-servantTitle">Alterar entidades</h3>
+                <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-Title">Alterar entidades</h3>
                 <a type="button" class="btn-close" asp-action="Edit" asp-controller="CivilServant" asp-route-Id="@Model.Id"></a>
             </div>
                 <div class="modal-body">

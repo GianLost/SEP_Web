@@ -23,27 +23,7 @@
 
             <form class="servant-register register-adm-form justify-content-center" asp-controller="CivilServant" asp-action="Register" method="post">
 
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success alert-register-success" role="alert">
-                        <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                            <span class="close-span" aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="bi bi-shield-fill-check"></i>
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    <div class="alert alert-danger alert-register-error" role="alert">
-                        <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                            <span class="close-span" aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="bi bi-shield-fill-x"></i>
-                        @TempData["ErrorMessage"]
-                    </div>
-                }
+                @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
 
                 <div class="row">
 

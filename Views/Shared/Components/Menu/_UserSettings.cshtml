@@ -1,0 +1,43 @@
+@using SEP_Web.Keys
+
+@inject IHttpContextAccessor _httpContext
+
+<div style="position: absolute; right: 20vh; margin-top: 5px;" class="change-pass">
+
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item dropdown">
+
+            <a class="nav-link dropdown-toggle" id="menu-config" title="Menu de modificações do usuário"
+                role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i
+                    class="bi bi-gear-fill"></i></a>
+
+            <ul class="dropdown-menu" aria-labelledby="menu-config">
+                @if(_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
+                {
+                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-pass"
+                        title="Alterar senha do usuário !" class="dropdown-item"><i title="Altere a senha do usuário !"
+                            class="bi bi-file-earmark-lock2"> </i>Alterar senha</a>
+                    </li>
+                    <li class="dropdown-divider"></li>
+                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-structures"
+                            title="Altere as entidades órgão, divisão, seção ou setor do usuário!" class="dropdown-item"><i
+                                title="Altere as entidades órgão, divisão seção ou setor do usuário!"
+                                class="bi bi-building-fill-gear"> </i>Alterar entidades</a>
+                    </li>
+                }
+                else
+                {
+                    <li><a type="button" data-bs-toggle="modal" data-bs-target="#change-structures"
+                            title="Altere as entidades órgão, divisão, seção ou setor do usuário!" class="dropdown-item"><i
+                                title="Altere as entidades órgão, divisão seção ou setor do usuário!"
+                                class="bi bi-building-fill-gear"> </i>Alterar entidades</a>
+                    </li>
+                }
+            </ul>
+
+        </li>
+
+    </ul>
+
+</div>

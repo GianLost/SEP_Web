@@ -12,31 +12,8 @@
 <div>
 
     <div class="container-fluid justify-content-start w-100 pop-up">
-
         <a title="Cadastrar novo servidor ..." style="width: 15vh;" role="button" asp-controller="CivilServant" asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i class="bi bi-person-plus-fill"></i> Novo</a>
-
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                    <span class="close-span" aria-hidden="true">&times;</span>
-                </button>
-                <i class="bi bi-shield-fill-check"></i>
-                @TempData["SuccessMessage"]
-            </div>
-        }
-
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                    <span class="close-span" aria-hidden="true">&times;</span>
-                </button>
-                <i class="bi bi-shield-fill-x"></i>
-                @TempData["ErrorMessage"]
-            </div>
-        }
-
+        @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
     <div class="card">
@@ -97,6 +74,8 @@
                                     else
                                     {
                                         <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..." class="bi bi-person-vcard"></i></a>
+                                        
+                                        <a title="Boletim ..." role="button" asp-action="GenerateEvaluation" asp-controller="Assessments" asp-route-id="@u.Id" class="btn btn-sm btn-outline-secondary"><i title="Boletim ..." class="bi bi bi-printer-fill"></i></a>
                                     }
                                 </td>
 

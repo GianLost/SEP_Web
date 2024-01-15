@@ -5,4 +5,5 @@ public class ExceptionMessages
     public const string ErrorArgumentNullException = "O parâmetro esperado pela 'task' retornou nullo!";
     public const string LogInDataNull = "Os dados informados não correspondem à um usário cadastrado !";  
     public const string ErrorUnexpected = "Um erro inesperado não está permitindo que você prossiga. Contate o desenvolvedor !"; 
+    public const string ExpiredSession = "A sessão foi encerrada. você precisa se reconectar.";
 }
