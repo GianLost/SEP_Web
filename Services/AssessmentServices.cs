@@ -210,12 +210,12 @@ public class AssessmentServices : IAssessmentServices
     {
         try
         {
-            ICollection<Assessment> test = await _database.Assessments.Where(x => x.CivilServantId == id).ToListAsync();
+            ICollection<Assessment> assessment = await _database.Assessments.Where(x => x.CivilServantId == id).ToListAsync();
 
-            if (test?.Count == 0)
-                throw new ArgumentNullException(nameof(test), ExceptionMessages.ErrorArgumentNullException);
+            if (assessment?.Count == 0)
+                throw new ArgumentNullException(nameof(assessment), ExceptionMessages.ErrorArgumentNullException);
 
-            return test ?? new List<Assessment>();
+            return assessment ?? new List<Assessment>();
         }
         catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
         {

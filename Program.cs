@@ -41,6 +41,8 @@ builder.Services.AddScoped<IUsersValidation, UsersValidation>();
 
 builder.Services.AddScoped<IAssessmentServices, AssessmentServices>();
 
+builder.Services.AddScoped<IReportServices, ReportServices>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
