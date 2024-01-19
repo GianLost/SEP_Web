@@ -33,7 +33,7 @@ public class ReportServices : IReportServices
             string reportFileName = $"Assessment_Report.frx";
             string reportFilePath = Path.Combine(directoryPath, reportFileName);
 
-            using (Report r = new())
+            using(Report r = new())
             {
                 ICollection<CivilServant> servantList = await _servantServices.ServantsList();
                 ICollection<Assessment> assessment = await _assessmentServices.AssessmentsList();
