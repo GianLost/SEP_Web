@@ -88,38 +88,6 @@ public class CivilServantServices : ICivilServantServices
         }
     }
 
-    public async Task<ICollection<CivilServant>> ServantsList(int id)
-    {
-        try
-        {
-
-            ICollection<CivilServant> servants = await _database.Servants.Where(x => x.Id == id).ToListAsync();
-
-            if (servants?.Count == 0)
-                throw new ArgumentNullException(nameof(servants), ExceptionMessages.ErrorArgumentNullException);
-
-            return servants ?? new List<CivilServant>();
-        }
-        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
-        {
-            // MYSQL EXEPTIONS :
-
-            _logger.LogError("[SERVANT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-            _logger.LogError("[SERVANT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
-
-            return new List<CivilServant>();
-        }
-        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
-        {
-            // NULL EXCEPTION :
-
-            _logger.LogWarning("[SERVANT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
-            _logger.LogWarning("[SERVANT_SERVICE]: {Description}", nullException.StackTrace.Trim());
-
-            return new List<CivilServant>();
-        }
-    }
-
     public async Task<CivilServant> ServantsEdit(CivilServant user)
     {
         try

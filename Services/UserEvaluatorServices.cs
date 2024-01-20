@@ -88,41 +88,6 @@ public class UserEvaluatorServices : IUserEvaluatorServices
         }
     }
 
-    public async Task<ICollection<UserEvaluator>> EvaluatorsList(int id)
-    {
-        try
-        { 
-            ICollection<CivilServant> servants = await _database.Servants.Where(x => x.Id == id).ToListAsync();
-
-            int? assessmentEvaluatorId = servants.Select(x => x.UserEvaluatorId1).FirstOrDefault();
-            
-            ICollection<UserEvaluator> evaluatorList = await _database.Evaluators.Where(x => x.Id == assessmentEvaluatorId).ToListAsync();
-
-            if (evaluatorList?.Count == 0)
-                throw new ArgumentNullException(nameof(evaluatorList), ExceptionMessages.ErrorArgumentNullException);
-            
-            return evaluatorList ?? new List<UserEvaluator>();
-        }
-        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
-        {
-            // MYSQL EXEPTIONS :
-
-            _logger.LogError("[EVALUATOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-            _logger.LogError("[EVALUATOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
-
-            return new List<UserEvaluator>();
-        }
-        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
-        {
-            // NULL EXCEPTION :
-
-            _logger.LogWarning("[EVALUATOR_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
-            _logger.LogWarning("[EVALUATOR_SERVICE]: {Description}", nullException.StackTrace.Trim());
-
-            return new List<UserEvaluator>();
-        }
-    }
-
     public async Task<UserEvaluator> EvaluatorsEdit(UserEvaluator user)
     {
         try

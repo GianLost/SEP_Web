@@ -28,15 +28,8 @@ public class AssessmentsController : Controller
         {
             // MYSQL EXEPTIONS :
 
-            _logger.LogError(
-                "{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ",
-                ExceptionMessages.ErrorDatabaseConnection,
-                ex.Message.ToUpper(),
-                ex.Number,
-                ex.ErrorCode
-            );
-            TempData["ErrorMessage"] =
-                $"{FeedbackMessages.ErrorServantList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
+            _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode);
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorServantList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
 
             return View(new List<Assessment>());
         }
@@ -66,8 +59,7 @@ public class AssessmentsController : Controller
             if (ModelState.IsValid)
             {
                 string name = await _assessmentServices.ServantName(assess.CivilServantId);
-                TempData["SuccessMessage"] =
-                    $"O servidor {name}, foi avaliado na {assess.Phase}º Etapa com sucesso !";
+                TempData["SuccessMessage"] = $"O servidor {name}, foi avaliado na {assess.Phase}º Etapa com sucesso !";
 
                 await _assessmentServices.Assess(assess);
                 return RedirectToAction("Index");
@@ -81,21 +73,11 @@ public class AssessmentsController : Controller
         {
             // MYSQL EXEPTIONS :
 
-            TempData["ErrorMessage"] =
-                $"{FeedbackMessages.ErrorEvaluatorEdit} {ExceptionMessages.ErrorDatabaseConnection}";
+            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorEdit} {ExceptionMessages.ErrorDatabaseConnection}";
 
-            _logger.LogError(
-                "[ASSESSMENTS_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ",
-                ExceptionMessages.ErrorDatabaseConnection,
-                dbException.Message.ToUpper(),
-                dbException.Number,
-                dbException.ErrorCode
-            );
+            _logger.LogError("[ASSESSMENTS_CONTROLLER]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
 
-            _logger.LogError(
-                "[ASSESSMENTS_CONTROLLER] : Detalhamento dos erros: {Description} - ",
-                dbException.StackTrace.Trim()
-            );
+            _logger.LogError("[ASSESSMENTS_CONTROLLER] : Detalhamento dos erros: {Description} - ", dbException.StackTrace.Trim());
 
             assess = null;
             return View(assess);
@@ -106,18 +88,9 @@ public class AssessmentsController : Controller
 
             TempData["ErrorMessage"] = FeedbackMessages.ErrorServantEdit;
 
-            _logger.LogWarning(
-                "[ASSESSMENTS_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'",
-                ExceptionMessages.ErrorArgumentNullException,
-                nullException.Message,
-                nullException.ParamName,
-                nullException.InnerException
-            );
+            _logger.LogWarning("[ASSESSMENTS_CONTROLLER]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
 
-            _logger.LogWarning(
-                "[ASSESSMENTS_CONTROLLER]: {Description}",
-                nullException.StackTrace.Trim()
-            );
+            _logger.LogWarning("[ASSESSMENTS_CONTROLLER]: {Description}", nullException.StackTrace.Trim());
 
             assess = null;
             return View(assess);

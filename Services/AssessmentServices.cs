@@ -206,37 +206,6 @@ public class AssessmentServices : IAssessmentServices
         }
     }
 
-    public async Task<ICollection<Assessment>> AssessmentsList(int id)
-    {
-        try
-        {
-            ICollection<Assessment> assessment = await _database.Assessments.Where(x => x.CivilServantId == id).ToListAsync();
-
-            if (assessment?.Count == 0)
-                throw new ArgumentNullException(nameof(assessment), ExceptionMessages.ErrorArgumentNullException);
-
-            return assessment ?? new List<Assessment>();
-        }
-        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
-        {
-            // MYSQL EXEPTIONS :
-
-            _logger.LogError("[ASSESSMENT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-            _logger.LogError("[ASSESSMENT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
-
-            return new List<Assessment>();
-        }
-        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
-        {
-            // NULL EXCEPTION :
-
-            _logger.LogWarning("[ASSESSMENT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
-            _logger.LogWarning("[ASSESSMENT_SERVICE]: {Description}", nullException.StackTrace.Trim());
-
-            return new List<Assessment>();
-        }
-    }
-
     public async Task<string> ServantName(int? CivilServantId)
     {
         ICollection<CivilServant> servant =  await _database.Servants.Where(x => x.Id == CivilServantId).ToListAsync();

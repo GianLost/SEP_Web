@@ -1,5 +1,9 @@
 using FastReport;
 using FastReport.Export.PdfSimple;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
+using SEP_Web.Database;
+using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
@@ -7,14 +11,16 @@ namespace SEP_Web.Services;
 public class ReportServices : IReportServices
 {
     private readonly ILogger<ReportServices> _logger;
+    private readonly SEP_WebContext _database;
     private readonly IUserEvaluatorServices _evaluatorServices;
     private readonly ICivilServantServices _servantServices;
     private readonly IAssessmentServices _assessmentServices;
     private readonly IWebHostEnvironment _environment;
 
-    public ReportServices(ILogger<ReportServices> logger, IUserEvaluatorServices evaluatorServices, ICivilServantServices servantServices, IAssessmentServices assessmentServices, IWebHostEnvironment environment)
+    public ReportServices(ILogger<ReportServices> logger, SEP_WebContext database, IUserEvaluatorServices evaluatorServices, ICivilServantServices servantServices, IAssessmentServices assessmentServices, IWebHostEnvironment environment)
     {
         _logger = logger;
+        _database = database;
         _evaluatorServices = evaluatorServices ?? throw new ArgumentNullException(nameof(evaluatorServices));
         _servantServices = servantServices ?? throw new ArgumentNullException(nameof(servantServices));
         _assessmentServices = assessmentServices ?? throw new ArgumentNullException(nameof(assessmentServices));
@@ -35,12 +41,8 @@ public class ReportServices : IReportServices
 
             using(Report r = new())
             {
-                ICollection<CivilServant> servantList = await _servantServices.ServantsList();
                 ICollection<Assessment> assessment = await _assessmentServices.AssessmentsList();
-                ICollection<UserEvaluator> evaluatorList = await _evaluatorServices.EvaluatorsList();
 
-                r.Report.Dictionary.RegisterBusinessObject(evaluatorList, "evaluatorList", 10, true);
-                r.Report.Dictionary.RegisterBusinessObject(servantList, "servantList", 10, true);
                 r.Report.Dictionary.RegisterBusinessObject(assessment, "assessment", 10, true);
 
                 r.Report.Save(reportFilePath);
@@ -63,15 +65,17 @@ public class ReportServices : IReportServices
 
             using Report r = new();
 
-            ICollection<CivilServant> servantsList = await _servantServices.ServantsList(id);
-            ICollection<Assessment> assessments = await _assessmentServices.AssessmentsList(id);
-            ICollection<UserEvaluator> evaluatorsList = await _evaluatorServices.EvaluatorsList(id);
+            ICollection<CivilServant> servantsList = await ServantsListToGenerateReport(id);
+            ICollection<Assessment> assessments = await AssessmentsListToGenerateReport(id);
+            ICollection<Instituition> instituitionsList = await InstituitionsListToGenerateReport(id);
+            ICollection<UserEvaluator> evaluatorsList = await EvaluatorsListToGenerateReport(id);
 
             r.Report.Load(reportFile);
 
             r.Report.Dictionary.RegisterBusinessObject(evaluatorsList, "evaluatorList", 10, true);
             r.Report.Dictionary.RegisterBusinessObject(servantsList, "servantList", 10, true);
             r.Report.Dictionary.RegisterBusinessObject(assessments, "assessment", 10, true);
+            r.Report.Dictionary.RegisterBusinessObject(instituitionsList, "instituitionsList", 10, true);
 
             r.Prepare();
 
@@ -92,6 +96,139 @@ public class ReportServices : IReportServices
         new PDFSimpleExport().Export(report, ms);
         await ms.FlushAsync();
         return ms.ToArray();
+    }
+
+    public async Task<ICollection<CivilServant>> ServantsListToGenerateReport(int id)
+    {
+        try
+        {
+
+            ICollection<CivilServant> servants = await _database.Servants.Where(x => x.Id == id).ToListAsync();
+
+            if (servants?.Count == 0)
+                throw new ArgumentNullException(nameof(servants), ExceptionMessages.ErrorArgumentNullException);
+
+            return servants ?? new List<CivilServant>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[REPORT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[REPORT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<CivilServant>();
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[REPORT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[REPORT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            return new List<CivilServant>();
+        }
+    }
+
+    public async Task<ICollection<Assessment>> AssessmentsListToGenerateReport(int id)
+    {
+        try
+        {
+            ICollection<Assessment> assessment = await _database.Assessments.Where(x => x.CivilServantId == id).ToListAsync();
+
+            if (assessment?.Count == 0)
+                throw new ArgumentNullException(nameof(assessment), ExceptionMessages.ErrorArgumentNullException);
+
+            return assessment ?? new List<Assessment>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[REPORT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[REPORT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<Assessment>();
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[REPORT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[REPORT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            return new List<Assessment>();
+        }
+    }
+
+    public async Task<ICollection<UserEvaluator>> EvaluatorsListToGenerateReport(int id)
+    {
+        try
+        { 
+            ICollection<CivilServant> servants = await _database.Servants.Where(x => x.Id == id).ToListAsync();
+
+            int? assessmentEvaluatorId = servants.Select(x => x.UserEvaluatorId1).FirstOrDefault();
+            
+            ICollection<UserEvaluator> evaluatorList = await _database.Evaluators.Where(x => x.Id == assessmentEvaluatorId).ToListAsync();
+
+            if (evaluatorList?.Count == 0)
+                throw new ArgumentNullException(nameof(evaluatorList), ExceptionMessages.ErrorArgumentNullException);
+            
+            return evaluatorList ?? new List<UserEvaluator>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[REPORT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[REPORT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<UserEvaluator>();
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[REPORT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[REPORT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            return new List<UserEvaluator>();
+        }
+    }
+
+    public async Task<ICollection<Instituition>> InstituitionsListToGenerateReport(int id)
+    {
+        try
+        { 
+            ICollection<CivilServant> servants = await _database.Servants.Where(x => x.Id == id).ToListAsync();
+
+            int? assessmentInstituitionId = servants.Select(x => x.InstituitionId).FirstOrDefault();
+            
+            ICollection<Instituition> instituitionList = await _database.Instituitions.Where(x => x.Id == assessmentInstituitionId).ToListAsync();
+
+            if (instituitionList?.Count == 0)
+                throw new ArgumentNullException(nameof(instituitionList), ExceptionMessages.ErrorArgumentNullException);
+            
+            return instituitionList ?? new List<Instituition>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[REPORT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[REPORT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<Instituition>();
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[REPORT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[REPORT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            return new List<Instituition>();
+        }
     }
 
 }

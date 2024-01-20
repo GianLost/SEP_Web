@@ -6,7 +6,6 @@ public interface ICivilServantServices
 { 
     Task<CivilServant> RegisterServant(CivilServant user); // Gera um novo registro de usuário administrador;
     Task<ICollection<CivilServant>> ServantsList(); // Coleção de administradores;
-    Task<ICollection<CivilServant>> ServantsList(int id);
     Task<CivilServant> ServantsEdit(CivilServant user); // Edição de um registro já existente de um usuário administrador;
     Task<CivilServant> EditStructures(ModifyServantStructures modifyStructures);
     void DeleteServant(int id); // Exclui usuário administrador;
