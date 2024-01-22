@@ -261,12 +261,3 @@ input::-webkit-inner-spin-button {
   font-size: 2.5vh;
   padding: 0.3vh;
 }
-
-.list-group li{
-  display: flex;
-  justify-content: space-between;
-}
-
-.list-group select {
-  width: 9rem;
-}
