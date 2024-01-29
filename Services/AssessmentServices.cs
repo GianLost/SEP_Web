@@ -146,7 +146,7 @@ public class AssessmentServices : IAssessmentServices
             assessmentEdit.Grand_Tot = assessmentEdit.Average_Crit1 + assessmentEdit.Average_Crit2 + assessmentEdit.Average_Crit3 + assessmentEdit.Average_Crit4 + assessmentEdit.Average_Crit5 + assessmentEdit.Average_Crit6 + assessmentEdit.Average_Crit7 + assessmentEdit.Average_Crit8 + assessmentEdit.Average_Crit9;
             assessmentEdit.Overall_Average = Convert.ToDouble(assessmentEdit.Grand_Tot)/9;
 
-            assessmentEdit.AssessmentResult = (assessmentEdit.Grand_Tot <= 50 && assessmentEdit.Overall_Average <= 50.0) ? AssessmentResultEnum.APT : AssessmentResultEnum.INAPT;
+            assessmentEdit.AssessmentResult = (assessmentEdit.Grand_Tot >= 50.0) ? AssessmentResultEnum.APT : AssessmentResultEnum.INAPT;
 
             _database.Assessments.Update(assessmentEdit);
             await _database.SaveChangesAsync();
