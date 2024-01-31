@@ -8,6 +8,8 @@ using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.WebHost.UseIISIntegration().UseUrls("https://192.168.100.183:38450"); //Descomente e altere o Ip para o ip da máquina que será responsável por executar a aplicação no IIS Server
+
 builder.Services.Configure<CookiePolicyOptions>(options =>
 {
     options.CheckConsentNeeded = context => false;
@@ -76,8 +78,5 @@ Log.Logger = new LoggerConfiguration()
         .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error)
         .WriteTo.File("Logs/Errors/log-error-{Date}.txt", rollingInterval: RollingInterval.Month)
     ).CreateLogger();
-
-var logFac = app.Services.GetRequiredService<ILoggerFactory>();
-logFac.AddSerilog();
 
 app.Run();

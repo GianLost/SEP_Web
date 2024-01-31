@@ -1,0 +1,23 @@
+#evaluator-line {
+  background-color: #222222;
+  padding: 1px;
+  width: 80%;
+  margin: 0vh 10vh 2.5vh 10vh;
+  box-shadow: 1.5px 2px 2px rgb(255, 255, 255);
+  border-radius: 2vh;
+}
+
+#eval-container {
+  width: 100%;
+}
+
+.eval-line {
+  background-color: #0077cc;
+  width: 43vh;
+  height: 1.5px;
+  margin: 15px;
+}
+
+.evaluator-col .form-group {
+  margin: 12px;
+}

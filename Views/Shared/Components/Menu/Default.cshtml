@@ -3,17 +3,41 @@
 @using SEP_Web.Keys
 
 <div class="container">
+
+    <div class="logo">
+        <img id="logo" class="img-fluid" src="/images/pmtm-logo.png" alt="">
+    </div>
     
-    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Bem vindo(a), @Model.Login</a>
+    <div class="control-level">
+
+        <div class="input-group input-group-sm">
+            <span class="input-group-text" id="basic-addon1" title="usuário logado..."><i class="bi bi-person-fill"></i></span>
+            <input type="text" title="usuário logado..." class="form-control form-control-sm" value="@Model.Login" aria-label="Username" aria-describedby="basic-addon1" disabled>
+        </div>
+        @if(Model.UserType == UsersTypeEnum.User_Admin)
+        {
+            <div class="input-group input-group-sm">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-file-lock2-fill"></i></span>
+                <input type="text" title="Nível de acesso do usuário..." class="form-control form-control-sm" value="Administrador" aria-label="Username" aria-describedby="basic-addon2" disabled>
+            </div>
+        }
+        @if(Model.UserType == UsersTypeEnum.User_Evaluator)
+        {
+           <div class="input-group input-group-sm">
+                <span class="input-group-text" id="basic-addon3"><i class="bi bi-file-lock2-fill"></i></span>
+                <input type="text" title="Nível de acesso do usuário..." class="form-control form-control-sm" value="Avaliador" aria-label="Username" aria-describedby="basic-addon3" disabled>
+           </div>
+        }
+    </div>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li title="Home ..." class="nav-item"><a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" title="Home ..."><i title="Home ..." class="bi bi-house-door-fill"></i></a></li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="menu-users" role="button" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false">Usuários</a>
+                <a title="usuários ..." class="nav-link dropdown-toggle" id="menu-users" role="button" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false"><i title="usuários ..." class="bi bi-person-fill-add"></i> Usuários</a>
                 <ul class="dropdown-menu" aria-labelledby="menu-users">
                     @if (Model.UserType == UsersTypeEnum.User_Admin)
                     {
@@ -29,7 +53,7 @@
             @if (Model.UserType == UsersTypeEnum.User_Admin)
             {
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="menu-structure" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Estrutura</a>
+                    <a title="estruturas ..." class="nav-link dropdown-toggle" id="menu-structure" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i title="estruturas ..." class="bi bi-building-fill-add"></i> Estrutura</a>
                     <ul class="dropdown-menu" aria-labelledby="menu-structure">
                         <li><a class="dropdown-item" asp-controller="Instituition" asp-action="Index">Órgão</a></li>
                         <li><hr class="dropdown-divider"></li>
@@ -42,17 +66,17 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="menu-license" role="button" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false">Licenças</a>
+                    <a title="licenças ..." class="nav-link dropdown-toggle" id="menu-license" role="button" data-bs-toggle="dropdown"aria-haspopup="true" aria-expanded="false"><i title="licenças ..." class="bi bi-stickies-fill"></i> Licença</a>
                     <ul class="dropdown-menu" aria-labelledby="menu-license">
-                        <li><a class="dropdown-item" asp-controller="" asp-action="">Tipos de Licença</a></li>
+                        <li><a class="dropdown-item" asp-controller="License" asp-action="LicenseType">Tipos de Licença</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" asp-controller="" asp-action="">Licença</a></li>
+                        <li><a class="dropdown-item" asp-controller="License" asp-action="UnderLicense">Licença</a></li>
                     </ul>
                 </li>
             }
 
-            <li class="nav-item"><a class="nav-link" asp-controller="Assessments" asp-action="Index">Avaliações</a></li>
-            <li class="nav-item"><a class="nav-link" asp-controller="Login" asp-action="Logout">Sair</a></li>
+            <li title="avaliações ..." class="nav-item"><a class="nav-link" asp-controller="Assessments" asp-action="Index" title="avaliações ..."><i class="bi bi-journal-bookmark-fill" title="avaliações ..."></i> Avaliações</a></li>
+            <li class="nav-item" title="Sair ..."><a class="nav-link" asp-controller="Login" asp-action="Logout" title="Sair ..."><i class="bi bi-door-open-fill"></i></a></li>
 
         </ul>
 

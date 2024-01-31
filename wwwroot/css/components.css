@@ -1,0 +1,110 @@
+.modal-body {
+  padding: 2vh;
+  text-align: justify;
+}
+
+.alert {
+  width: 80%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.close-alert {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  right: -1.5vh;
+  top: -2vh;
+  border-radius: 1vh;
+  width: 4.5vh;
+  height: 4.5vh;
+  margin: 0%;
+}
+
+.pop-up {
+  display: flex;
+  align-items: center;
+  padding: 2vh;
+  margin-top: 3vh;
+}
+
+.pop-up .alert {
+  margin-left: 10vh;
+}
+
+.pop-up .alert i {
+  margin-right: 1.5vh;
+}
+
+.close-span {
+  position: relative;
+  font-size: 3vh;
+  font-weight: bold;
+  top: -0.3vh;
+  padding: 0;
+}
+
+#btn-cgPass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#btn-cgPass span {
+  font-size: 2.5vh;
+  padding: 0.3vh;
+}
+
+.sorting::before {
+  color: #0077cc;
+  margin: 1px;
+}
+
+.sorting::after {
+  color: #0077cc;
+  margin: 1px;
+}
+
+.disabled-box:hover {
+  cursor: not-allowed;
+}
+
+#statsServantActive,
+#statsServantInactive:hover {
+  cursor: pointer;
+}
+
+.field-validation-error,
+.select-validation-error {
+  color: #e01d1d;
+  font-size: 0.7em;
+  font-style: italic;
+  margin-top: 5vh;
+}
+
+.validate-fields {
+  margin-bottom: -20px;
+  height: 4vh;
+  padding: 0;
+}
+
+/* START: Chrome e outros - Ocultar setas do input type="number" */
+
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* END: Chrome e outros - Ocultar setas do input type="number" */

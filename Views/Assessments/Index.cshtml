@@ -68,7 +68,7 @@
                                     <td scope="row">@Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">@Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">
-                                        @if(@item.Stats == AssessmentStatsEnum.EVALUATED)
+                                       @if(@item.Stats == AssessmentStatsEnum.EVALUATED)
                                         {
                                             <button title="Etapa concluída ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..." class="bi bi-journal-check" disabled ></i></button>
                                         }else{
