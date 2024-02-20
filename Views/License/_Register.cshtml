@@ -1,0 +1,40 @@
+@model Licenses
+@using SEP_Web.Models
+@{
+    ViewData["Title"] = "Cadastrar Licença";
+}
+
+<!-- Partial View de Cadastro de Licença -->
+
+<div>
+
+    <form id="license-form">
+
+        <div class="form-group p-4">
+
+            <label class="form-label" for="license-name" hidden></label>
+            <input type="text" placeholder="Informe um nome para a licença :" class="form-control" id="license-name" name="name" autocomplete="disabled"/>
+            <div class="validate-fields mb-1">
+                <span class="field-validation-error"></span>
+            </div>
+
+            <label class="form-label" for="license-time" hidden></label>
+            <input type="number" placeholder="Informe o tempo da licença : (Em dias)" class="form-control" id="license-time" name="name" autocomplete="disabled"/>
+            <div class="validate-fields">
+                <span class="field-validation-error"></span>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-start modal-footer p-2">
+
+            <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
+            <a asp-controller="License" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
+
+        </div>
+
+    </form>
+
+</div>
+
+<!-- Partial View de Cadastro de Licença -->

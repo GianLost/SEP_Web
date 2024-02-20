@@ -33,6 +33,8 @@ public class SEP_WebContext : DbContext
     public DbSet<Section> Sections => Set<Section>();
     public DbSet<Sector> Sectors => Set<Sector>();
 
+    public DbSet<Licenses> Licenses => Set<Licenses>();
+
     public DbSet<Assessment> Assessments => Set<Assessment>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,6 +54,9 @@ public class SEP_WebContext : DbContext
         modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Email).IsUnique();
         modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Phone).IsUnique();
         modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Password).IsUnique();
+
+        // Adiciona como índice exclusivo as propriedades que não podem ser duplicadas na tabela de licenças presente no banco de dados;
+        modelBuilder.Entity<Licenses>().HasIndex(u => u.Name).IsUnique();
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(SEP_WebContext).Assembly);
