@@ -19,7 +19,7 @@ public class CivilServant : Users
     [Required(ErrorMessage = "Informe a data de admissão !")]
     [DataType(DataType.DateTime)]
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-    public DateTime? AdmissionDate { get; set; }
+    public DateTime AdmissionDate { get; set; }
 
     [ForeignKey("InstituitionId"), Required(ErrorMessage = "Selecione um órgão !")]
     public int? InstituitionId { get; set; }

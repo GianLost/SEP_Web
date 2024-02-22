@@ -87,19 +87,19 @@ public class CivilServantController : Controller
 
                 DateTime evaluationDate = DateTime.Now.AddMonths(7); 
 
-                for(int stage = 1; stage <= 4; stage++)
+                for(int stage = 1; stage <= 5; stage++)
                 {
                     
                     Assessment newTest = new ()
                     {
                         Stats = AssessmentStatsEnum.NOT_EVALUATED,
                         Phase = stage,
-                        StartEvaluationPeriod = stage == 1 ? DateTime.Now.AddMonths(7) : evaluationDate,
+                        StartEvaluationPeriod = stage == 1 ? servant.AdmissionDate.AddDays(210) : evaluationDate,
                         CivilServantId = servant.Id,
                         UserEvaluatorId = servant.UserEvaluatorId1
                     };
 
-                    evaluationDate = Convert.ToDateTime(newTest.StartEvaluationPeriod).AddMonths(7);
+                    evaluationDate = Convert.ToDateTime(newTest.StartEvaluationPeriod).AddDays(210);
 
                     await _assessmentServices.RegisterAssessments(newTest);
                 }

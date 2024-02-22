@@ -87,7 +87,6 @@ public class LicenseController : Controller
         }
     }
     
-
     public IActionResult UnderLicense() => View();
     
 }
