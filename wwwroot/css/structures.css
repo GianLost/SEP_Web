@@ -4,9 +4,19 @@
   text-align: left;
 }
 
+#instituition-table tr > td:last-child {
+  width: 2rem;
+  white-space: nowrap;
+}
+
 .duo-table tr > td:first-child,
 .duo-table tr > td:nth-child(2) {
-  width: 45%;
+  width: auto;
   white-space: nowrap;
   text-align: left;
+}
+
+.duo-table tr > td:last-child {
+  width: 2rem;
+  white-space: nowrap;
 }

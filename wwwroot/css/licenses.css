@@ -1,0 +1,10 @@
+#license-table tr > td:first-child {
+  width: auto;
+  white-space: nowrap;
+  text-align: left;
+}
+
+#license-table tr > td:last-child {
+  width: 2rem;
+  white-space: nowrap;
+}

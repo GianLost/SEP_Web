@@ -17,6 +17,16 @@ public class LicenseServices : ILicenseServices
         _database = database;
     }
 
+    public async Task<Licenses> RegisterLicense(Licenses license)
+    {
+        license.RegisterDate = DateTime.Now;
+
+        await _database.Licenses.AddAsync(license);
+        await _database.SaveChangesAsync();
+
+        return license;
+    }
+
     public async Task<ICollection<Licenses>> LicenseList()
     {
         try
@@ -56,4 +66,10 @@ public class LicenseServices : ILicenseServices
             return new List<Licenses>();
         }
     }
+
+    public Licenses SearchForId(int id)
+    {
+        return _database.Licenses.FirstOrDefault(x => x.Id == id);
+    }
+
 }

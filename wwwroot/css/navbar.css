@@ -17,3 +17,21 @@
   width: 12.5vh;
   height: 7vh;
 }
+
+@media (max-width: 600px)
+{
+  .control-level {
+    display: flex;
+    width: 100%;
+  }
+  
+  .control-level .input-group {
+    width: 11rem;
+    margin: auto;
+    text-align: center;
+  }
+
+  #logo {
+    display: none;
+  }
+}
