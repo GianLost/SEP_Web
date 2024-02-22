@@ -8,6 +8,7 @@ namespace SEP_Web.Keys;
 
 public enum UserStatsEnum
 {
+    UnderLicense = 2,
     Active = 1,
     Inactive = 0,
 }
