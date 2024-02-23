@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
@@ -65,6 +66,32 @@ public class LicenseServices : ILicenseServices
 
             return new List<Licenses>();
         }
+    }
+
+    public async Task<Licenses> LicensesEdit(Licenses license)
+    {
+        Licenses licensesEdit = SearchForId(license.Id) ?? throw new Exception("Houve um erro na edição da licença !");
+
+        licensesEdit.Name = license.Name;
+        licensesEdit.Time = license.Time;
+
+        licensesEdit.ModifyDate = DateTime.Now;
+
+        licensesEdit.UserAdministratorId = license.UserAdministratorId;
+        licensesEdit.LastModifiedBy = license.LastModifiedBy;
+
+        _database.Licenses.Update(licensesEdit);
+        await _database.SaveChangesAsync();
+
+        return licensesEdit;
+    }
+
+    public void DeleteLicenses(int id)
+    {
+        Licenses deleteLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do órgão");
+
+        _database.Licenses.Remove(deleteLicense);
+        _database.SaveChanges();
     }
 
     public Licenses SearchForId(int id)

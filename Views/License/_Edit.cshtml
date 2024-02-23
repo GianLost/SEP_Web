@@ -8,18 +8,20 @@
 
 <div>
 
-    <form id="license-form">
+    <form id="edit-license-form" asp-action="Edit" asp-controller="License" method="post">
+
+        <input type="hidden" asp-for="Id">
 
         <div class="form-group p-4">
 
-            <label class="form-label" for="license-name" hidden></label>
-            <input type="text" placeholder="Informe um nome para a licença :" class="form-control" id="license-name" autocomplete="disabled"/>
+            <label class="form-label" for="edit-license-name" hidden></label>
+            <input type="text" placeholder="Informe um nome para a licença :" class="form-control" asp-for="Name" id="edit-license-name" autocomplete="disabled"/>
             <div class="validate-fields mb-1">
                 <span class="select-validation-error"></span>
             </div>
 
-            <label class="form-label" for="license-time" hidden></label>
-            <input type="number" placeholder="Informe o tempo da licença : (Em dias)" class="form-control" id="license-time" autocomplete="disabled"/>
+            <label class="form-label" for="edit-license-time" hidden></label>
+            <input type="number" placeholder="Informe o tempo da licença : (Em dias)" class="form-control" asp-for="Time" id="edit-license-time" autocomplete="disabled"/>
             <div class="validate-fields">
                 <span class="field-validation-error"></span>
             </div>

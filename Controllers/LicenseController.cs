@@ -86,6 +86,62 @@ public class LicenseController : Controller
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar a liceça!" });
         }
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(Licenses license)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                Users userInSession = await _session.SearchUserSession();
+
+                license.UserAdministratorId = userInSession.Id;
+                license.LastModifiedBy = userInSession.Login;
+
+                await _licenses.LicensesEdit(license);
+                TempData["SuccessMessage"] = "Licença editada com sucesso.";
+                return Json(new { stats = "OK" });
+            }
+
+            return Json(new { stats = "ERROR", licenseName = license.Name, licenseTime = license.Time });
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível editar a licença.";
+            _logger.LogError("Não foi possível editar a licença", e.Message);
+            return Json(new { stats = "INVALID", message = "Não foi possível editar a licença!" });
+        }
+    }
+
+    [HttpPost]
+    public IActionResult Delete(string decision, Licenses license)
+    {
+        try
+        {
+            if (decision == "delete")
+            {
+                if (license.Id != 0)
+                {
+                    _licenses.DeleteLicenses(license.Id);
+                    TempData["SuccessMessage"] = "Licença excluída com sucesso.";
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir a licença.";
+            }
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível excluir a licença.";
+            _logger.LogError("Não foi possível excluir a licença", e.Message);
+            return RedirectToAction("Index");
+        }
+    }
     
     public IActionResult UnderLicense() => View();
     

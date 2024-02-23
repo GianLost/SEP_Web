@@ -113,7 +113,7 @@ public class InstituitionController : Controller
         {
             TempData["ErrorMessage"] = "Não foi possível editar o órgão.";
             _logger.LogError("Não foi possível editar o órgão", e.Message);
-            return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar o órgão!" });
+            return Json(new { stats = "INVALID", message = "Não foi possível editar o órgão!" });
         }
     }
 

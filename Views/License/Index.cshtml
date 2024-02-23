@@ -68,7 +68,7 @@
                                 <td scope="row">
 
                                     <button type="button" title="Editar licença ..." data-bs-toggle="modal"
-                                        data-bs-target="#edit-license@(license.Id)"
+                                        data-bs-target="#edit-licenseModal@(license.Id)"
                                         class="btn btn-sm btn-outline-primary"><i title="Editar licença ..."
                                             class="bi bi-building-up"></i></button>
 
@@ -82,21 +82,21 @@
 
                             </tr>
 
-                            @* Modal de Edição 
+                            @* Modal de Edição *@
 
-                            <div class="modal fade" id="edit-instituitionModal@(instituition.Id)" tabindex="-1"
-                                role="dialog" aria-labelledby="edit-instituitionModal@(instituition.Id)" aria-hidden="true">
+                            <div class="modal fade" id="edit-licenseModal@(license.Id)" tabindex="-1"
+                                role="dialog" aria-labelledby="edit-licenseModal@(license.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary p-3">
-                                            <h3 class="modal-title text-light fs-4 text-center">Editar órgão</h3>
+                                            <h3 class="modal-title text-light fs-4 text-center">Editar licença</h3>
                                             <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="Instituition"></a>
+                                                asp-controller="License"></a>
                                         </div>
                                         <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Edit.cshtml", instituition)
+                                            @await Html.PartialAsync("_Edit.cshtml", license)
                                         </div>
                                     </div>
 
@@ -104,13 +104,13 @@
 
                             </div>
 
-                            Fim do Modal de Edição *@
+                           @* Fim do Modal de Edição *@
 
 
-                            @* Modal de Exclusão 
+                            @* Modal de Exclusão *@
 
-                            <div class="modal fade" id="deleteInstituition@(instituition.Id)" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteInstituition@(instituition.Id)" aria-hidden="true">
+                            <div class="modal fade" id="deleteLicense@(license.Id)" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteLicense@(license.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
@@ -118,10 +118,10 @@
                                         <div class="modal-header bg-danger p-3">
                                             <h3 class="modal-title text-light fs-4 text-center">Alerta</h3>
                                             <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="Instituition"></a>
+                                                asp-controller="License"></a>
                                         </div>
                                         <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Delete.cshtml", instituition)
+                                            @await Html.PartialAsync("_Delete.cshtml", license)
                                         </div>
                                     </div>
 
@@ -129,7 +129,7 @@
 
                             </div>
 
-                            Fim do Modal de Exclusão *@
+                           @* Fim do Modal de Exclusão *@
                         }
 
                     </tbody>
