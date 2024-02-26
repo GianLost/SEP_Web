@@ -65,14 +65,18 @@
 }
 
 #avaliacaoTabContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 1.5vh;
   background-color: #cdcdcdd3;
   border-radius: 0.5vh;
   box-shadow: 2px 5px 20px #00000049;
+  margin-bottom: 1rem;
 }
 
 #avaliacaoTabContent ul{
-  height: 18em;
+  height: 100%;
 }
 
 #avaliacaoTabContent li {
@@ -95,6 +99,10 @@
   justify-content: space-between;
 }
 
+.list-group {
+  height: 100%;
+}
+
 .list-group select {
   width: 5rem;
 }
@@ -107,4 +115,9 @@
 
 #justification {
   width: 45em;
+}
+
+.tab-pane {
+  height: 100%;
+  margin-bottom: 1rem;
 }

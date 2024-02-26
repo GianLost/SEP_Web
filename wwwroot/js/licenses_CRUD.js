@@ -1,4 +1,4 @@
-/* JavaScript responsável pelo POST do formulário de cadastro de setores */
+/* JavaScript responsável pelo POST do formulário de cadastro de licenças */
 
 function RegisterLicense() {
     let properties = {
