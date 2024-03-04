@@ -2,6 +2,8 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP_Web.Models;
+
+[Table("Licenses")]
 public class Licenses
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório !")]
