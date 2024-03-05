@@ -1,10 +1,14 @@
-@model Licenses
+@model ServantLicense
 @using SEP_Web.Models
+@using SEP_Web.Services
+@inject ICivilServantServices _servantServices
+@inject ILicenseServices _licenseServices
+
 @{
-    ViewData["Title"] = "Cadastrar Licença";
+    ViewData["Title"] = "Adicionar licença para servidor";
 }
 
-<!-- Partial View de Cadastro de Licença -->
+<!-- Partial View para adicionar licença para o servidor -->
 
 <div>
 
@@ -12,29 +16,59 @@
 
         <div class="form-group p-4">
 
-            <label class="form-label" for="license-name" hidden></label>
-            <input type="text" placeholder="Informe um nome para a licença :" class="form-control" id="license-name" autocomplete="disabled"/>
-            <div class="validate-fields mb-1">
-                <span class="select-validation-error"></span>
+            <div class="form-group">
+                <select class="civil-servant form-select" name="civilServantId" asp-for="CivilServantId">
+                    <option value="">-- selecione o servidor --</option>
+                    @foreach (var i in await _servantServices.ServantsList())
+                    {
+                        <option value="@i.Id">@i.Name</option>
+                    }
+                </select>
+                <div class="validate-fields">
+                    @Html.ValidationMessageFor(x => x.CivilServantId)
+                </div>
             </div>
 
-            <label class="form-label" for="license-time" hidden></label>
-            <input type="number" placeholder="Informe o tempo da licença : (Em dias)" class="form-control" id="license-time" autocomplete="disabled"/>
-            <div class="validate-fields">
-                <span class="field-validation-error"></span>
+            <div class="form-group">
+                <select class="licenses-type form-select" name="licensesId" asp-for="LicensesId">
+                    <option value="">-- selecione a licença --</option>
+                    @foreach (var i in await _licenseServices.LicenseList())
+                    {
+                        <option value="@i.Id">@i.Name</option>
+                    }
+                </select>
+                <div class="validate-fields">
+                    @Html.ValidationMessageFor(x => x.LicensesId)
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6  form-group">
+                    <label style="font-size: 0.9em;" class="form-label" for="startDate">Data de início:</label>
+                    <input type="date" class="form-control" id="startDate" asp-for="StartDate" autocomplete="disabled">
+                    <div class="validate-fields">
+                        @Html.ValidationMessageFor(x => x.StartDate)
+                    </div>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label style="font-size: 0.9em;" class="form-label" for="endDate">Data de término:</label>
+                    <input type="date" class="form-control" id="endDate" asp-for="EndDate" autocomplete="disabled">
+                    <div class="validate-fields">
+                        @Html.ValidationMessageFor(x => x.EndDate)
+                    </div>
+                </div>
             </div>
 
         </div>
 
         <div class="d-flex justify-content-start modal-footer p-2">
-
             <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
-            <a asp-controller="License" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
-
+            <a asp-controller="ServantLicense" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
         </div>
 
     </form>
 
 </div>
 
-<!-- Partial View de Cadastro de Licença -->
+<!-- Partial View para adicionar licença para o servidor -->

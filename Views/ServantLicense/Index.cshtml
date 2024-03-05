@@ -23,11 +23,11 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-primary text-light p-3">
-                    <h3 class="modal-title fs-4 text-center">Adicionar licença</h3>
-                    <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="License"></a>
+                    <h3 class="modal-title fs-4 text-center">Incluir Servidor</h3>
+                    <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="ServantLicense"></a>
                 </div>
                 <div class="modal-body p-1">
-                    @await Html.PartialAsync("_Register.cshtml", new Licenses())
+                    @await Html.PartialAsync("_Register.cshtml", new ServantLicense())
                 </div>
 
             </div>
@@ -57,6 +57,7 @@
                             <th scope="col">Licença</th>
                             <th scope="col">Data de início</th>
                             <th scope="col">Data de Término</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
 
