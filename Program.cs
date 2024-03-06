@@ -42,6 +42,7 @@ builder.Services.AddScoped<ICivilServantServices, CivilServantServices>();
 builder.Services.AddScoped<IUsersValidation, UsersValidation>();
 
 builder.Services.AddScoped<ILicenseServices, LicenseServices>();
+builder.Services.AddScoped<IServantLicenseServices, ServantLicenseServices>();
 
 builder.Services.AddScoped<IAssessmentServices, AssessmentServices>();
 

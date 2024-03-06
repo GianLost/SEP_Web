@@ -63,28 +63,32 @@
 
                     <tbody>
 
-                        @* @foreach (ServantLicense license in Model)
+                        @foreach (ServantLicense license in Model)
                         {
                             <tr class="table-light border-light">
-
+                                
+                                <td scope="row">@license.CivilServant.Masp</td>
+                                <td scope="row">@license.CivilServant.Name.ToUpper()</td>
                                 <td scope="row">@license.License.Name.ToUpper()</td>
+                                <td scope="row">@license.StartDate.ToString("dd/MM/yyyy")</td>
+                                <td scope="row">@license.EndDate.ToString("dd/MM/yyyy")</td>
 
                                 <td scope="row">
 
-                                    <button type="button" title="Editar licença ..." data-bs-toggle="modal"
+                                    <button type="button" title="Editar ..." data-bs-toggle="modal"
                                         data-bs-target="#edit-licenseModal@(license.Id)"
-                                        class="btn btn-sm btn-outline-primary"><i title="Editar licença ..."
-                                            class="bi bi-building-up"></i></button>
+                                        class="btn btn-sm btn-outline-primary"><i title="Editar ..."
+                                            class="bi bi-file-earmark-medical"></i></button>
 
-                                    <button type="button" title="Excluir licença ..." data-bs-toggle="modal"
+                                    <button type="button" title="Excluir ..." data-bs-toggle="modal"
                                         asp-route-id="@license.Id"
                                         data-bs-target="#deleteLicense@(license.Id)"
-                                        class="btn btn-sm btn-outline-danger"><i title="Excluir licença ..."
-                                            class="bi bi-building-x"></i></button>
+                                        class="btn btn-sm btn-outline-danger"><i title="Excluir ..."
+                                            class="bi bi-trash"></i></button>
 
                                 </td>
 
-                            </tr> *@
+                            </tr>
 
                             @* Modal de Edição 
 
@@ -111,7 +115,7 @@
                            Fim do Modal de Edição *@
 
 
-                            @* Modal de Exclusão 
+                            @* Modal de Exclusão *@
 
                             <div class="modal fade" id="deleteLicense@(license.Id)" tabindex="-1" role="dialog"
                                 aria-labelledby="deleteLicense@(license.Id)" aria-hidden="true">
@@ -122,7 +126,7 @@
                                         <div class="modal-header bg-danger p-3">
                                             <h3 class="modal-title text-light fs-4 text-center">Alerta</h3>
                                             <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="License"></a>
+                                                asp-controller="ServantLicense"></a>
                                         </div>
                                         <div class="modal-body p-1">
                                             @await Html.PartialAsync("_Delete.cshtml", license)
@@ -133,8 +137,8 @@
 
                             </div>
 
-                           Fim do Modal de Exclusão 
-                        }*@
+                          @* Fim do Modal de Exclusão *@
+                        }
 
                     </tbody>
 

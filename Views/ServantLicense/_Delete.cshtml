@@ -1,8 +1,8 @@
-@model Licenses
+@model ServantLicense
 @using SEP_Web.Models
 
 @{
-    ViewData["Title"] = "Excluir liceça";
+    ViewData["Title"] = "Excluir licença";
 }
 
 <!-- Partial View de Exclusão de Seções -->
@@ -14,12 +14,12 @@
         <input type="hidden" asp-for="Id">
 
         <div class="p-3">
-            <span>Tem certeza que deseja excluir a licença: <b>@Model.Name</b>? Essa ação irá excluí-la de forma <b class="text-danger">permanente</b>, consequentemente todas os usuários sob esta licença perderão os dias de licença. A ação não poderá ser desfeita, ao prosseguir você concorda com estes termos.</span>
+            <span>Tem certeza que deseja excluir a licença: <b>@Model.CivilServant.Name</b>? Essa ação irá excluí-la de forma <b class="text-danger">permanente</b>, consequentemente todas os usuários sob esta licença perderão os dias de licença. A ação não poderá ser desfeita, ao prosseguir você concorda com estes termos.</span>
         </div>
 
         <div class="modal-footer -flex justify-content-start p-2">
             <button type="submit" class="btn btn-danger btn-sm" name="decision" value="delete" title="Excluir seção ..."><i title="Excluir seção ..." class="bi bi-trash"></i></button>
-            <a asp-controller="Section" asp-action="Index" class="btn btn-secondary btn-sm" title="Cancelar ..."><i class="bi bi-arrow-return-left" title="Cancelar ..."></i></a>
+            <a asp-controller="ServantLicense" asp-action="Index" class="btn btn-secondary btn-sm" title="Cancelar ..."><i class="bi bi-arrow-return-left" title="Cancelar ..."></i></a>
         </div>
 
     </form>

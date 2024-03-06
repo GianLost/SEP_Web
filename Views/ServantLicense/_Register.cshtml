@@ -12,50 +12,50 @@
 
 <div>
 
-    <form id="license-form">
+    <form id="servant-license-form">
 
         <div class="form-group p-4">
 
             <div class="form-group">
-                <select class="civil-servant form-select" name="civilServantId" asp-for="CivilServantId">
+                <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
                     <option value="">-- selecione o servidor --</option>
                     @foreach (var i in await _servantServices.ServantsList())
                     {
                         <option value="@i.Id">@i.Name</option>
                     }
                 </select>
-                <div class="validate-fields">
-                    @Html.ValidationMessageFor(x => x.CivilServantId)
+                <div class="validate-fields mb-1">
+                    <span class="select-servant-validation-error"></span>
                 </div>
             </div>
 
             <div class="form-group">
-                <select class="licenses-type form-select" name="licensesId" asp-for="LicensesId">
+                <select class="form-select" id="servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
                     <option value="">-- selecione a licença --</option>
                     @foreach (var i in await _licenseServices.LicenseList())
                     {
                         <option value="@i.Id">@i.Name</option>
                     }
                 </select>
-                <div class="validate-fields">
-                    @Html.ValidationMessageFor(x => x.LicensesId)
+                <div class="validate-fields mb-1">
+                    <span class="select-license-validation-error"></span>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-6  form-group">
-                    <label style="font-size: 0.9em;" class="form-label" for="startDate">Data de início:</label>
-                    <input type="date" class="form-control" id="startDate" asp-for="StartDate" autocomplete="disabled">
-                    <div class="validate-fields">
-                        @Html.ValidationMessageFor(x => x.StartDate)
+                    <label style="font-size: 0.9em;" class="form-label" for="servantLicense-startDate">Data de início:</label>
+                    <input type="date" class="form-control" id="servantLicense-startDate" asp-for="StartDate" autocomplete="disabled">
+                    <div class="validate-fields mb-1">
+                        <span class="field-sdate-validation-error"></span>
                     </div>
                 </div>
 
                 <div class="col-md-6 form-group">
-                    <label style="font-size: 0.9em;" class="form-label" for="endDate">Data de término:</label>
-                    <input type="date" class="form-control" id="endDate" asp-for="EndDate" autocomplete="disabled">
-                    <div class="validate-fields">
-                        @Html.ValidationMessageFor(x => x.EndDate)
+                    <label style="font-size: 0.9em;" class="form-label" for="servantLicense-endDate">Data de término:</label>
+                    <input type="date" class="form-control" id="servantLicense-endDate" asp-for="EndDate" autocomplete="disabled">
+                    <div class="validate-fields mb-1">
+                        <span class="field-edate-validation-error"></span>
                     </div>
                 </div>
             </div>

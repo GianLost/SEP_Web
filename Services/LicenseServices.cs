@@ -87,7 +87,7 @@ public class LicenseServices : ILicenseServices
 
     public void DeleteLicenses(int id)
     {
-        Licenses deleteLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão do órgão");
+        Licenses deleteLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão da licença");
 
         _database.Licenses.Remove(deleteLicense);
         _database.SaveChanges();
