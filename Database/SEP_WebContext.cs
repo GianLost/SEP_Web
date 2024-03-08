@@ -6,18 +6,18 @@ using SEP_Web.Models;
 namespace SEP_Web.Database;
 public class SEP_WebContext : DbContext
 {
+    private readonly string ConnectionString = Environment.GetEnvironmentVariable("SEP_WEB_CONNECTION_STRING");
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
 
         try
         {
-            string connectionString = Environment.GetEnvironmentVariable("SEP_WEB_CONNECTION_STRING");
+            if (string.IsNullOrEmpty(ConnectionString)) throw new InvalidOperationException($"A string de conexão com o banco de dados não foi encontrada");
 
-            if (string.IsNullOrEmpty(connectionString)) throw new InvalidOperationException($"A string de conexão com o banco de dados não foi encontrada");
+            ServerVersion serverVersion = ServerVersion.AutoDetect(ConnectionString);
 
-            ServerVersion serverVersion = ServerVersion.AutoDetect(connectionString);
-
-            optionsBuilder.UseMySql(connectionString, serverVersion);
+            optionsBuilder.UseMySql(ConnectionString, serverVersion);
         }
         catch (InvalidOperationException dbException) when (dbException.InnerException is MySqlException mySqlException)
         {

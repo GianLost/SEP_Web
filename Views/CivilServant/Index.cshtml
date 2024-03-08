@@ -51,9 +51,13 @@
                                 {
                                     <td scope="row"><span title="Ativo" id="statsEvaluatorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1">radio_button_checked</span></td>
                                 }
-                                else
+                                else if(u.UserStats == UserStatsEnum.Inactive)
                                 {
                                     <td scope="row"><span title="Inativo" id="statsEvaluatorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1">radio_button_checked</span></td>
+                                }
+                                else if(u.UserStats == UserStatsEnum.UnderLicense)
+                                {
+                                    <td scope="row"><span title="sob licença" id="statsEvaluatorInactive" class="material-symbols-outlined text-warning fs-5 m-1 p-1">radio_button_checked</span></td>
                                 }
 
                                 <td scope="row">@($"{u.Masp:D8}")</td>

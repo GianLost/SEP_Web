@@ -5,6 +5,8 @@ using SEP_Web.Models;
 using SEP_Web.Services;
 using Serilog;
 using Serilog.Events;
+using Hangfire;
+using Hangfire.Storage.MySql;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,6 +53,19 @@ builder.Services.AddScoped<IReportServices, ReportServices>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+string ConnectionString = Environment.GetEnvironmentVariable("SEP_WEB_CONNECTION_STRING");
+
+// Configuração do Hangfire
+builder.Services.AddHangfire(configuration => 
+{
+    configuration.UseStorage(
+        new MySqlStorage(ConnectionString, new MySqlStorageOptions
+        {
+            TablesPrefix = "Hangfire" // Prefixo opcional para tabelas Hangfire no banco de dados
+        })
+    );
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -81,5 +96,7 @@ Log.Logger = new LoggerConfiguration()
         .Filter.ByIncludingOnly(e => e.Level == LogEventLevel.Error)
         .WriteTo.File("Logs/Errors/log-error-{Date}.txt", rollingInterval: RollingInterval.Month)
     ).CreateLogger();
+
+app.MapHangfireDashboard();
 
 app.Run();

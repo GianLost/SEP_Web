@@ -46,14 +46,20 @@
 
                     <tbody>
                         
-                        @foreach(var group in groupedData)
+                        @foreach (var group in groupedData)
                         {
-                            var rowColor = group.Key == AssessmentStatsEnum.EVALUATED ? "table-success" : "table-danger";
-
-                            foreach(var item in group)
+                            foreach (var item in group)
                             {
-                                <tr class="border-light @rowColor">
+                                var rowColor = item.Stats == AssessmentStatsEnum.EVALUATED ? "table-success" : "table-danger";
+                                var isUnderLicense = item.CivilServant?.UserStats == UserStatsEnum.UnderLicense;
+                                var currentDate = DateTime.Now;
 
+                                // Verifica se o servidor está sob licença e se a avaliação ainda não ocorreu
+                                if (isUnderLicense && (currentDate < item.StartEvaluationPeriod || currentDate > item.EndEvaluationPeriod))
+                                {
+                                    continue; // Pula esta iteração do loop e passa para a próxima avaliação
+                                }
+                                <tr class="border-light @rowColor">
                                     @if (item.Stats == AssessmentStatsEnum.EVALUATED)
                                     {
                                         <td scope="row"><span title="Avaliado" id="statsEvaluatorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1"> <p hidden>@item.Stats</p> radio_button_checked</span></td>
@@ -68,14 +74,14 @@
                                     <td scope="row">@Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">@Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
                                     <td scope="row">
-                                       @if(@item.Stats == AssessmentStatsEnum.EVALUATED)
-                                        {
-                                            <button title="Etapa concluída ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..." class="bi bi-journal-check" disabled ></i></button>
-                                        }else{
-                                            <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
-                                        }
+                                    @if(@item.Stats == AssessmentStatsEnum.EVALUATED)
+                                    {
+                                        <button title="Etapa concluída ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..." class="bi bi-journal-check" disabled ></i></button>
+                                    }else{
+                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                    }
                                     </td>
-
+        
                                 </tr>
                             }
                         }

@@ -83,4 +83,35 @@ public class ServantLicenseController : Controller
         }
     }
 
+    [HttpPost]
+    public IActionResult Delete(string decision, ServantLicense servantLicense)
+    {
+
+        try
+        {
+            if (decision == "delete")
+            {
+                if (servantLicense.Id != 0)
+                {
+                    _servantLicenses.DeleteServantLicenses(servantLicense.Id);
+                    TempData["SuccessMessage"] = "Licença excluída com sucesso.";
+                    return RedirectToAction("Index");
+                }
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Não foi possível excluir a licença.";
+            }
+
+            return RedirectToAction("Index");
+        }
+        catch (Exception e)
+        {
+            TempData["ErrorMessage"] = "Não foi possível excluir a licença.";
+            _logger.LogError("Não foi possível excluir a licença", e.Message);
+            return RedirectToAction("Index");
+        }
+
+    }
+
 }

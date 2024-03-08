@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
+using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
@@ -20,6 +21,13 @@ public class ServantLicenseServices : IServantLicenseServices
     public async Task<ServantLicense> RegisterServantLicense(ServantLicense servantLicense)
     {
         servantLicense.RegisterDate = DateTime.Now;
+
+        CivilServant user = _database.Servants.FirstOrDefault(u => u.Id == servantLicense.CivilServantId);
+        if (user != null)
+        {
+            user.UserStats = UserStatsEnum.UnderLicense;
+            _database.Servants.Update(user);
+        }
 
         await _database.ServantLicense.AddAsync(servantLicense);
         await _database.SaveChangesAsync();
@@ -74,7 +82,15 @@ public class ServantLicenseServices : IServantLicenseServices
 
     public void DeleteServantLicenses(int id)
     {
-        ServantLicense deleteServantLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão da licença do servidor");
+       ServantLicense deleteServantLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão da licença do servidor");
+
+        // Atualizar o status do usuário para Active
+        var user = _database.Servants.FirstOrDefault(u => u.Id == deleteServantLicense.CivilServantId);
+        if (user != null)
+        {
+            user.UserStats = UserStatsEnum.Active;
+            _database.Servants.Update(user);
+        }
 
         _database.ServantLicense.Remove(deleteServantLicense);
         _database.SaveChanges();
