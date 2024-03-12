@@ -142,5 +142,16 @@ public class LicenseController : Controller
             return RedirectToAction("Index");
         }
     }
+
+    [HttpGet]
+    public IActionResult GetLicenseDuration(int id)
+    {
+        var license = _licenses.SearchForId(id);
+
+        if (license != null)
+            return Ok(license.Time);
+        
+        return NotFound();
+    }
     
 }
