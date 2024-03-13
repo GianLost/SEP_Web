@@ -29,11 +29,11 @@ public class ServantLicense
 
     [Required(ErrorMessage = "informe uma data de registro !")]
     [DataType(DataType.DateTime)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
     public DateTime RegisterDate { get; set; }
 
     [DataType(DataType.DateTime)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
     public DateTime? ModifyDate { get; set; }
 
     [StringLength(35)]
