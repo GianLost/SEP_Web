@@ -1,37 +1,32 @@
 @using SEP_Web.Models
 @using SEP_Web.Services
+@using SEP_Web.Database
 @using SEP_Web.Keys
 
 @inject IAssessmentServices _assessmentServices
+@inject SEP_WebContext _database
 @inject IHttpContextAccessor _httpContext
 @model ICollection<Assessment>
 
 @{
     ViewData["Title"] = "Todas as Avaliações";
-
-    var groupedData = Model.GroupBy(u => u.Stats);
 }
 
 <div>
-
     <div class="container-fluid justify-content-start w-100 pop-up">
         @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
     <div class="card">
-
         <div class="card-header bg-primary text-light">
             <span class="fw-bold">Avaliações :</span>
         </div>
 
         <div class="card-body">
-
             <div class="table-responsive">
-
-                <table class="table table-sm table-bordered table-striped table-light table-style assessments-table p-0">
-
+                <table
+                    class="table table-sm table-bordered table-striped table-light table-style assessments-table p-0">
                     <thead class="table-light bg-danger border-light text-primary">
-
                         <tr>
                             <th scope="col">Status</th>
                             <th scope="col">Etapa</th>
@@ -41,59 +36,62 @@
                             <th scope="col">Data Avaliação</th>
                             <th scope="col"></th>
                         </tr>
-                        
                     </thead>
-
                     <tbody>
-                        
-                        @foreach (var group in groupedData)
+                        @foreach (var assessment in Model)
                         {
-                            foreach (var item in group)
-                            {
-                                var rowColor = item.Stats == AssessmentStatsEnum.EVALUATED ? "table-success" : "table-danger";
-                                var isUnderLicense = item.CivilServant?.UserStats == UserStatsEnum.UnderLicense;
-                                var currentDate = DateTime.Now;
+                            var civilServantId = assessment.CivilServantId;
+                            var isUnderLicense = await _assessmentServices.IsUnderLicense(civilServantId);
 
-                                // Verifica se o servidor está sob licença e se a avaliação ainda não ocorreu
-                                if (isUnderLicense && (currentDate < item.StartEvaluationPeriod || currentDate > item.EndEvaluationPeriod))
+                            // Verifica se o servidor está sob licença
+                            if (isUnderLicense)
+                            {
+                                // Verifica se a avaliação é NOT_EVALUATED
+                                if (assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)
                                 {
-                                    continue; // Pula esta iteração do loop e passa para a próxima avaliação
+                                    continue; // Ignora avaliações NOT_EVALUATED de servidores sob licença
                                 }
-                                <tr class="border-light @rowColor">
-                                    @if (item.Stats == AssessmentStatsEnum.EVALUATED)
+                            }
+
+                            var civilServant = await _database.Servants.FindAsync(civilServantId);
+                            var isActive = civilServant?.UserStats == UserStatsEnum.Active;
+                            var isEvaluated = assessment.Stats == AssessmentStatsEnum.EVALUATED;
+                            var rowColor = isEvaluated ? "table-success" : "table-danger";
+
+                            <tr class="border-light @rowColor">
+                                <td scope="row">
+                                    <span title="@((isEvaluated) ? "Avaliado" : "Não avaliado")"
+                                        class="material-symbols-outlined text-@(isEvaluated ? "success" : "danger") fs-5 m-1 p-1">
+                                        <p hidden>@assessment.Stats</p> radio_button_checked
+                                    </span>
+                                </td>
+                                <td scope="row">@assessment.Phase</td>
+                                <td scope="row">@($"{_assessmentServices.ServantMasp(@assessment.CivilServantId):D8}")</td>
+                                <td scope="row">@await _assessmentServices.ServantName(@assessment.CivilServantId)</td>
+                                <td scope="row">@Convert.ToDateTime(assessment.StartEvaluationPeriod).ToString("dd/MM/yyyy")
+                                </td>
+                                <td scope="row">@Convert.ToDateTime(assessment.EndEvaluationPeriod).ToString("dd/MM/yyyy")
+                                </td>
+                                <td scope="row">
+                                    @if (isEvaluated)
                                     {
-                                        <td scope="row"><span title="Avaliado" id="statsEvaluatorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1"> <p hidden>@item.Stats</p> radio_button_checked</span></td>
+                                        <button title="Etapa concluída ..." role="button" asp-action="ToAssess"
+                                            asp-controller="Assessments" asp-route-id="@assessment.Id"
+                                            class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..."
+                                                class="bi bi-journal-check"></i></button>
                                     }
                                     else
                                     {
-                                        <td scope="row" ><span title="Não avaliado" id="statsEvaluatorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1"> <p hidden>@item.Stats</p> radio_button_checked</span></td>
+                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
+                                            asp-route-id="@assessment.Id" class="btn btn-sm btn-outline-primary"><i
+                                                title="Avaliar ..." class="bi bi-journal-check"></i></a>
                                     }
-                                    <td scope="row">@item.Phase</td>
-                                    <td scope="row">@($"{_assessmentServices.ServantMasp(@item.CivilServantId):D8}")</td>
-                                    <td scope="row">@await _assessmentServices.ServantName(@item.CivilServantId)</td>
-                                    <td scope="row">@Convert.ToDateTime(item.StartEvaluationPeriod).ToString("dd/MM/yyyy")</td>
-                                    <td scope="row">@Convert.ToDateTime(item.EndEvaluationPeriod).ToString("dd/MM/yyyy")</td>
-                                    <td scope="row">
-                                    @if(@item.Stats == AssessmentStatsEnum.EVALUATED)
-                                    {
-                                        <button title="Etapa concluída ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..." class="bi bi-journal-check" disabled ></i></button>
-                                    }else{
-                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary"><i title="Avaliar ..." class="bi bi-journal-check"></i></a>
-                                    }
-                                    </td>
-        
-                                </tr>
-                            }
+                                </td>
+                            </tr>
                         }
-   
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
-
 </div>

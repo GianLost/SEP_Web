@@ -6,16 +6,21 @@ function CalculateDurationLicenses()
 $(document).ready(function () {
     $('#servantLicense-LicensesId').change(function () {
         var licenseId = $(this).val();
+        
+        if (!licenseId) {
+            $('#license-duration-hidden').val('');
+            return;
+        }
+        
         $.ajax({
-            url: '/License/GetLicenseDuration', // Substitua pelo URL adequado
+            url: '/License/GetLicenseDuration',
             type: 'GET',
             data: { id: licenseId },
             success: function (response) {
-                // Atualizar o campo oculto com a duração da licença
                 $('#license-duration-hidden').val(response + ' dias');
             },
             error: function (xhr, status, error) {
-                console.error(xhr.responseText);
+                console.error(xhr.responseText, nullTime);
             }
         });
     });

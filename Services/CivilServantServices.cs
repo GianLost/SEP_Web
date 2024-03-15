@@ -3,6 +3,7 @@ using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
+using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
@@ -77,12 +78,12 @@ public class CivilServantServices : ICivilServantServices
 
             return new List<CivilServant>();
         }
-        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        catch (ArgumentNullException ex)
         {
             // NULL EXCEPTION :
 
-            _logger.LogWarning("[SERVANT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
-            _logger.LogWarning("[SERVANT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+            _logger.LogWarning("[SERVANT_SERVICE]: {exceptionMessage} : {Message}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
+            _logger.LogWarning("[SERVANT_SERVICE]: {Description}", ex.StackTrace.Trim());
 
             return new List<CivilServant>();
         }

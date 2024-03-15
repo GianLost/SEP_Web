@@ -19,21 +19,21 @@ public class ServantLicense
 
     [Required(ErrorMessage = "Informe a data de início !")]
     [DataType(DataType.DateTime)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-    public DateTime StartDate { get; set; }
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+    public DateTime? StartDate { get; set; }
 
     [Required(ErrorMessage = "Informe a data de fim !")]
     [DataType(DataType.DateTime)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
-    public DateTime EndDate { get; set; }
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+    public DateTime? EndDate { get; set; }
 
     [Required(ErrorMessage = "informe uma data de registro !")]
     [DataType(DataType.DateTime)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
     public DateTime RegisterDate { get; set; }
 
     [DataType(DataType.DateTime)]
-    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
     public DateTime? ModifyDate { get; set; }
 
     [StringLength(35)]

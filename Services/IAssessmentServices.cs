@@ -8,5 +8,6 @@ public interface IAssessmentServices
     Task<ICollection<Assessment>> AssessmentsList();
     Task<string> ServantName(int? Id);
     int? ServantMasp(int Id);
+    Task<bool> IsUnderLicense(int civilServantId);
     Assessment SearchForId(int id);
 }

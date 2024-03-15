@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SEP_Web.Helper.Authentication;
@@ -31,6 +32,8 @@ public class CivilServantController : Controller
         try
         {
             ICollection<CivilServant> users = await _civilServantServices.ServantsList();
+            if (users?.Count == 0)
+                throw new ArgumentNullException(nameof(users), ExceptionMessages.ErrorArgumentNullException);
             return View(users);
         }
         catch (MySqlException ex)

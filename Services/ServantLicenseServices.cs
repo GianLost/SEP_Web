@@ -22,7 +22,7 @@ public class ServantLicenseServices : IServantLicenseServices
     {
         servantLicense.RegisterDate = DateTime.Now;
 
-        CivilServant user = _database.Servants.FirstOrDefault(u => u.Id == servantLicense.CivilServantId);
+        CivilServant user = _database.Servants.Find(servantLicense.CivilServantId);
         
         if (user != null)
         {

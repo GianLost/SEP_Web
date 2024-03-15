@@ -146,12 +146,20 @@ public class LicenseController : Controller
     [HttpGet]
     public IActionResult GetLicenseDuration(int id)
     {
-        var license = _licenses.SearchForId(id);
+        try
+        {
+            Licenses license = _licenses.SearchForId(id);
 
-        if (license != null)
-            return Ok(license.Time);
-        
-        return NotFound();
+            if (license != null)
+                return Ok(license.Time);
+            
+            return NotFound();
+        }
+        catch(InvalidOperationException ex)
+        {
+            _logger.LogError("Não foi possível capturar a licença", ex.Message);
+            return StatusCode(500);
+        }
     }
     
 }

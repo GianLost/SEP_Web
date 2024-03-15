@@ -17,50 +17,59 @@
         <div class="form-group p-4">
 
             <input style="width: 5rem;" class="form-control mb-2" type="text" id="license-duration-hidden" disabled>
-
-            <div class="form-group">
-                @if(_servantServices.ServantsList().GetAwaiter().GetResult() == null)
-                {
+            @if ((await _servantServices.ServantsList()).Count > 0)
+            {
+                <div class="form-group">
                     <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
-                        <option value="">-- selecione o servidor --</option>
-                    </select>
-                }
-                else
-                {
-                    <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
-                        <option value="">-- selecione o servidor --</option>
+                        <option value="" selected>-- selecione o servidor --</option>
                         @foreach (var i in await _servantServices.ServantsList())
                         {
                             <option value="@i.Id">@i.Name</option>
                         }
                     </select>
-                }
-                <div class="validate-fields mb-1">
-                    <span class="select-servant-validation-error"></span>
+                    <div class="validate-fields mb-1">
+                        <span class="select-servant-validation-error"></span>
+                    </div>
                 </div>
-            </div>
-
-            <div class="form-group">
-                @if(_licenseServices.LicenseList().GetAwaiter().GetResult() == null)
-                {
-                    <select class="form-select" id="servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
-                        <option value="">-- selecione a licença --</option>
+            }
+            else
+            {
+                <div class="form-group">
+                    <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
+                        <option value="" selected>-- selecione o servidor --</option>
                     </select>
-                }
-                else
-                {
+                    <div class="validate-fields mb-1">
+                        <span class="select-servant-validation-error"></span>
+                    </div>
+                </div>
+            }
+
+            @if((await _licenseServices.LicenseList()).Count > 0)
+            {
+                <div class="form-group">
                     <select class="form-select" id="servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
-                        <option value="">-- selecione a licença --</option>
+                        <option value="" selected>-- selecione a licença --</option>
                         @foreach (var i in await _licenseServices.LicenseList())
                         {
                             <option value="@i.Id">@i.Name</option>
                         }
                     </select>
-                }
-                <div class="validate-fields mb-1">
-                    <span class="select-license-validation-error"></span>
+                    <div class="validate-fields mb-1">
+                        <span class="select-license-validation-error"></span>
+                    </div>
                 </div>
-            </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <select class="form-select" id="servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
+                        <option value="" selected>-- selecione a licença --</option>
+                    </select>
+                    <div class="validate-fields mb-1">
+                        <span class="select-license-validation-error"></span>
+                    </div>
+                </div>
+            }
 
             <div class="row">
                 <div class="col-md-6  form-group">
