@@ -81,19 +81,6 @@ public class StructureController : Controller
         });
         return Json(evaluatorsList);
     }
-    
-    // [HttpGet]
-    // public async Task<IActionResult> GetSecondEvaluator(int UserEvaluatorId2, int UserEvaluatorId1)
-    // {
-    //     ICollection<UserEvaluator> evaluators = await _evaluatorServices.GetSecondEvaluatorForRelationToServantAsync(UserEvaluatorId2, UserEvaluatorId1);
-        
-    //     var evaluatorsList = evaluators.Select(d => new SelectListItem
-    //     {
-    //         Text = d.Name,
-    //         Value = d.Id.ToString(),
-    //     });
-    //     return Json(evaluatorsList);
-    // }
 
     public async Task<IActionResult> ModifyStructures(ModifyStructures modifyStructures)
     {

@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using SEP_Web.Filters;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
+[UserEvaluatorFilter]
 public class AssessmentsController : Controller
 {
     private readonly ILogger<AssessmentsController> _logger;

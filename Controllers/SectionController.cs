@@ -85,7 +85,7 @@ public class SectionController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Não foi possível cadsatrar a seção", e.Message);
+            _logger.LogError("Não foi possível cadsatrar a seção. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar a seção!" });
         }
     }
@@ -112,7 +112,7 @@ public class SectionController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar a seção.";
-            _logger.LogError("Não foi possível editar a seção", e.Message);
+            _logger.LogError("Não foi possível editar a seção. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar o órgão!" });
         }
     }
@@ -142,7 +142,7 @@ public class SectionController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível excluir a seção.";
-            _logger.LogError("Não foi possível excluir a seção", e.Message);
+            _logger.LogError("Não foi possível excluir a seção. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
     }

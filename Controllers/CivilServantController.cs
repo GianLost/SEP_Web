@@ -1,6 +1,6 @@
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using SEP_Web.Filters;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Helper.Validation;
@@ -10,6 +10,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
+[UserEvaluatorFilter]
 public class CivilServantController : Controller
 {
     private readonly ILogger<CivilServantController> _logger;

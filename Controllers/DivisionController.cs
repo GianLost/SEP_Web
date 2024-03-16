@@ -85,7 +85,7 @@ public class DivisionController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Não foi possível cadsatrar a divisão", e.Message);
+            _logger.LogError("Não foi possível cadsatrar a divisão. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar a divisão!" });
         }
     }
@@ -113,7 +113,7 @@ public class DivisionController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar a divisão.";
-            _logger.LogError("Não foi possível editar a divisão", e.Message);
+            _logger.LogError("Não foi possível editar a divisão. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar o órgão!" });
         }
     }
@@ -143,7 +143,7 @@ public class DivisionController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível excluir a divisão.";
-            _logger.LogError("Não foi possível excluir a divisão", e.Message);
+            _logger.LogError("Não foi possível excluir a divisão. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
     }

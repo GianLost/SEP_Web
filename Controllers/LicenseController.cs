@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using SEP_Web.Filters;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
@@ -8,6 +9,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
+[UserAdminFilter]
 public class LicenseController : Controller
 {
     private readonly ILogger<LicenseController> _logger;
@@ -82,7 +84,7 @@ public class LicenseController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Não foi possível cadsatrar a licença", e.Message);
+            _logger.LogError("Não foi possível cadsatrar a licença. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar a liceça!" });
         }
     }
@@ -109,7 +111,7 @@ public class LicenseController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar a licença.";
-            _logger.LogError("Não foi possível editar a licença", e.Message);
+            _logger.LogError("Não foi possível editar a licença. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível editar a licença!" });
         }
     }
@@ -138,7 +140,7 @@ public class LicenseController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível excluir a licença.";
-            _logger.LogError("Não foi possível excluir a licença", e.Message);
+            _logger.LogError("Não foi possível excluir a licença. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
     }
@@ -157,7 +159,7 @@ public class LicenseController : Controller
         }
         catch(InvalidOperationException ex)
         {
-            _logger.LogError("Não foi possível capturar a licença", ex.Message);
+            _logger.LogError("Não foi possível capturar a licença. Error : {Message}", ex.Message);
             return StatusCode(500);
         }
     }

@@ -70,7 +70,7 @@
                                 <td scope="row">@await _assessmentServices.ServantName(@assessment.CivilServantId)</td>
                                 <td scope="row">@Convert.ToDateTime(assessment.StartEvaluationPeriod).ToString("dd/MM/yyyy")
                                 </td>
-                                <td scope="row">@Convert.ToDateTime(assessment.EndEvaluationPeriod).ToString("dd/MM/yyyy")
+                                <td scope="row">@(assessment.EndEvaluationPeriod != null ? assessment.EndEvaluationPeriod?.ToString("dd/MM/yyyy") : "-")
                                 </td>
                                 <td scope="row">
                                     @if (isEvaluated)

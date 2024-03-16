@@ -4,7 +4,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
-[LoggedinUserFilter]
+[UserEvaluatorFilter]
 public class ReportsController : Controller
 {
     private readonly ILogger<ReportsController> _logger;

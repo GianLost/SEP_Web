@@ -84,7 +84,7 @@ public class SectorController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Não foi possível cadsatrar o setor", e.Message);
+            _logger.LogError("Não foi possível cadsatrar o setor. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar o setor!" });
         }
     }
@@ -111,7 +111,7 @@ public class SectorController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar o setor.";
-            _logger.LogError("Não foi possível editar o setor", e.Message);
+            _logger.LogError("Não foi possível editar o setor. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível editar o setor!" });
         }
     }
@@ -141,7 +141,7 @@ public class SectorController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível excluir o setor.";
-            _logger.LogError("Não foi possível excluir o setor", e.Message);
+            _logger.LogError("Não foi possível excluir o setor. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
     }

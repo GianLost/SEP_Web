@@ -1,12 +1,15 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
+using SEP_Web.Filters;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
+
+[UserEvaluatorFilter]
 public class ServantLicenseController : Controller
 {
     private readonly ILogger<ServantLicenseController> _logger;
@@ -78,7 +81,7 @@ public class ServantLicenseController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Não foi possível adicionar a licença", e.Message);
+            _logger.LogError("Não foi possível adicionar a licença. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível adicionar a liceça!" });
         }
     }
@@ -108,7 +111,7 @@ public class ServantLicenseController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível excluir a licença.";
-            _logger.LogError("Não foi possível excluir a licença", e.Message);
+            _logger.LogError("Não foi possível excluir a licença. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
 

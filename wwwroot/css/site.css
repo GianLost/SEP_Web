@@ -89,3 +89,7 @@ button.accept-policy {
   height: 10vh;
   background-color: #fff;
 }
+
+tbody:hover {
+  cursor: pointer;
+}

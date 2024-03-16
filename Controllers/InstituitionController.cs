@@ -85,7 +85,7 @@ public class InstituitionController : Controller
         }
         catch (Exception e)
         {
-            _logger.LogError("Não foi possível cadsatrar o órgão", e.Message);
+            _logger.LogError("Não foi possível cadsatrar o órgão. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar o órgão!" });
         }
     }
@@ -112,7 +112,7 @@ public class InstituitionController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar o órgão.";
-            _logger.LogError("Não foi possível editar o órgão", e.Message);
+            _logger.LogError("Não foi possível editar o órgão. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível editar o órgão!" });
         }
     }
@@ -142,7 +142,7 @@ public class InstituitionController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível excluir o órgão.";
-            _logger.LogError("Não foi possível excluir o órgão", e.Message);
+            _logger.LogError("Não foi possível excluir o órgão. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
 
