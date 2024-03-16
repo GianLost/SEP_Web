@@ -179,7 +179,7 @@
 
                         <div class="form-group">
                             <label class="form-label" for="servant-admission" hidden></label>
-                            <input type="text" value="Data de Admissão: @Model.AdmissionDate" class="disabled-box form-control" id="servant-admission" asp-for="AdmissionDate" disabled>
+                            <input type="text" value='Data de Admissão: @Model.AdmissionDate.ToString("dd/MM/yyyy")' class="disabled-box form-control" id="servant-admission" asp-for="AdmissionDate" disabled>
                         </div>
                         <div class="validate-fields"></div>
 
@@ -197,18 +197,28 @@
                         <button title="Salve as alterações ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Salve as alterações ..."></i> Salvar</button>
                         <button asp-controller="CivilServant" asp-action="Index" type="submit" class="btn btn-secondary" title="Cancelar edição ..."><i class="bi bi-arrow-return-left" title="Cancelar edição ..."></i></button>
                         
-                        <div class="btn-enableDisable">
-                            @if (Model.UserStats == UserStatsEnum.Active)
-                            {
-                                <input class="form-check-input enableDisableAccount ml-1 mt-0" id="disable-account" type="checkbox" name="enableDisableAccount">
-                                <label class="form-check-label ml-1 mt-0" for="disable-account">Desabilitar usuário</label>
-                            }
-                            else
-                            {
-                                <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox" name="enableDisableAccount">
-                                <label class="form-check-label" for="enable-account">Habilitar usuário</label>
-                            }
-                        </div>
+                        @if (Model.UserStats == UserStatsEnum.UnderLicense)
+                        {
+                            <div class="btn-enableDisable disabled-box">
+                                <input style="cursor: not-allowed;" class="disabled-box form-check-input enableDisableAccount" type="checkbox" name="enableDisableAccount" disabled>
+                                <label class="form-check-label disabled-box">Desabilitar usuário</label>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="btn-enableDisable">
+                                @if (Model.UserStats == UserStatsEnum.Active)
+                                {
+                                    <input class="form-check-input enableDisableAccount ml-1 mt-0" id="disable-account" type="checkbox" name="enableDisableAccount">
+                                    <label class="form-check-label ml-1 mt-0" for="disable-account">Desabilitar usuário</label>
+                                }
+                                else
+                                {
+                                    <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox" name="enableDisableAccount">
+                                    <label class="form-check-label" for="enable-account">Habilitar usuário</label>
+                                }
+                            </div>
+                        }
                         
                     </div>
                     

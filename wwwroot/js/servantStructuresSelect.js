@@ -74,7 +74,7 @@ $('.servant-register').show(function () {
         var selectedEvaluatorsForInstituition = $('.servant-instituition').val();
         var searchSecondEvaluator = $('.servant-evaluator-first').val();
         if (searchSecondEvaluator) {
-            $.get('/Structure/GetSecondEvaluator', { UserEvaluatorId2: searchSecondEvaluator, UserEvaluatorId1: selectedEvaluatorsForInstituition }, function (data) {
+            $.get('/Structure/GetEvaluatorsForInstituitionId', { UserEvaluatorId2: searchSecondEvaluator, UserEvaluatorId1: selectedEvaluatorsForInstituition }, function (data) {
                 $('.servant-evaluator-second').empty();
                 $('.servant-evaluator-second').append($('<option>').text(' -- selecione o avaliador 2 -- ').val(''));
                 $.each(data, function (index, item) {

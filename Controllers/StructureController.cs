@@ -82,18 +82,18 @@ public class StructureController : Controller
         return Json(evaluatorsList);
     }
     
-    [HttpGet]
-    public async Task<IActionResult> GetSecondEvaluator(int UserEvaluatorId2, int UserEvaluatorId1)
-    {
-        ICollection<UserEvaluator> evaluators = await _evaluatorServices.GetSecondEvaluatorForRelationToServantAsync(UserEvaluatorId2, UserEvaluatorId1);
+    // [HttpGet]
+    // public async Task<IActionResult> GetSecondEvaluator(int UserEvaluatorId2, int UserEvaluatorId1)
+    // {
+    //     ICollection<UserEvaluator> evaluators = await _evaluatorServices.GetSecondEvaluatorForRelationToServantAsync(UserEvaluatorId2, UserEvaluatorId1);
         
-        var evaluatorsList = evaluators.Select(d => new SelectListItem
-        {
-            Text = d.Name,
-            Value = d.Id.ToString(),
-        });
-        return Json(evaluatorsList);
-    }
+    //     var evaluatorsList = evaluators.Select(d => new SelectListItem
+    //     {
+    //         Text = d.Name,
+    //         Value = d.Id.ToString(),
+    //     });
+    //     return Json(evaluatorsList);
+    // }
 
     public async Task<IActionResult> ModifyStructures(ModifyStructures modifyStructures)
     {
@@ -112,7 +112,7 @@ public class StructureController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar as estruturas.";
-            _logger.LogError("Não foi possível editar as estruturas", e.Message);
+            _logger.LogError("Não foi possível editar as estruturas. Error : {Message}", e.Message);
             return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível editar as estruturas!" });
         }
     }
@@ -134,7 +134,7 @@ public class StructureController : Controller
         catch (Exception e)
         {
             TempData["ErrorMessage"] = "Não foi possível editar as estruturas.";
-            _logger.LogError("Não foi possível editar as estruturas", e.Message);
+            _logger.LogError("Não foi possível editar as estruturas. Error : {Message}", e.Message);
             return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível editar as estruturas!" });
         }
     }
