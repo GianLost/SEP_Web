@@ -6,6 +6,7 @@ public interface IAssessmentServices
     Task<Assessment> RegisterAssessments(Assessment assessment);
     Task<Assessment> Assess(Assessment assess);
     Task<ICollection<Assessment>> AssessmentsList();
+    Task<ICollection<Assessment>> AssessmentsList(int userEvaluatorId);
     Task<string> ServantName(int? Id);
     int? ServantMasp(int Id);
     Task<bool> IsUnderLicense(int civilServantId);

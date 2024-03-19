@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Database;
@@ -9,12 +10,18 @@ namespace SEP_Web.Services;
 public class AssessmentServices : IAssessmentServices
 {
     private readonly ILogger<IAssessmentServices> _logger;
+    private readonly IUserEvaluatorServices _evaluatorServices;
+    private readonly IUserAdministratorServices _administratorServices;
     private readonly SEP_WebContext _database;
+    private readonly IHttpContextAccessor _httpContext;
 
-    public AssessmentServices(ILogger<IAssessmentServices> logger, SEP_WebContext database)
+    public AssessmentServices(ILogger<IAssessmentServices> logger, IUserEvaluatorServices evaluatorServices, IUserAdministratorServices administratorServices, SEP_WebContext database, IHttpContextAccessor httpContext)
     {
         _logger = logger;
+        _evaluatorServices = evaluatorServices;
+        _administratorServices = administratorServices;
         _database = database;
+        _httpContext = httpContext;
     }
     
     public async Task<Assessment> RegisterAssessments(Assessment assessment)
@@ -55,6 +62,9 @@ public class AssessmentServices : IAssessmentServices
     {
         try
         {
+            int userType = Convert.ToInt32(_httpContext.HttpContext.Session.GetInt32("userType"));
+            int idUser = Convert.ToInt32(_httpContext.HttpContext.Session.GetInt32("userId"));
+
             Assessment assessmentEdit = SearchForId(assess.Id) ?? throw new ArgumentNullException(nameof(assess), ExceptionMessages.ErrorArgumentNullException);
 
             assessmentEdit.Stats = AssessmentStatsEnum.EVALUATED;
@@ -148,6 +158,11 @@ public class AssessmentServices : IAssessmentServices
 
             assessmentEdit.AssessmentResult = (assessmentEdit.Grand_Tot >= 50.0) ? AssessmentResultEnum.APT : AssessmentResultEnum.INAPT;
 
+            assessmentEdit.EvaluatedFor = userType == Convert.ToInt32(UsersTypeEnum.User_Evaluator) ? await _evaluatorServices.EvaluatorsName(idUser) : await _administratorServices.AdministratorsName(idUser);
+
+            assessmentEdit.ModifyDate = assess.ModifyDate;
+            assessmentEdit.LastModifiedBy = assess.LastModifiedBy;
+
             _database.Assessments.Update(assessmentEdit);
             await _database.SaveChangesAsync();
 
@@ -185,6 +200,37 @@ public class AssessmentServices : IAssessmentServices
                 throw new ArgumentNullException(nameof(test), ExceptionMessages.ErrorArgumentNullException);
 
             return test ?? new List<Assessment>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[ASSESSMENT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[ASSESSMENT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<Assessment>();
+        }
+        catch (Exception ex) when (ex.InnerException is ArgumentNullException nullException)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[ASSESSMENT_SERVICE]: {exceptionMessage} : {Message}, Attribute = {ParamName}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.ParamName, nullException.InnerException);
+            _logger.LogWarning("[ASSESSMENT_SERVICE]: {Description}", nullException.StackTrace.Trim());
+
+            return new List<Assessment>();
+        }
+    }
+
+    public async Task<ICollection<Assessment>> AssessmentsList(int userEvaluatorId)
+    {
+        try
+        {
+            ICollection<Assessment> assessments = await _database.Assessments.Where(x => x.CivilServant.UserEvaluatorId1 == userEvaluatorId || x.CivilServant.UserEvaluatorId2 == userEvaluatorId).ToListAsync();
+
+            if (assessments?.Count == 0)
+                throw new ArgumentNullException(nameof(userEvaluatorId), ExceptionMessages.ErrorArgumentNullException);
+
+            return assessments ?? new List<Assessment>();
         }
         catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
         {

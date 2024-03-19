@@ -20,11 +20,14 @@
         <div class="col-md-3 mt-1">
             <section class="form-control fw-bold" disabled>Nº da matrícula: <span class="fw-normal">@_assessmentServices.ServantMasp(@Model.CivilServantId)</span></section>
         </div>
-        <div class="col-md-2 mt-1">
+        <div class="col-md-1 mt-1">
             <section class="form-control fw-bold" disabled>Etapa: <span class="fw-normal">@Model.Phase</span></section>
         </div>
-        <div class="col-md-7 mt-1">
-            <section class="form-control fw-bold" disabled>Nome do(a) avaliador(a): <span class="fw-normal">@await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId)</span></section>
+        <div class="col-md-4 mt-1">
+            <section class="form-control fw-bold" disabled>Avaliador(a)1: <span class="fw-normal">@await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId1)</span></section>
+        </div>
+        <div class="col-md-4 mt-1">
+            <section class="form-control fw-bold" disabled>Avaliador(a)2: <span class="fw-normal">@await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId2)</span></section>
         </div>
     </div>
 
@@ -40,8 +43,10 @@
 
         <input type="hidden" name="id" asp-for="Id">
         <input type="hidden" name="phase" asp-for="Phase">
+        <input type="hidden" name="stats" asp-for="Stats">
         <input type="hidden" name="civilServantId" asp-for="CivilServantId">
-        <input type="hidden" name="userEvaluatorId" asp-for="UserEvaluatorId">
+        <input type="hidden" name="userEvaluatorId1" asp-for="UserEvaluatorId1">
+        <input type="hidden" name="userEvaluatorId2" asp-for="UserEvaluatorId2">
 
         <div id="assessments-header">
 

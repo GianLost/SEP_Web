@@ -7,5 +7,6 @@ public interface IUserAdministratorServices
     Task<ICollection<UserAdministrator>> AdministratorsList(); // Coleção de administradores;
     Task<UserAdministrator> AdministratorsEdit(UserAdministrator user); // Edição de um registro já existente de um usuário administrador;
     void DeleteAdministrator(int id); // Exclui usuário administrador;
+    Task<string> AdministratorsName(int? AdministratorsId);
     UserAdministrator SearchForId(int id); // Busca um usuário pelo Id;
 }

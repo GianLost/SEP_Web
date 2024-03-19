@@ -100,7 +100,9 @@ public class CivilServantController : Controller
                         Phase = stage,
                         StartEvaluationPeriod = stage == 1 ? servant.AdmissionDate.AddDays(210) : evaluationDate,
                         CivilServantId = servant.Id,
-                        UserEvaluatorId = servant.UserEvaluatorId1
+                        UserEvaluatorId1 = servant.UserEvaluatorId1,
+                        UserEvaluatorId2 = servant.UserEvaluatorId2,
+                        EvaluatedFor = null
                     };
 
                     evaluationDate = Convert.ToDateTime(newTest.StartEvaluationPeriod).AddDays(210);

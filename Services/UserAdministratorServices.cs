@@ -159,6 +159,12 @@ public class UserAdministratorServices : IUserAdministratorServices
         }
     }
 
+    public async Task<string> AdministratorsName(int? AdministratorsId)
+    {
+        ICollection<UserAdministrator> administrators =  await _database.Administrators.Where(x => x.Id == AdministratorsId).ToListAsync();
+        return administrators.FirstOrDefault().Name;
+    }
+
     public UserAdministrator SearchForId(int id)
     {
         return _database.Administrators.FirstOrDefault(x => x.Id == id);

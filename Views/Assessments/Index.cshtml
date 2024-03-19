@@ -70,22 +70,32 @@
                                 <td scope="row">@await _assessmentServices.ServantName(@assessment.CivilServantId)</td>
                                 <td scope="row">@Convert.ToDateTime(assessment.StartEvaluationPeriod).ToString("dd/MM/yyyy")
                                 </td>
-                                <td scope="row">@(assessment.EndEvaluationPeriod != null ? assessment.EndEvaluationPeriod?.ToString("dd/MM/yyyy") : "-")
+                                <td scope="row">@(assessment.EndEvaluationPeriod != null ?
+                                assessment.EndEvaluationPeriod?.ToString("dd/MM/yyyy") : "-")
                                 </td>
                                 <td scope="row">
-                                    @if (isEvaluated)
+
+                                    @if (!isEvaluated)
+                                    {
+                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
+                                            asp-route-id="@assessment.Id" class="btn btn-sm btn-outline-primary"><i
+                                                title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                    }
+                                    else if (isEvaluated && _httpContext.HttpContext.Session.GetInt32("userType") ==
+                                    Convert.ToInt32(UsersTypeEnum.User_Admin))
+                                    {
+                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
+                                            asp-route-id="@assessment.Id" class="btn btn-sm btn-outline-primary"><i
+                                                title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                    }
+                                    else
                                     {
                                         <button title="Etapa concluída ..." role="button" asp-action="ToAssess"
                                             asp-controller="Assessments" asp-route-id="@assessment.Id"
                                             class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..."
                                                 class="bi bi-journal-check"></i></button>
                                     }
-                                    else
-                                    {
-                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
-                                            asp-route-id="@assessment.Id" class="btn btn-sm btn-outline-primary"><i
-                                                title="Avaliar ..." class="bi bi-journal-check"></i></a>
-                                    }
+
                                 </td>
                             </tr>
                         }

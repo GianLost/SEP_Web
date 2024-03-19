@@ -28,10 +28,15 @@ public class Assessment
     public int CivilServantId { get; set; }
     public CivilServant CivilServant { get; set; }
 
-    [ForeignKey("UserEvaluatorId"), Required(ErrorMessage = "Informe o avaliador responsável !")]
-    public int? UserEvaluatorId { get; set; }
-    public UserEvaluator UserEvaluator { get; set; }
+    [ForeignKey("UserEvaluatorFirst"), Required(ErrorMessage = "Informe o avaliador 1 responsável !")]
+    public int? UserEvaluatorId1 { get; set; }
+    public UserEvaluator UserEvaluatorFirst { get; set; }
 
+    [ForeignKey("UserEvaluatorSecond"), Required(ErrorMessage = "Informe o avaliador 2 responsável !")]
+    public int? UserEvaluatorId2 { get; set; }
+    public UserEvaluator UserEvaluatorSecond { get; set; }
+
+    public string EvaluatedFor { get; set; }
 
     [Required(ErrorMessage = "Avalie a cláusula I em 'Assiduidade' !")]
     public int Crit1_Clau1 { get; set; }
@@ -189,10 +194,20 @@ public class Assessment
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
     public DateTime? ForwardingDate { get; set; }
 
+    [Required(ErrorMessage = "informe uma data de registro !")]
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    public DateTime RegisterDate { get; set; }
+
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+    public DateTime? ModifyDate { get; set; }
+
+    [StringLength(35)]
+    public string LastModifiedBy { get; set; }
 
     public double Grand_Tot { get; set; }
     public double Overall_Average { get; set; }
-
 
     public AssessmentResultEnum? AssessmentResult { get; set; }
 }

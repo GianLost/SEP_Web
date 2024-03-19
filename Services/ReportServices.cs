@@ -52,7 +52,7 @@ public class ReportServices : IReportServices
         }
         catch (Exception ex)
         {
-            _logger.LogError("Erro ao criar o arquivo de relatório .frx.", ex);
+            _logger.LogError("Erro ao criar o arquivo de relatório .frx. Error {Message}", ex);
             return null;
         }
     }
@@ -84,7 +84,7 @@ public class ReportServices : IReportServices
         }
         catch (Exception e)
         {
-            _logger.LogError("Erro ao tentar imprimir o boletim em PDF!", e.Message);
+            _logger.LogError("Erro ao tentar imprimir o boletim em PDF! Error {Message}", e.Message);
             return null;
         }
     }
