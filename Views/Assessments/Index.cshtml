@@ -1,4 +1,5 @@
 @using SEP_Web.Models
+@using SEP_Web.ViewModels
 @using SEP_Web.Services
 @using SEP_Web.Database
 @using SEP_Web.Keys
@@ -6,7 +7,7 @@
 @inject IAssessmentServices _assessmentServices
 @inject SEP_WebContext _database
 @inject IHttpContextAccessor _httpContext
-@model ICollection<Assessment>
+@model ICollection<AssessmentViewModel>
 
 @{
     ViewData["Title"] = "Todas as Avaliações";
@@ -24,8 +25,7 @@
 
         <div class="card-body">
             <div class="table-responsive">
-                <table
-                    class="table table-sm table-bordered table-striped table-light table-style assessments-table p-0">
+                <table class="table table-sm table-bordered table-light table-style assessments-table p-0">
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
                             <th scope="col">Status</th>
@@ -40,62 +40,34 @@
                     <tbody>
                         @foreach (var assessment in Model)
                         {
-                            var civilServantId = assessment.CivilServantId;
-                            var isUnderLicense = await _assessmentServices.IsUnderLicense(civilServantId);
-
-                            // Verifica se o servidor está sob licença
-                            if (isUnderLicense)
-                            {
-                                // Verifica se a avaliação é NOT_EVALUATED
-                                if (assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)
-                                {
-                                    continue; // Ignora avaliações NOT_EVALUATED de servidores sob licença
-                                }
-                            }
-
-                            var civilServant = await _database.Servants.FindAsync(civilServantId);
-                            var isActive = civilServant?.UserStats == UserStatsEnum.Active;
-                            var isEvaluated = assessment.Stats == AssessmentStatsEnum.EVALUATED;
-                            var rowColor = isEvaluated ? "table-success" : "table-danger";
-
-                            <tr class="border-light @rowColor">
+                            <tr class="@assessment.RowColor">
                                 <td scope="row">
-                                    <span title="@((isEvaluated) ? "Avaliado" : "Não avaliado")"
-                                        class="material-symbols-outlined text-@(isEvaluated ? "success" : "danger") fs-5 m-1 p-1">
-                                        <p hidden>@assessment.Stats</p> radio_button_checked
+                                    <span title="@assessment.StatusTitle"
+                                        class="material-symbols-outlined @assessment.StatusClass fs-5 m-1 p-1">
+                                        <p hidden>@assessment.StatusIcon</p> radio_button_checked
                                     </span>
                                 </td>
                                 <td scope="row">@assessment.Phase</td>
-                                <td scope="row">@($"{_assessmentServices.ServantMasp(@assessment.CivilServantId):D8}")</td>
-                                <td scope="row">@await _assessmentServices.ServantName(@assessment.CivilServantId)</td>
-                                <td scope="row">@Convert.ToDateTime(assessment.StartEvaluationPeriod).ToString("dd/MM/yyyy")
-                                </td>
-                                <td scope="row">@(assessment.EndEvaluationPeriod != null ?
-                                assessment.EndEvaluationPeriod?.ToString("dd/MM/yyyy") : "-")
-                                </td>
+                                <td scope="row">@assessment.Masp</td>
+                                <td scope="row">@assessment.ServantName</td>
+                                <td scope="row">@assessment.StartDate</td>
+                                <td scope="row">@assessment.EndDate</td>
                                 <td scope="row">
-
-                                    @if (!isEvaluated)
+                                    @if (assessment.CanAssess)
                                     {
                                         <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
-                                            asp-route-id="@assessment.Id" class="btn btn-sm btn-outline-primary"><i
-                                                title="Avaliar ..." class="bi bi-journal-check"></i></a>
-                                    }
-                                    else if (isEvaluated && _httpContext.HttpContext.Session.GetInt32("userType") ==
-                                    Convert.ToInt32(UsersTypeEnum.User_Admin))
-                                    {
-                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
-                                            asp-route-id="@assessment.Id" class="btn btn-sm btn-outline-primary"><i
-                                                title="Avaliar ..." class="bi bi-journal-check"></i></a>
+                                            asp-route-id="@assessment.AssessmentId" class="btn btn-sm btn-outline-primary">
+                                            <i title="Avaliar ..." class="bi bi-journal-check"></i>
+                                        </a>
                                     }
                                     else
                                     {
                                         <button title="Etapa concluída ..." role="button" asp-action="ToAssess"
-                                            asp-controller="Assessments" asp-route-id="@assessment.Id"
-                                            class="btn btn-sm btn-outline-secondary"><i title="Etapa concluída ..."
-                                                class="bi bi-journal-check"></i></button>
+                                            asp-controller="Assessments" asp-route-id="@assessment.AssessmentId"
+                                            class="btn btn-sm btn-outline-secondary">
+                                            <i title="Etapa concluída ..." class="bi bi-journal-check"></i>
+                                        </button>
                                     }
-
                                 </td>
                             </tr>
                         }

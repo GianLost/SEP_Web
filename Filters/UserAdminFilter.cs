@@ -9,85 +9,100 @@ namespace SEP_Web.Filters;
 
 public class UserAdminFilter : ActionFilterAttribute
 {
+    private const string UserSessionKey = "userCheckIn";
+
     public override void OnActionExecuted(ActionExecutedContext context)
     {
-
-        string userSession = context.HttpContext.Session.GetString("userCheckIn");
+        string userSession = context.HttpContext.Session.GetString(UserSessionKey);
         string url = context.HttpContext.Request.Path.Value;
 
         if (string.IsNullOrEmpty(userSession))
         {
-            context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+            RedirectToLogin(context);
+            return;
         }
-        else
+
+        Users user = JsonSerializer.Deserialize<Users>(userSession);
+
+        if (user == null || user.UserStats != UserStatsEnum.Active)
         {
-            Users user = JsonSerializer.Deserialize<Users>(userSession);
+            RedirectToLogin(context);
+            return;
+        }
 
-            if (user == null)
-            {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-            }
+        if (url.Contains("ToAssess"))
+        {
+            var assessmentId = GetAssessmentId(context);
 
-            if (user.UserStats != UserStatsEnum.Active)
+            if (assessmentId.HasValue)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-            }
+                using var _database = new SEP_WebContext();
+                var assessment = _database.Assessments.Find(assessmentId.Value);
 
-            if (user.UserType != UsersTypeEnum.User_Admin && url.Contains("ToAssess") && IsEvaluationAlreadyEvaluated(context))
-            {
-                // Nega acesso a usuários que não são administradores de acessarem uma avaliação já avaliada.
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Assessments" }, {"action", "Index" } });
-            }
+                if (assessment != null)
+                {
+                    var servant = _database.Servants.FirstOrDefault(x => x.Id == assessment.CivilServantId);
 
-            if(url.Contains("ToAssess") && DontAcessEvaluatedAssessment(context))
-            {
-                // Nega acesso a usuários de acessarem avaliações ocultas.
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Assessments" }, {"action", "Index" } });
+                    if (DontAccessEvaluatedAssessment(assessment))
+                    {
+                        RedirectToAssessmentsIndex(context);
+                        return;
+                    }else if(DontAccessAssessmentIsNotEvaluator(user, servant, assessment))
+                    {
+                        RedirectToAssessmentsIndex(context);
+                        return;
+                    }else if(servant.UserStats == UserStatsEnum.UnderLicense)
+                    {
+                        RedirectToAssessmentsIndex(context);
+                        return;
+                    }else
+                    {
+                        return;
+                    }
+                }
             }
         }
 
         base.OnActionExecuted(context);
     }
 
-    private static bool DontAcessEvaluatedAssessment(ActionExecutedContext context)
+    private static int? GetAssessmentId(ActionExecutedContext context)
     {
-        int id = Convert.ToInt32(context.HttpContext.Request.RouteValues["id"]);
+        if (context.HttpContext.Request.RouteValues.TryGetValue("id", out var id))
+            if (id is string idString && int.TryParse(idString, out var assessmentId))
+                return assessmentId;
 
-        using SEP_WebContext _database = new();
-
-        Assessment assessment = _database.Assessments.Find(id);
-
-        CivilServant servant = _database.Servants.Where(x => x.Id == assessment.CivilServantId).FirstOrDefault();
-
-        if(assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED && servant.UserStats == UserStatsEnum.UnderLicense)
-        {
-            return true;
-        }
-
-        return false;
+        return null;
     }
 
-    private static bool IsEvaluationAlreadyEvaluated(ActionExecutedContext context)
+    private static bool DontAccessEvaluatedAssessment(Assessment assessment)
     {
-        int id = Convert.ToInt32(context.HttpContext.Request.RouteValues["id"]);
-
-        using SEP_WebContext _database = new();
-
-        Assessment assessment = _database.Assessments.Find(id);
-
-        CivilServant servant = _database.Servants.Where(x => x.Id == assessment.CivilServantId).FirstOrDefault();
-
-        if(assessment.Stats == AssessmentStatsEnum.EVALUATED)
+        if (assessment.Stats == AssessmentStatsEnum.EVALUATED)
         {
             return true;
         }
-        else if(assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)
+        else if (assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)
         {
-            return false;     
+            return false;
         }
         else
         {
             return false;
         }
+    }
+
+    private static bool DontAccessAssessmentIsNotEvaluator(Users user, CivilServant servant, Assessment assessment)
+    {
+        return user.UserType != UsersTypeEnum.User_Admin && servant.Id != assessment.UserEvaluatorId1 || servant.Id != assessment.UserEvaluatorId2;
+    }
+
+    private static void RedirectToLogin(ActionExecutedContext context)
+    {
+        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+    }
+
+    private static void RedirectToAssessmentsIndex(ActionExecutedContext context)
+    {
+        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Assessments" }, { "action", "Index" } });
     }
 }

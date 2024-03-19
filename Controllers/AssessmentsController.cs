@@ -3,12 +3,12 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
-using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Keys;
 using SEP_Web.Models;
 using SEP_Web.Services;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers;
 
@@ -31,14 +31,25 @@ public class AssessmentsController : Controller
         try
         {
             bool userIsEvaluator = _httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Evaluator);
+            ICollection<AssessmentViewModel> viewModels;
+
             if (userIsEvaluator)
             {
                 int id = Convert.ToInt32(_httpContext.HttpContext.Session.GetInt32("userId"));
                 ICollection<Assessment> evaluator = await _assessmentServices.AssessmentsList(id);
-                return View(evaluator);
+
+                // Convertendo para AssessmentViewModel e aplicando a validação
+                viewModels = evaluator.Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)).Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
             }
-            ICollection<Assessment> users = await _assessmentServices.AssessmentsList();
-            return View(users);
+            else
+            {
+                ICollection<Assessment> users = await _assessmentServices.AssessmentsList();
+
+                // Convertendo para AssessmentViewModel e aplicando a validação
+                viewModels = users.Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)).Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
+            }
+
+            return View(viewModels);
         }
         catch (MySqlException ex)
         {
