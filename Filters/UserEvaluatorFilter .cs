@@ -8,56 +8,58 @@ using SEP_Web.Models;
 namespace SEP_Web.Filters;
 public class UserEvaluatorFilter : ActionFilterAttribute
 {
+    private const string UserSessionKey = "userCheckIn";
+
     public override void OnActionExecuted(ActionExecutedContext context)
     {
-
-        string userSession = context.HttpContext.Session.GetString("userCheckIn");
-        int? type = context.HttpContext.Session.GetInt32("userType");
-        int? stats = context.HttpContext.Session.GetInt32("userStats");
+        string userSession = context.HttpContext.Session.GetString(UserSessionKey);
+        int? userType = context.HttpContext.Session.GetInt32("userType");
+        int? userStats = context.HttpContext.Session.GetInt32("userStats");
 
         if (string.IsNullOrEmpty(userSession))
         {
-            context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+            RedirectToLogin(context);
+            return;
         }
-        else
+
+        if (userType == null || userStats == null)
         {
-            if (type == Convert.ToInt32(UsersTypeEnum.User_Admin))
+            RedirectToLogin(context);
+            return;
+        }
+
+        if (userType == (int)UsersTypeEnum.User_Admin)
+        {
+            UserAdministrator administrator = JsonSerializer.Deserialize<UserAdministrator>(userSession);
+
+            if (administrator == null || administrator.UserStats != UserStatsEnum.Active)
             {
-                UserAdministrator administrator = JsonSerializer.Deserialize<UserAdministrator>(userSession);
-
-                if (administrator == null)
-                {
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-                }
-
-                if (administrator.UserStats != UserStatsEnum.Active)
-                {
-                    context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-                }
+                RedirectToLogin(context);
+                return;
             }
-            if (type == Convert.ToInt32(UsersTypeEnum.User_Evaluator))
+        }
+        else if (userType == (int)UsersTypeEnum.User_Evaluator)
+        {
+            Users users = JsonSerializer.Deserialize<Users>(userSession);
+
+            if (users != null)
             {
-                Users users = JsonSerializer.Deserialize<Users>(userSession);
+                using SEP_WebContext _database = new();
+                UserEvaluator evaluator = _database.Evaluators.FirstOrDefault(x => x.Id == users.Id && x.Name == users.Name);
 
-                if (!(users == null))
+                if (evaluator == null || evaluator.UserStats != UserStatsEnum.Active)
                 {
-                    using SEP_WebContext _database = new();
-
-                    UserEvaluator evaluator = _database.Evaluators.FirstOrDefault(x => x.Id == users.Id && x.Name == users.Name);
-
-                    if (evaluator == null)
-                    {
-                        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-                    }
-
-                    if (evaluator.UserStats != UserStatsEnum.Active)
-                    {
-                        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
-                    }
+                    RedirectToLogin(context);
+                    return;
                 }
             }
         }
 
         base.OnActionExecuted(context);
+    }
+
+    private static void RedirectToLogin(ActionExecutedContext context)
+    {
+        context.Result = new RedirectToActionResult("Index", "Login", null);
     }
 }

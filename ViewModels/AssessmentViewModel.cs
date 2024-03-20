@@ -3,6 +3,7 @@ using SEP_Web.Models;
 using SEP_Web.Services;
 
 namespace SEP_Web.ViewModels;
+
 public class AssessmentViewModel
 {
     private readonly IHttpContextAccessor _httpContext;

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Database;
@@ -266,10 +265,7 @@ public class AssessmentServices : IAssessmentServices
 
     public async Task<bool> IsUnderLicense(int civilServantId)
     {
-        // Faça a consulta ao banco de dados para obter o status do servidor com o civilServantId fornecido
-        var civilServant = await _database.Servants.FindAsync(civilServantId);
-        
-        // Verifique se o civilServant não é nulo e se o status é "UnderLicense"
+        CivilServant civilServant = await _database.Servants.FindAsync(civilServantId);
         return civilServant != null && civilServant.UserStats == UserStatsEnum.UnderLicense;
     }
 

@@ -12,7 +12,7 @@ using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers;
 
-[UserAdminFilter]
+[AssessmentFilter]
 public class AssessmentsController : Controller
 {
     private readonly ILogger<AssessmentsController> _logger;
@@ -38,14 +38,12 @@ public class AssessmentsController : Controller
                 int id = Convert.ToInt32(_httpContext.HttpContext.Session.GetInt32("userId"));
                 ICollection<Assessment> evaluator = await _assessmentServices.AssessmentsList(id);
 
-                // Convertendo para AssessmentViewModel e aplicando a validação
                 viewModels = evaluator.Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)).Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
             }
             else
             {
                 ICollection<Assessment> users = await _assessmentServices.AssessmentsList();
 
-                // Convertendo para AssessmentViewModel e aplicando a validação
                 viewModels = users.Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)).Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
             }
 
@@ -64,12 +62,7 @@ public class AssessmentsController : Controller
         {
             // NULL EXEPTIONS :
 
-            _logger.LogWarning(
-                "{exceptionMessage} : {Message} value = '{InnerExeption}'",
-                FeedbackMessages.ErrorEmptyCollection,
-                ex2.Message,
-                ex2.InnerException
-            );
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
             TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
 
             return View(new List<Assessment>());
