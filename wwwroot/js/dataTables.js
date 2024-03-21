@@ -33,4 +33,4 @@ function getDatatableClass(tableClass) {
             }
         }
     });
-}
+}l
