@@ -16,7 +16,10 @@ public class AssessmentFilter : ActionFilterAttribute
         string url = context.HttpContext.Request.Path.Value;
 
         if (string.IsNullOrEmpty(userSession))
+        {
             RedirectToLogin(context);
+            return;
+        }
 
         Users user = JsonSerializer.Deserialize<Users>(userSession);
 
