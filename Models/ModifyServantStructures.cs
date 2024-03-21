@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP_Web.Models;
+
 public class ModifyServantStructures : ModifyStructures
 {
     [ForeignKey("UserEvaluatorFirst"), Required(ErrorMessage = "Informe o Avaliador 1 !")]

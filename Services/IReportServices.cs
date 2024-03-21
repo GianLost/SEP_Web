@@ -2,6 +2,7 @@ using FastReport;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public interface IReportServices
 {
     Task<string> GenerateReportFile(string webRootPath);

@@ -1,6 +1,7 @@
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public interface ISectorServices
 {
     Sector SearchForId(int id);

@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SEP_Web.Models;
+
 public class ModifyStructures
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório!")]

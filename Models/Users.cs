@@ -83,4 +83,3 @@ public class Users
     [StringLength(35)]
     public string LastModifiedBy { get; set; }
 }
-

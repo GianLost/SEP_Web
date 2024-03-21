@@ -12,17 +12,13 @@ public class ReportServices : IReportServices
 {
     private readonly ILogger<ReportServices> _logger;
     private readonly SEP_WebContext _database;
-    private readonly IUserEvaluatorServices _evaluatorServices;
-    private readonly ICivilServantServices _servantServices;
     private readonly IAssessmentServices _assessmentServices;
     private readonly IWebHostEnvironment _environment;
 
-    public ReportServices(ILogger<ReportServices> logger, SEP_WebContext database, IUserEvaluatorServices evaluatorServices, ICivilServantServices servantServices, IAssessmentServices assessmentServices, IWebHostEnvironment environment)
+    public ReportServices(ILogger<ReportServices> logger, SEP_WebContext database, IAssessmentServices assessmentServices, IWebHostEnvironment environment)
     {
         _logger = logger;
         _database = database;
-        _evaluatorServices = evaluatorServices ?? throw new ArgumentNullException(nameof(evaluatorServices));
-        _servantServices = servantServices ?? throw new ArgumentNullException(nameof(servantServices));
         _assessmentServices = assessmentServices ?? throw new ArgumentNullException(nameof(assessmentServices));
         _environment = environment ?? throw new ArgumentNullException(nameof(environment));
     }

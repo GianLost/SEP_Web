@@ -6,6 +6,7 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public class DivisionServices : IDivisionServices
 {
     private readonly ILogger<IDivisionServices> _logger;

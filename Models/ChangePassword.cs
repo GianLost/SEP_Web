@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace SEP_Web.Models;
+
 public class ChangePassword
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório!")]

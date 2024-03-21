@@ -6,6 +6,7 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public class LicenseServices : ILicenseServices
 {
     private readonly ILogger<ILicenseServices> _logger;

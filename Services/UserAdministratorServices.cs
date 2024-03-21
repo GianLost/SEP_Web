@@ -6,6 +6,7 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Helper.Authentication;
 
 namespace SEP_Web.Services;
+
 public class UserAdministratorServices : IUserAdministratorServices
 {
     private readonly ILogger<IUserAdministratorServices> _logger;

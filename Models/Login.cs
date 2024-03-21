@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace SEP_Web.Models;
+
 public class Login
 {
     [Required(ErrorMessage = "Informe seu MASP !")]

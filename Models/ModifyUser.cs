@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using SEP_Web.Keys;
 
 namespace SEP_Web.Models;
+
 public class ModifyUser
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório !")]

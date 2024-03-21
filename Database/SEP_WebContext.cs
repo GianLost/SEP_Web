@@ -1,4 +1,3 @@
-using System.Data.SqlTypes;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Models;

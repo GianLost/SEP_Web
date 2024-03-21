@@ -3,7 +3,6 @@ using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
-using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;

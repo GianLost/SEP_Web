@@ -1,6 +1,7 @@
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public interface IUserAdministratorServices
 {
     Task<UserAdministrator> RegisterAdministrator(UserAdministrator user); // Gera um novo registro de usuário administrador;

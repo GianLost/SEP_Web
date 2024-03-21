@@ -7,6 +7,7 @@ using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public class ServantLicenseServices : IServantLicenseServices
 {
     private readonly ILogger<IServantLicenseServices> _logger;

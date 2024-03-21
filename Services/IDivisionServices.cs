@@ -1,6 +1,7 @@
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
+
 public interface IDivisionServices
 {
     Division SearchForId(int id);
