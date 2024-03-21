@@ -92,11 +92,11 @@ public class AssessmentFilter : ActionFilterAttribute
 
     private static void RedirectToLogin(ActionExecutedContext context)
     {
-        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+        context.Result = new RedirectToActionResult("Index", "Login", null);
     }
 
     private static void RedirectToAssessments(ActionExecutedContext context)
     {
-        context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Assessments" }, { "action", "Index" } });
+        context.Result = new RedirectToActionResult("Index", "Assessments", null);
     }
 }

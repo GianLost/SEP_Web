@@ -13,7 +13,8 @@ public class LoggedinUserFilter : ActionFilterAttribute
 
         if (string.IsNullOrEmpty(userSession))
         {
-            context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+            ReturnToLogin(context);
+            return;
         }
         else
         {
@@ -21,15 +22,22 @@ public class LoggedinUserFilter : ActionFilterAttribute
 
             if (user == null)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+                ReturnToLogin(context);
+                return;
             }
 
             if (user.UserStats != UserStatsEnum.Active)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Login" }, { "action", "Index" } });
+                ReturnToLogin(context);
+                return;
             }
         }
 
         base.OnActionExecuted(context);
+    }
+
+    private static void ReturnToLogin(ActionExecutedContext context)
+    {
+        context.Result = new RedirectToActionResult("Index", "Login", null);
     }
 }
