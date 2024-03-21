@@ -44,7 +44,7 @@ public class UserSession : IUserSession
 
         _httpContext.HttpContext.Session.SetString("userCheckIn", value);
         _httpContext.HttpContext.Session.SetInt32("userType", (int)users.UserType);
-        _httpContext.HttpContext.Session.SetInt32("userId", (int)users.Id);
+        _httpContext.HttpContext.Session.SetInt32("userId", users.Id);
         _httpContext.HttpContext.Session.SetInt32("userStats", (int)users.UserStats);
     }
 

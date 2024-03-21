@@ -13,7 +13,7 @@ function getDatatableClass(tableClass) {
             "sEmptyTable": "Nenhum registro encontrado na tabela",
             "sInfo": "Mostrar _START_ até _END_ de _TOTAL_ registros",
             "sInfoEmpty": "Mostrar 0 até 0 de 0 Registros",
-            "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
+            "sInfoFiltered": "(Filtrar de um total de _MAX_ registros)",
             "sInfoPostFix": "",
             "sInfoThousands": ".",
             "sLengthMenu": "Mostrar _MENU_ registros por página",
