@@ -10,7 +10,7 @@ using SEP_Web.Helper.Authentication;
 
 namespace SEP_Web.Controllers;
 
-[UserEvaluatorFilter]
+[ServiceFilter(typeof(UserEvaluatorFilter))]
 public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;

@@ -1,5 +1,3 @@
-using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using SEP_Web.Database;
 using SEP_Web.Keys;
@@ -8,23 +6,21 @@ using SEP_Web.Models;
 namespace SEP_Web.Filters;
 public class AssessmentFilter : ActionFilterAttribute
 {
-    private const string UserSessionKey = "userCheckIn";
+    private readonly IFilterServices _filters;
+
+    public AssessmentFilter(IFilterServices filters)
+    {
+        _filters = filters;
+    }
 
     public override void OnActionExecuted(ActionExecutedContext context)
     {
-        string userSession = context.HttpContext.Session.GetString(UserSessionKey);
         string url = context.HttpContext.Request.Path.Value;
 
-        if (string.IsNullOrEmpty(userSession))
-        {
-            RedirectToLogin(context);
-            return;
-        }
-
-        Users user = JsonSerializer.Deserialize<Users>(userSession);
+        Users user = _filters.GetUserFromSession(context);
 
         if (user == null || user.UserStats != UserStatsEnum.Active)
-            RedirectToLogin(context);
+            _filters.RedirectToLogin(context);
 
         if (url.Contains("ToAssess"))
         {
@@ -42,19 +38,19 @@ public class AssessmentFilter : ActionFilterAttribute
 
                     if (servant.UserStats == UserStatsEnum.UnderLicense) // Impede que avaliações de servidores que estejam sob licença sejam acessadas em qualquer instância;
                     {
-                        RedirectToAssessments(context);
+                        _filters.RedirectToAssessments(context);
                         return;
                     }
 
                     if (!DontAccessEvaluatedAssessment(user, assessment)) // Valida o acesso de usuários à avaliações já avaliadas;
                     {
-                        RedirectToAssessments(context);
+                        _filters.RedirectToAssessments(context);
                         return;
                     }
 
                     if (!DontAccessAssessmentIsNotEvaluator(user, assessment)) // valida o acesso de usuários em avaliações permitindo que apenas o responsável pela avaliação possa acessá-la, exceto quando se tratar de um administrador, que terá o aceso irrestrito às avaliações desde que o servidor avaliado não esteja sob licença;
                     {
-                        RedirectToAssessments(context);
+                        _filters.RedirectToAssessments(context);
                         return;
                     }
                     return;
@@ -91,15 +87,5 @@ public class AssessmentFilter : ActionFilterAttribute
             return true; // Ao verificar se um usuário é administrador, permite que ele acesse qualquer avaliação, desde que o servidor a ser avaliado não esteja sob licença;
 
         return assessment.UserEvaluatorId1 == user.Id || assessment.UserEvaluatorId2 == user.Id; // Caso o usuário seja um avaliador ele poderá acesar somente avaliações em que ele conste como um dos avaliadores dos ervidor a ser avaliado;
-    }
-
-    private static void RedirectToLogin(ActionExecutedContext context)
-    {
-        context.Result = new RedirectToActionResult("Index", "Login", null);
-    }
-
-    private static void RedirectToAssessments(ActionExecutedContext context)
-    {
-        context.Result = new RedirectToActionResult("Index", "Assessments", null);
     }
 }

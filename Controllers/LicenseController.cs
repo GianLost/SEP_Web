@@ -9,7 +9,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
-[UserAdminFilter]
+[ServiceFilter(typeof(UserAdminFilter))]
 public class LicenseController : Controller
 {
     private readonly ILogger<LicenseController> _logger;

@@ -12,7 +12,7 @@ using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers;
 
-[AssessmentFilter]
+[ServiceFilter(typeof(AssessmentFilter))]
 public class AssessmentsController : Controller
 {
     private readonly ILogger<AssessmentsController> _logger;

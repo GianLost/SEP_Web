@@ -1,4 +1,5 @@
 using SEP_Web.Database;
+using SEP_Web.Filters;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Validation;
 using SEP_Web.Services;
@@ -28,6 +29,12 @@ builder.Services.AddDbContext<SEP_WebContext>();
 
 builder.Services.AddScoped<IUserSession, UserSession>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+builder.Services.AddScoped<IFilterServices, FilterServices>();
+builder.Services.AddScoped<LoggedinUserFilter>();
+builder.Services.AddScoped<UserAdminFilter>();
+builder.Services.AddScoped<UserEvaluatorFilter>();
+builder.Services.AddScoped<AssessmentFilter>();
 
 builder.Services.AddScoped<IInstituitionServices, InstituitionServices>();
 builder.Services.AddScoped<IDivisionServices, DivisionServices>();

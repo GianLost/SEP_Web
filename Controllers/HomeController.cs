@@ -3,7 +3,7 @@ using SEP_Web.Filters;
 
 namespace SEP_Web.Controllers;
 
-[LoggedinUserFilter]
+[ServiceFilter(typeof(LoggedinUserFilter))]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

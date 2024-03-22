@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace SEP_Web.Controllers;
 
-[UserAdminFilter]
+[ServiceFilter(typeof(UserAdminFilter))]
 public class DivisionController : Controller
 {
     private readonly ILogger<DivisionController> _logger;

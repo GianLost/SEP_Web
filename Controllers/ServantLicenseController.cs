@@ -9,7 +9,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
 
-[UserEvaluatorFilter]
+[ServiceFilter(typeof(UserEvaluatorFilter))]
 public class ServantLicenseController : Controller
 {
     private readonly ILogger<ServantLicenseController> _logger;

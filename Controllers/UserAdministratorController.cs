@@ -10,7 +10,7 @@ using SEP_Web.Services;
 
 namespace SEP_Web_.Controllers;
 
-[UserAdminFilter]
+[ServiceFilter(typeof(UserAdminFilter))]
 public class UserAdministratorController : Controller
 {
     private readonly ILogger<UserAdministratorController> _logger;
