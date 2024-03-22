@@ -70,7 +70,7 @@ public class UserAdministratorController : Controller
 
             if (ModelState.IsValid)
             {
-                List<(string FieldName, string Message)> duplicateErrors = await _validation.CheckForDuplicateDatatableFields(user);
+                List<(string FieldName, string Message)> duplicateErrors = await _validation.CheckForDuplicateUserFields(user);
 
                 foreach (var (FieldName, Message) in duplicateErrors)
                     ModelState.AddModelError(FieldName, Message);
@@ -158,7 +158,7 @@ public class UserAdministratorController : Controller
 
                 foreach (var (fieldName, value) in fieldsToValidate)
                     if (_validation.IsFieldChanged(userEdit, fieldName, value))
-                        if (await _validation.VerifyIfFieldExistsInBothUsersTable(fieldName, value))
+                        if (await _validation.CheckIfFieldExistsInAnyUserTable(fieldName, value))
                             ModelState.AddModelError(fieldName, $"O {fieldName.ToLower()} informado já está em uso.");
 
                 if (ModelState.ErrorCount > 0)

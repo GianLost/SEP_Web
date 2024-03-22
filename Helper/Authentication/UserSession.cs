@@ -3,39 +3,38 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SEP_Web.Database;
-using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Helper.Authentication;
 public class UserSession : IUserSession
 {
+    private readonly ILogger<IUserSession> _logger;
     private readonly SEP_WebContext _database;
     private readonly IHttpContextAccessor _httpContext;
+    private const string UserSessionKey = "userCheckIn";
 
-    public UserSession(IHttpContextAccessor httpContext, SEP_WebContext database)
+    public UserSession(IHttpContextAccessor httpContext, SEP_WebContext database, ILogger<IUserSession> logger)
     {
+        _logger = logger;
         _httpContext = httpContext;
         _database = database;
     }
 
     public async Task<Users> SearchUserSession()
     {
-        string userSession = _httpContext.HttpContext.Session.GetString("userCheckIn");
+        string userSession = _httpContext.HttpContext.Session.GetString(UserSessionKey);
 
         if (string.IsNullOrEmpty(userSession)) return null;
 
-        Users user = new();
-
-        if (userSession.Contains("UserType") == Convert.ToBoolean(UsersTypeEnum.User_Admin))
+        try
         {
-            user = await JsonSerializer.DeserializeAsync<UserAdministrator>(new MemoryStream(Encoding.UTF8.GetBytes(userSession)));
+            return await JsonSerializer.DeserializeAsync<Users>(new MemoryStream(Encoding.UTF8.GetBytes(userSession)));
         }
-        else if (userSession.Contains("UserType") == Convert.ToBoolean(UsersTypeEnum.User_Evaluator))
+        catch(JsonException ex)
         {
-            user = await JsonSerializer.DeserializeAsync<UserEvaluator>(new MemoryStream(Encoding.UTF8.GetBytes(userSession)));
+            _logger.LogError(ex, "Erro ao tentar desserializar o objeto de usuário para estabelecer a sessão.");
+            return null;
         }
-
-        return user;
     }
 
     public void UserCheckIn(Users users)
@@ -58,7 +57,7 @@ public class UserSession : IUserSession
 
     public void UserCheckOut()
     {
-        _httpContext.HttpContext.Session.Remove("userCheckIn");
+        _httpContext.HttpContext.Session.Remove(UserSessionKey);
         _httpContext.HttpContext.Session.Clear();
     }
 }

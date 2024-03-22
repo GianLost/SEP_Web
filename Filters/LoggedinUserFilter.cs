@@ -5,11 +5,14 @@ using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Filters;
+
 public class LoggedinUserFilter : ActionFilterAttribute
 {
+    private const string UserSessionKey = "userCheckIn";
+
     public override void OnActionExecuted(ActionExecutedContext context)
     {
-        string userSession = context.HttpContext.Session.GetString("userCheckIn");
+        string userSession = context.HttpContext.Session.GetString(UserSessionKey);
 
         if (string.IsNullOrEmpty(userSession))
         {

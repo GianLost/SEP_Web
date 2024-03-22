@@ -11,19 +11,19 @@ public class UsersValidation : IUsersValidation
 
     public UsersValidation(SEP_WebContext database)
     {
-        _database = database;
+        _database = database ?? throw new ArgumentNullException(nameof(database));
     }
 
-    public async Task<bool> VerifyIfFieldExistsInBothUsersTable(string fieldName, object value)
+    public async Task<bool> CheckIfFieldExistsInAnyUserTable(string fieldName, object value)
     {
-        bool Administrators = await _database.Administrators.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
-        bool Evaluators = await _database.Evaluators.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
-        bool Servants = await _database.Servants.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
 
-        return Administrators || Evaluators || Servants;
+        return await _database.Administrators.AnyAsync(u => EF.Property<object>(u, fieldName) == value) ||
+        await _database.Evaluators.AnyAsync(u => EF.Property<object>(u, fieldName) == value) ||
+        await _database.Servants.AnyAsync(u => EF.Property<object>(u, fieldName) == value);
+
     }
 
-    public async Task<List<(string FieldName, string Message)>> CheckForDuplicateDatatableFields(Users user)
+    public async Task<List<(string FieldName, string Message)>> CheckForDuplicateUserFields(Users user)
     {
         List<(string FieldName, string Message)> duplicateErrors = new();
 
@@ -37,7 +37,7 @@ public class UsersValidation : IUsersValidation
         };
 
         foreach (var (fieldName, value) in fieldsToValidate)
-            if (await VerifyIfFieldExistsInBothUsersTable(fieldName, value)) duplicateErrors.Add((fieldName, $"O {fieldName.ToLower()} informado já está em uso."));
+            if (await CheckIfFieldExistsInAnyUserTable(fieldName, value)) duplicateErrors.Add((fieldName, $"O {fieldName.ToLower()} informado já está em uso."));
 
         return duplicateErrors;
     }
@@ -59,7 +59,14 @@ public class UsersValidation : IUsersValidation
 
     public bool IsFieldChanged(Users existingUser, string fieldName, object newValue)
     {
-        var existingValue = existingUser.GetType().GetProperty(fieldName).GetValue(existingUser);
+        if (existingUser == null)
+            throw new ArgumentNullException(nameof(existingUser));
+
+        var property = existingUser.GetType().GetProperty(fieldName)
+            ?? throw new ArgumentException($"O campo '{fieldName}' não pôde ser mapeado.");
+
+        var existingValue = property.GetValue(existingUser);
+
         return !Equals(existingValue, newValue);
     }
 }
