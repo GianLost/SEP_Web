@@ -56,7 +56,7 @@ public class AssessmentsController : Controller
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode);
             TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorServantList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Assessment>());
+            return View(new List<AssessmentViewModel>());
         }
         catch (ArgumentNullException ex2)
         {
@@ -65,7 +65,7 @@ public class AssessmentsController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
             TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Assessment>());
+            return View(new List<AssessmentViewModel>());
         }
     }
 

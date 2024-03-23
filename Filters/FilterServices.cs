@@ -44,6 +44,11 @@ public class FilterServices : IFilterServices
 
     public void RedirectToLogin(ActionExecutedContext context)
     {
-        context.Result = new RedirectToActionResult("Index", "Login", null);
+        context.Result = new RedirectToActionResult("Logout", "Login", null);
+    }
+
+    public void RedirectToHome(ActionExecutedContext context)
+    {
+        context.Result = new RedirectToActionResult("Index", "Home", null);
     }
 }

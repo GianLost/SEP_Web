@@ -6,10 +6,12 @@ using SEP_Web.Models;
 namespace SEP_Web.Filters;
 public class AssessmentFilter : ActionFilterAttribute
 {
+    private readonly ILogger<AssessmentFilter> _logger;
     private readonly IFilterServices _filters;
 
-    public AssessmentFilter(IFilterServices filters)
+    public AssessmentFilter(ILogger<AssessmentFilter> logger, IFilterServices filters)
     {
+        _logger = logger;
         _filters = filters;
     }
 
@@ -70,15 +72,25 @@ public class AssessmentFilter : ActionFilterAttribute
         return null;
     }
 
-    private static bool DontAccessEvaluatedAssessment(Users user, Assessment assessment)
+    private bool DontAccessEvaluatedAssessment(Users user, Assessment assessment)
     {
-        if (user.UserType == UsersTypeEnum.User_Admin && assessment.Stats == AssessmentStatsEnum.EVALUATED)
+        if(user == null || assessment == null) 
+            return false;
+        try
+        {
+            if (user.UserType == UsersTypeEnum.User_Admin && assessment.Stats == AssessmentStatsEnum.EVALUATED)
             return true; // Permite a um administrador acessar avaliações já avaliadas;
 
-        if (user.UserType != UsersTypeEnum.User_Admin && assessment.Stats == AssessmentStatsEnum.EVALUATED)
-            return false; // nega o acesso a avaliações já avaliadas à um usuário que não seja administrador;
+            if (user.UserType != UsersTypeEnum.User_Admin && assessment.Stats == AssessmentStatsEnum.EVALUATED)
+                return false; // nega o acesso a avaliações já avaliadas à um usuário que não seja administrador;
 
-        return true;
+            return true;
+        }
+        catch(ArgumentException nullException)
+        {
+            _logger.LogError(nullException, "um dos parâmetros esperados pela validação retornou \"(null)\"");
+            return true;
+        }
     }
 
     private static bool DontAccessAssessmentIsNotEvaluator(Users user, Assessment assessment)
