@@ -41,13 +41,15 @@
 
             <form class="register-adm-form" asp-controller="UserAdministrator" asp-action="Edit" method="post">
 
-                @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
+                <div class="pop-up-sm">
+                    @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
+                </div>
 
                 <div class="row">
 
                     <div class="col-md-6 adm-col">
 
-                        <div class="form-group">
+                        <div class="form-group mt-0  mb-0">
 
                             <label class="form-label" for="edit-administrator-masp" hidden></label>
                             <input type="number" class="form-control userMasp" id="edit-administrator-masp" name="masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
@@ -91,7 +93,7 @@
 
                     <div class="col-md-6 adm-col">
 
-                        <div class="form-group">
+                        <div class="form-group mt-0 mb-0">
 
                             <label class="form-label" for="edit-administrator-phone" hidden></label>
                             <input type="tel" class="form-control" onkeyup="handlePhone(event)" id="edit-administrator-phone" name="phone" asp-for="Phone" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">

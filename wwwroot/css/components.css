@@ -47,6 +47,32 @@
   padding: 0;
 }
 
+.pop-up-sm {
+  display: flex;
+  justify-content: center;
+  height: 42px;
+  margin-bottom: 1vh;
+}
+
+.pop-up-sm .alert i {
+  margin-right: 1.5vh;
+}
+
+.assess-pop-up {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12vh;
+}
+
+.assess-pop-up .alert {
+  margin-top: 2.5vh;
+}
+
+.assess-pop-up .alert i {
+  margin-right: 1.5vh;
+}
+
 #btn-cgPass {
   display: flex;
   align-items: center;
