@@ -6,6 +6,7 @@ using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 using SEP_Web.Services;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers;
 
@@ -27,13 +28,13 @@ public class SectorController : Controller
     {
         try
         {
-            ICollection<Sector> sectors = await _sectorServices.SectorsList();
+            ICollection<SectorViewModel> sectors = await _sectorServices.SectorsList();
             if (sectors == null)
                 throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
 
             if (sectors?.Count == 0)
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
-            return View(sectors ?? new List<Sector>());
+            return View(sectors ?? new List<SectorViewModel>());
         }
         catch (MySqlException dbException)
         {
@@ -42,7 +43,7 @@ public class SectorController : Controller
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
             TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorSectorList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Sector>());
+            return View(new List<SectorViewModel>());
         }
         catch (ArgumentNullException ex)
         {
@@ -51,7 +52,7 @@ public class SectorController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
             TempData["ErrorMessage"] = ExceptionMessages.ErrorArgumentNullException; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Sector>());
+            return View(new List<SectorViewModel>());
         }
         catch (TargetParameterCountException ex2)
         {
@@ -60,7 +61,7 @@ public class SectorController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
             TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Sector>());
+            return View(new List<SectorViewModel>());
         }
     }
 

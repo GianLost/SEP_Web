@@ -1,35 +1,35 @@
-$('.table-style').show(function () {
-    /* chamada da função que traz o plugin DataTable */
-    getDatatableClass('.table-style')
+$(document).ready(function () {
+    // Chamada da função que traz o plugin DataTable
+    getDatatableClass('.table-style');
 });
 
-/* função de configuração do plugin DataTable e aplicação do plugin de acordo com a classe capturada */
+/* Função de configuração do plugin DataTable e aplicação do plugin de acordo com a classe capturada */
 function getDatatableClass(tableClass) {
     $(tableClass).DataTable({
         "ordering": true,
         "paging": true,
         "searching": true,
-        "oLanguage": {
-            "sEmptyTable": "Nenhum registro encontrado na tabela",
-            "sInfo": "Mostrar _START_ até _END_ de _TOTAL_ registros",
-            "sInfoEmpty": "Mostrar 0 até 0 de 0 Registros",
-            "sInfoFiltered": "(Filtrar de um total de _MAX_ registros)",
-            "sInfoPostFix": "",
-            "sInfoThousands": ".",
-            "sLengthMenu": "Mostrar _MENU_ registros por página",
-            "sLoadingRecords": "Carregando...",
-            "sProcessing": "Processando...",
-            "sZeroRecords": "Nenhum registro encontrado",
-            "sSearch": "Pesquisar",
-            "oPaginate": {
-                "sNext": "Proximo",
-                "sPrevious": "Anterior",
-                "sFirst": "Primeiro",
-                "sLast": "Ultimo"
+        "language": {
+            "emptyTable": "Nenhum registro encontrado na tabela",
+            "info": "Mostrar _START_ até _END_ de _TOTAL_ registros",
+            "infoEmpty": "Mostrar 0 até 0 de 0 Registros",
+            "infoFiltered": "(Filtrar de um total de _MAX_ registros)",
+            "infoPostFix": "",
+            "infoThousands": ".",
+            "lengthMenu": "Mostrar _MENU_ registros por página",
+            "loadingRecords": "Carregando...",
+            "processing": "Processando...",
+            "zeroRecords": "Nenhum registro encontrado",
+            "search": "Pesquisar",
+            "paginate": {
+                "next": "Proximo",
+                "previous": "Anterior",
+                "first": "Primeiro",
+                "last": "Ultimo"
             },
-            "oAria": {
-                "sSortAscending": ": Ordenar colunas de forma ascendente",
-                "sSortDescending": ": Ordenar colunas de forma descendente"
+            "aria": {
+                "sortAscending": ": Ordenar colunas de forma ascendente",
+                "sortDescending": ": Ordenar colunas de forma descendente"
             }
         }
     });

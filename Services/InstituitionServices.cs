@@ -4,6 +4,7 @@ using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services;
 public class InstituitionServices : IInstituitionServices
@@ -27,11 +28,18 @@ public class InstituitionServices : IInstituitionServices
         return instituition;
     }
 
-    public async Task<ICollection<Instituition>> InstituitionsList()
+    public async Task<ICollection<InstituitionViewModel>> InstituitionsList()
     {
         try
         {
-            ICollection<Instituition> instituition = await _database.Instituitions.ToListAsync();
+            ICollection<Instituition> instituition = await _database.Instituitions.Include(s => s.UserAdministrator).ToListAsync();
+
+            ICollection<InstituitionViewModel> instituitionViewModels = instituition.Select(s => new InstituitionViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                UserAdministratorId = s.UserAdministratorId
+            }).ToList();
 
             if (instituition == null)
                 throw new ArgumentNullException(nameof(instituition), ExceptionMessages.ErrorArgumentNullException);
@@ -42,7 +50,7 @@ public class InstituitionServices : IInstituitionServices
             if (_database == null)
                 throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
-            return instituition ?? new List<Instituition>();
+            return instituitionViewModels ?? new List<InstituitionViewModel>();
         }
         catch (MySqlException mySqlException)
         {
@@ -51,7 +59,7 @@ public class InstituitionServices : IInstituitionServices
             _logger.LogError("[INSTITUITION_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
             _logger.LogError("[INSTITUITION_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
-            return new List<Instituition>();
+            return new List<InstituitionViewModel>();
         }
         catch (ArgumentNullException nullException)
         {
@@ -60,7 +68,7 @@ public class InstituitionServices : IInstituitionServices
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
             _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
 
-            return new List<Instituition>();
+            return new List<InstituitionViewModel>();
         }
         catch (TargetParameterCountException emptyException)
         {
@@ -69,7 +77,7 @@ public class InstituitionServices : IInstituitionServices
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
             _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
 
-            return new List<Instituition>();
+            return new List<InstituitionViewModel>();
         }
 
     }

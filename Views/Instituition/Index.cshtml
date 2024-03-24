@@ -1,5 +1,6 @@
-@model ICollection<Instituition>
+@model ICollection<InstituitionViewModel>
 @using SEP_Web.Models
+@using SEP_Web.ViewModels
 @{
     ViewData["Title"] = "Órgãos";
 }
@@ -60,7 +61,7 @@
 
                     <tbody>
 
-                        @foreach (Instituition instituition in Model)
+                        @foreach (InstituitionViewModel instituition in Model)
                         {
                             <tr class="table-light border-light">
 

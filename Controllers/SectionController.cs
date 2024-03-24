@@ -6,6 +6,7 @@ using SEP_Web.Services;
 using MySqlConnector;
 using SEP_Web.Helper.Messages;
 using System.Reflection;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers;
 
@@ -27,15 +28,15 @@ public class SectionController : Controller
     {
         try
         {
-            ICollection<Section> sections = await _sectionServices.SectionsList();
+            ICollection<SectionViewModel> sections = await _sectionServices.SectionsList();
 
             if (sections == null)
                 throw new ArgumentNullException(nameof(sections), ExceptionMessages.ErrorArgumentNullException);
 
-            if (sections?.Count == 0)
+            if (sections.Count == 0)
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-            return View(sections ?? new List<Section>());
+            return View(sections ?? new List<SectionViewModel>());
         }
         catch (MySqlException dbException)
         {
@@ -44,7 +45,7 @@ public class SectionController : Controller
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
             TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorSectionList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Section>());
+            return View(new List<SectionViewModel>());
         }
         catch (ArgumentNullException ex)
         {
@@ -53,7 +54,7 @@ public class SectionController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
             TempData["ErrorMessage"] = ExceptionMessages.ErrorArgumentNullException; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Section>());
+            return View(new List<SectionViewModel>());
         }
         catch (TargetParameterCountException ex2)
         {
@@ -62,7 +63,7 @@ public class SectionController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
             TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Section>());
+            return View(new List<SectionViewModel>());
         }
     }
 

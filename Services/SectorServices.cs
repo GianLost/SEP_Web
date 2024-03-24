@@ -4,6 +4,7 @@ using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services;
 public class SectorServices : ISectorServices
@@ -17,30 +18,31 @@ public class SectorServices : ISectorServices
         _database = database;
     }
 
-    public async Task<ICollection<Sector>> SectorsList()
+    public async Task<ICollection<SectorViewModel>> SectorsList()
     {
         try
         {
-            ICollection<Sector> sectors = await _database.Sectors.ToListAsync();
-            if (sectors == null)
-                throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
+            ICollection<Sector> sectors = await _database.Sectors.Include(x => x.Section).ToListAsync();
 
-            if (sectors?.Count == 0)
+            ICollection<SectorViewModel> sectorViewModels = sectors.Select(x => new SectorViewModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                SectionName = x.Section.Name ?? "N/A",
+                SectionId = x.SectionId
+            }).ToList();
+
+            if (sectors.Count == 0)
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-            if (_database == null)
-                throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
-
-            return sectors ?? new List<Sector>();
+            return sectorViewModels ?? new List<SectorViewModel>();
         }
         catch (MySqlException mySqlException)
         {
-            // MYSQL EXEPTIONS :
-
             _logger.LogError("[SECTOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
             _logger.LogError("[SECTOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
 
-            return new List<Sector>();
+            return new List<SectorViewModel>();
         }
         catch (ArgumentNullException nullException)
         {
@@ -49,7 +51,7 @@ public class SectorServices : ISectorServices
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
             _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
 
-            return new List<Sector>();
+            return new List<SectorViewModel>();
         }
         catch (TargetParameterCountException emptyException)
         {
@@ -58,7 +60,7 @@ public class SectorServices : ISectorServices
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
             _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
 
-            return new List<Sector>();
+            return new List<SectorViewModel>();
         }
     }
 

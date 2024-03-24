@@ -4,6 +4,7 @@ using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services;
 public class SectionServices : ISectionServices
@@ -44,22 +45,29 @@ public class SectionServices : ISectionServices
         return sectionEdit;
     }
 
-    public async Task<ICollection<Section>> SectionsList()
+    public async Task<ICollection<SectionViewModel>> SectionsList()
     {
         try
         {
-            ICollection<Section> sections = await _database.Sections.ToListAsync();
+            ICollection<Section> sections = await _database.Sections.Include(x => x.Division).ToListAsync();
+
+            ICollection<SectionViewModel> sectionViewModels = sections.Select(x => new SectionViewModel {
+                Id = x.Id,
+                Name = x.Name,
+                DivisionName = x.Division.Name ?? "N/A",
+                DivisionId = x.DivisionId
+            }).ToList();
 
             if (sections == null)
                 throw new ArgumentNullException(nameof(sections), ExceptionMessages.ErrorArgumentNullException);
 
-            if (sections?.Count == 0)
+            if (sections.Count == 0)
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
             if (_database == null)
                 throw new InvalidOperationException(ExceptionMessages.ErrorDatabaseConnection);
 
-            return sections ?? new List<Section>();
+            return sectionViewModels ?? new List<SectionViewModel>();
         }
         catch (MySqlException mySqlException)
         {
@@ -67,8 +75,7 @@ public class SectionServices : ISectionServices
 
             _logger.LogError("[SECTION_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
             _logger.LogError("[SECTION_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
-
-            return new List<Section>();
+            return new List<SectionViewModel>();
         }
         catch (ArgumentNullException nullException)
         {
@@ -76,8 +83,7 @@ public class SectionServices : ISectionServices
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
             _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
-
-            return new List<Section>();
+            return new List<SectionViewModel>();
         }
         catch (TargetParameterCountException emptyException)
         {
@@ -85,8 +91,7 @@ public class SectionServices : ISectionServices
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
             _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
-
-            return new List<Section>();
+            return new List<SectionViewModel>();
         }
     }
 

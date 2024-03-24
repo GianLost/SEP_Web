@@ -6,6 +6,7 @@ using SEP_Web.Services;
 using MySqlConnector;
 using SEP_Web.Helper.Messages;
 using System.Reflection;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers;
 
@@ -27,15 +28,15 @@ public class DivisionController : Controller
     {
         try
         {
-            ICollection<Division> divisions = await _divisionServices.DivisionsList();
+            ICollection<DivisionViewModel> divisions = await _divisionServices.DivisionsList();
 
             if (divisions == null)
                 throw new ArgumentNullException(nameof(divisions), ExceptionMessages.ErrorArgumentNullException);
 
-            if (divisions?.Count == 0)
+            if (divisions.Count == 0)
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
 
-            return View(divisions ?? new List<Division>());
+            return View(divisions ?? new List<DivisionViewModel>());
         }
         catch (MySqlException dbException)
         {
@@ -44,7 +45,7 @@ public class DivisionController : Controller
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
             TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorDivisionList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Division>());
+            return View(new List<DivisionViewModel>());
         }
         catch (ArgumentNullException ex)
         {
@@ -53,7 +54,7 @@ public class DivisionController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
             TempData["ErrorMessage"] = ExceptionMessages.ErrorArgumentNullException; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Division>());
+            return View(new List<DivisionViewModel>());
         }
         catch (TargetParameterCountException ex2)
         {
@@ -62,7 +63,7 @@ public class DivisionController : Controller
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
             TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
 
-            return View(new List<Division>());
+            return View(new List<DivisionViewModel>());
         }
     }
 

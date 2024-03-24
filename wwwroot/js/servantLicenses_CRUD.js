@@ -10,10 +10,10 @@ function RegisterServantLicense() {
     $.post("/ServantLicense/Register", properties)
 
         .done(function (output) {
-            if (output.stats == "OK") {
+            if (output.stats == 1) {
                 $(location).attr('href', '/ServantLicense/Index');
 
-            } else if (output.stats == "ERROR") {
+            } else if (output.stats == 2) {
                 if (properties.CivilServantId <= 0) {
                     $(".select-servant-validation-error").html('selecione um servidor !');
                 } else {
@@ -34,11 +34,11 @@ function RegisterServantLicense() {
                 } else {
                     $(".field-edate-validation-error").empty();
                 }
-            } else if (output.stats == "ERROR_TIME") {
+            } else if (output.stats == 7) {
                 $(location).attr('href', '/ServantLicense/Index');
-            } else if (output.stats == "INVALID_TIME") {
+            } else if (output.stats == 6) {
                 if (new Date(properties.EndDate).getDate() <= new Date(properties.StartDate).getDate()) {
-                    $(".field-Time-validation-error").html('A data de término não pode ser menor que a data de início !');
+                    $(".field-Time-validation-error").html('A data de término não pode ser anterior à data de início !');
                 } else {
                     $(".field-Time-validation-error").empty();
                     $(".alert").empty();

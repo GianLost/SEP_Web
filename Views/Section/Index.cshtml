@@ -1,5 +1,6 @@
-@model ICollection<Section>
+@model ICollection<SectionViewModel>
 @using SEP_Web.Models
+@using SEP_Web.ViewModels
 @using SEP_Web.Services
 @inject IDivisionServices _divisionServices
 @{
@@ -57,7 +58,7 @@
 
                     <tbody>
 
-                        @foreach (Section sections in Model)
+                        @foreach (SectionViewModel sections in Model)
                         {
                             string divisionName = await _divisionServices.DivisionsName(sections.DivisionId);
 

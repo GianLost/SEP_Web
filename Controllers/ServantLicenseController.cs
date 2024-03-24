@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Messages;
+using SEP_Web.Keys;
 using SEP_Web.Models;
 using SEP_Web.Services;
 
@@ -79,13 +80,13 @@ public class ServantLicenseController : Controller
                 if (duration.Value.Days > maxDuration)
                 {
                     TempData["ErrorMessage"] = "O prazo estabelecido excede o tempo máximo permitido para a licença selecionada !";
-                    return Json(new { stats = "ERROR_TIME"});
+                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME});
                 }
 
                 if (servantLicense.EndDate <= servantLicense.StartDate)
                 {
                     TempData["ErrorMessage"] = "A data final da licença não pode ser anterior a data de início !";
-                    return Json(new { stats = "INVALID_TIME"});
+                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME});
                 }else {
                     TempData.Clear();
                 }
@@ -93,15 +94,15 @@ public class ServantLicenseController : Controller
                 await _servantLicenses.RegisterServantLicense(servantLicense);
 
                 TempData["SuccessMessage"] = "Licença adicionada para o servidor.";
-                return Json(new { stats = "OK" });
+                return Json(new { stats = StatsAJAXEnum.OK });
             }
 
-            return Json(new { stats = "ERROR", message = "Não foi possível adicionar a licença!" });
+            return Json(new { stats = StatsAJAXEnum.ERROR, message = "Não foi possível adicionar a licença!" });
         }
         catch (InvalidOperationException e)
         {
             _logger.LogError("Não foi possível adicionar a licença. Error : {Message}", e.Message);
-            return Json(new { stats = "INVALID", message = "Não foi possível adicionar a liceça!" });
+            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível adicionar a liceça!" });
         }
     }
 
