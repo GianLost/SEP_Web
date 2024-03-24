@@ -94,6 +94,12 @@ public class LicenseServices : ILicenseServices
         _database.SaveChanges();
     }
 
+    public async Task<int> GetMaxLicenseDuration(int licenseId)
+    {
+        Licenses license = await _database.Licenses.FindAsync(licenseId);
+        return license.Time.Value;
+    }
+
     public Licenses SearchForId(int id)
     {
         return _database.Licenses.FirstOrDefault(x => x.Id == id);

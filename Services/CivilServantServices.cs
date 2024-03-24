@@ -3,6 +3,7 @@ using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
+using SEP_Web.Keys;
 using SEP_Web.Models;
 
 namespace SEP_Web.Services;
@@ -62,6 +63,37 @@ public class CivilServantServices : ICivilServantServices
         try
         {
             ICollection<CivilServant> servants = await _database.Servants.ToListAsync();
+
+            if (servants?.Count == 0)
+                throw new ArgumentNullException(nameof(servants), ExceptionMessages.ErrorArgumentNullException);
+
+            return servants ?? new List<CivilServant>();
+        }
+        catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
+        {
+            // MYSQL EXEPTIONS :
+
+            _logger.LogError("[SERVANT_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
+            _logger.LogError("[SERVANT_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
+
+            return new List<CivilServant>();
+        }
+        catch (ArgumentNullException ex)
+        {
+            // NULL EXCEPTION :
+
+            _logger.LogWarning("[SERVANT_SERVICE]: {exceptionMessage} : {Message}, value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
+            _logger.LogWarning("[SERVANT_SERVICE]: {Description}", ex.StackTrace.Trim());
+
+            return new List<CivilServant>();
+        }
+    }
+
+    public async Task<ICollection<CivilServant>> ServantsListUnderLicense()
+    {
+        try
+        {
+            ICollection<CivilServant> servants = await _database.Servants.Where(x => x.UserStats != UserStatsEnum.UnderLicense).ToListAsync();
 
             if (servants?.Count == 0)
                 throw new ArgumentNullException(nameof(servants), ExceptionMessages.ErrorArgumentNullException);

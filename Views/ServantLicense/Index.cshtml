@@ -23,7 +23,7 @@
             <div class="modal-content">
 
                 <div class="modal-header bg-primary text-light p-3">
-                    <h3 class="modal-title fs-4 text-center">Incluir Servidor</h3>
+                    <h3 class="modal-title fs-4 text-center">Aplicar Licença</h3>
                     <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="ServantLicense"></a>
                 </div>
                 <div class="modal-body p-1">
@@ -48,7 +48,7 @@
 
             <div class="table-responsive">
 
-                <table id="license-table" class="table table-sm table-bordered table-striped table-light table-style p-0">
+                <table id="license-table" class="table table-sm table-bordered users-table table-striped table-light table-style p-0">
 
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
@@ -67,8 +67,8 @@
                         {
                             <tr class="table-light border-light">
                                 
-                                <td scope="row">@license.CivilServant.Masp</td>
-                                <td scope="row">@license.CivilServant.Name.ToUpper()</td>
+                                <td class="text-center" scope="row">@license.CivilServant.Masp</td>
+                                <td class="text-start" scope="row">@license.CivilServant.Name.ToUpper()</td>
                                 <td scope="row">@license.License.Name.ToUpper()</td>
                                 <td scope="row">@((license.StartDate.HasValue) ? license.StartDate.Value.ToString("dd/MM/yyyy") : "")</td>
                                 <td scope="row">@((license.EndDate.HasValue) ? license.EndDate.Value.ToString("dd/MM/yyyy") : "")</td>

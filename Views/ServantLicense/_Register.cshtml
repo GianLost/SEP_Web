@@ -16,13 +16,21 @@
 
         <div class="form-group p-4">
 
-            <input style="width: 5rem;" class="form-control mb-2" type="text" id="license-duration-hidden" disabled>
+            <div class="row justify-content-between ps-3">
+                <input class="form-control w-25" type="text" id="license-duration-hidden" disabled>
+                <input class="form-control w-25 me-3" type="text" id="license-duration" disabled hidden>
+            </div>
+
+            <div class="validate-fields mt-0 mb-1">
+                <span class="field-Time-validation-error m-0"></span>
+            </div>
+
             @if ((await _servantServices.ServantsList()).Count > 0)
             {
                 <div class="form-group">
                     <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
                         <option value="" selected>-- selecione o servidor --</option>
-                        @foreach (var i in await _servantServices.ServantsList())
+                        @foreach (var i in await _servantServices.ServantsListUnderLicense())
                         {
                             <option value="@i.Id">@i.Name</option>
                         }
@@ -74,7 +82,7 @@
             <div class="row">
                 <div class="col-md-6  form-group">
                     <label style="font-size: 0.9em;" class="form-label" for="servantLicense-startDate">Data de início:</label>
-                    <input type="date" class="form-control" id="servantLicense-startDate" asp-for="StartDate" autocomplete="disabled">
+                    <input type="date" class="form-control" id="servantLicense-startDate" name="StartDate" asp-for="StartDate" autocomplete="disabled">
                     <div class="validate-fields mb-1">
                         <span class="field-sdate-validation-error"></span>
                     </div>
@@ -82,11 +90,12 @@
 
                 <div class="col-md-6 form-group">
                     <label style="font-size: 0.9em;" class="form-label" for="servantLicense-endDate">Data de término:</label>
-                    <input type="date" class="form-control" id="servantLicense-endDate" asp-for="EndDate" autocomplete="disabled">
+                    <input type="date" class="form-control" id="servantLicense-endDate" name="EndDate"  asp-for="EndDate" autocomplete="disabled">
                     <div class="validate-fields mb-1">
                         <span class="field-edate-validation-error"></span>
                     </div>
                 </div>
+
             </div>
 
         </div>

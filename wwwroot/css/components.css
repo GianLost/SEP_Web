@@ -108,7 +108,8 @@
 .field-edate-validation-error,
 .select-validation-error,
 .select-servant-validation-error,
-.select-license-validation-error {
+.select-license-validation-error,
+.field-Time-validation-error {
   color: #e01d1d;
   font-size: 0.7em;
   font-style: italic;

@@ -14,7 +14,7 @@ public class ServantLicense
     public CivilServant CivilServant { get; set; }
 
     [ForeignKey("LicensesId")]
-    public int? LicensesId { get; set; }
+    public int LicensesId { get; set; }
     public Licenses License { get; set; } 
 
     [Required(ErrorMessage = "Informe a data de início !")]

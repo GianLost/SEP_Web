@@ -2,7 +2,6 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SEP_Web.Filters;
-using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models;
 using SEP_Web.Services;
@@ -13,13 +12,13 @@ namespace SEP_Web.Controllers;
 public class ServantLicenseController : Controller
 {
     private readonly ILogger<ServantLicenseController> _logger;
-    private readonly IUserSession _session;
+    private readonly ILicenseServices _licenses;
     private readonly IServantLicenseServices _servantLicenses;
 
-    public ServantLicenseController(ILogger<ServantLicenseController> logger, IUserSession session, IServantLicenseServices servantLicenses)
+    public ServantLicenseController(ILogger<ServantLicenseController> logger, ILicenseServices licenses, IServantLicenseServices servantLicenses)
     {
         _logger = logger;
-        _session = session;
+        _licenses = licenses;
         _servantLicenses = servantLicenses;
     }
 
@@ -66,20 +65,40 @@ public class ServantLicenseController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(ServantLicense servantLicense)
+    public async Task<IActionResult> Register([Bind("CivilServantId, LicensesId, StartDate, EndDate")]ServantLicense servantLicense)
     {
         try
         {
             if (ModelState.IsValid)
             {
+                int maxDuration = await _licenses.GetMaxLicenseDuration(servantLicense.LicensesId);
+
+                // Verificar se a diferença entre as datas excede a duração máxima
+                TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
+                
+                if (duration.Value.Days > maxDuration)
+                {
+                    TempData["ErrorMessage"] = "O prazo estabelecido excede o tempo máximo permitido para a licença selecionada !";
+                    return Json(new { stats = "ERROR_TIME"});
+                }
+
+                if (servantLicense.EndDate <= servantLicense.StartDate)
+                {
+                    TempData["ErrorMessage"] = "A data final da licença não pode ser anterior a data de início !";
+                    return Json(new { stats = "INVALID_TIME"});
+                }else {
+                    TempData.Clear();
+                }
+
                 await _servantLicenses.RegisterServantLicense(servantLicense);
+
                 TempData["SuccessMessage"] = "Licença adicionada para o servidor.";
                 return Json(new { stats = "OK" });
             }
 
             return Json(new { stats = "ERROR", message = "Não foi possível adicionar a licença!" });
         }
-        catch (Exception e)
+        catch (InvalidOperationException e)
         {
             _logger.LogError("Não foi possível adicionar a licença. Error : {Message}", e.Message);
             return Json(new { stats = "INVALID", message = "Não foi possível adicionar a liceça!" });
@@ -115,6 +134,25 @@ public class ServantLicenseController : Controller
             return RedirectToAction("Index");
         }
 
+    }
+
+    [HttpGet]
+    public IActionResult GetLicenseDuration(int id)
+    {
+        try
+        {
+            Licenses license = _licenses.SearchForId(id);
+
+            if (license != null)
+                return Ok(license.Time);
+            
+            return NotFound();
+        }
+        catch(InvalidOperationException ex)
+        {
+            _logger.LogError("Não foi possível capturar a licença. Error : {Message}", ex.Message);
+            return StatusCode(500);
+        }
     }
 
 }

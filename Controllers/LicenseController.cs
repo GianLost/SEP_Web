@@ -80,12 +80,12 @@ public class LicenseController : Controller
                 return Json(new { stats = "OK" });
             }
 
-            return Json(new { stats = "ERROR", message = "Não foi possível cadsatrar a licença!" });
+            return Json(new { stats = "ERROR", message = "Não foi possível cadastrar a licença!" });
         }
         catch (Exception e)
         {
             _logger.LogError("Não foi possível cadsatrar a licença. Error : {Message}", e.Message);
-            return Json(new { stats = "INVALID", message = "Não foi possível cadsatrar a liceça!" });
+            return Json(new { stats = "INVALID", message = "Não foi possível cadastrar a liceça!" });
         }
     }
 
@@ -144,24 +144,4 @@ public class LicenseController : Controller
             return RedirectToAction("Index");
         }
     }
-
-    [HttpGet]
-    public IActionResult GetLicenseDuration(int id)
-    {
-        try
-        {
-            Licenses license = _licenses.SearchForId(id);
-
-            if (license != null)
-                return Ok(license.Time);
-            
-            return NotFound();
-        }
-        catch(InvalidOperationException ex)
-        {
-            _logger.LogError("Não foi possível capturar a licença. Error : {Message}", ex.Message);
-            return StatusCode(500);
-        }
-    }
-    
 }
