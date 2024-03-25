@@ -24,8 +24,8 @@
                 </button>
 
                 @TempData["ErrorMessage"]
-
             </div>
+            TempData.Clear();
         }
 
         <form id="login-form" class="" asp-controller="Login" asp-action="SignIn" method="post">

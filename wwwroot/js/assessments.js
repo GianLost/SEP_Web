@@ -62,7 +62,7 @@ $(document).ready(function () {
     $('.assessments-form').submit(function (event) {
         // Itera sobre todos os campos de justificativa obrigatórios
         var anyInvalid = false;
-        $('.justification .required').each(function () {
+        $('.justification.required').each(function () {
             // Verifica se o campo está vazio
             if ($(this).val().trim() === '') {
                 // Adiciona uma classe de estilo para indicar erro
