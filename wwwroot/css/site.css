@@ -90,6 +90,31 @@ button.accept-policy {
   background-color: #fff;
 }
 
+#avaliacaoTabContent .line-assess{
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  width: 100%;
+}
+
+#avaliacaoTabContent .list-group p {
+  width: 90%;
+  text-align: justify;
+  margin-bottom: 0%;
+}
+
+.list-group-item input {
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  height: 4vh;
+}
+
+.list-group-item input::placeholder {
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
 tbody:hover {
   cursor: pointer;
 }

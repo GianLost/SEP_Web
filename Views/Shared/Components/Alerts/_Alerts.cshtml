@@ -8,8 +8,7 @@
         @TempData["SuccessMessage"]
     </div>
 }
-
-@if (TempData["ErrorMessage"] != null)
+else if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger" role="alert">
         <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
