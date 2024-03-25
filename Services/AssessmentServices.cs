@@ -70,56 +70,87 @@ public class AssessmentServices : IAssessmentServices
             assessmentEdit.Stats = AssessmentStatsEnum.EVALUATED;
             assessmentEdit.EndEvaluationPeriod = DateTime.Now;
             assessmentEdit.Crit1_Clau1 = assess.Crit1_Clau1;
+            assessmentEdit.Jus_Crit1_Clau1 = assess.Jus_Crit1_Clau1;
 
             assessmentEdit.Crit2_Clau1 = assess.Crit2_Clau1;
+            assessmentEdit.Jus_Crit2_Clau1 = assess.Jus_Crit2_Clau1;
             assessmentEdit.Crit2_Clau2 = assess.Crit2_Clau2;
+            assessmentEdit.Jus_Crit2_Clau2 = assess.Jus_Crit2_Clau2;
             assessmentEdit.Crit2_Clau3 = assess.Crit2_Clau3;
+            assessmentEdit.Jus_Crit2_Clau3 = assess.Jus_Crit2_Clau3;
             assessmentEdit.Crit2_Clau4 = assess.Crit2_Clau4;
+            assessmentEdit.Jus_Crit2_Clau4 = assess.Jus_Crit2_Clau4;
             assessmentEdit.Crit2_Clau5 = assess.Crit2_Clau5;
+            assessmentEdit.Jus_Crit2_Clau5 = assess.Jus_Crit2_Clau5;
 
             assessmentEdit.Crit3_Clau1 = assess.Crit3_Clau1;
+            assessmentEdit.Jus_Crit3_Clau1 = assess.Jus_Crit3_Clau1;
             assessmentEdit.Crit3_Clau2 = assess.Crit3_Clau2;
+            assessmentEdit.Jus_Crit3_Clau2 = assess.Jus_Crit3_Clau2;
             assessmentEdit.Crit3_Clau3 = assess.Crit3_Clau3;
+            assessmentEdit.Jus_Crit3_Clau3 = assess.Jus_Crit3_Clau3;
             assessmentEdit.Crit3_Clau4 = assess.Crit3_Clau4;
+            assessmentEdit.Jus_Crit3_Clau4 = assess.Jus_Crit3_Clau4;
             assessmentEdit.Crit3_Clau5 = assess.Crit3_Clau5;
+            assessmentEdit.Jus_Crit3_Clau5 = assess.Jus_Crit3_Clau5;
 
             assessmentEdit.Crit4_Clau1 = assess.Crit4_Clau1;
+            assessmentEdit.Jus_Crit4_Clau1 = assess.Jus_Crit4_Clau1;
             assessmentEdit.Crit4_Clau2 = assess.Crit4_Clau2;
+            assessmentEdit.Jus_Crit4_Clau2 = assess.Jus_Crit4_Clau2;
             assessmentEdit.Crit4_Clau3 = assess.Crit4_Clau3;
+            assessmentEdit.Jus_Crit4_Clau3 = assess.Jus_Crit4_Clau3;
             assessmentEdit.Crit4_Clau4 = assess.Crit4_Clau4;
+            assessmentEdit.Jus_Crit4_Clau4 = assess.Jus_Crit4_Clau4;
             assessmentEdit.Crit4_Clau5 = assess.Crit4_Clau5;
+            assessmentEdit.Jus_Crit4_Clau5 = assess.Jus_Crit4_Clau5;
 
             assessmentEdit.Crit5_Clau1 = assess.Crit5_Clau1;
+            assessmentEdit.Jus_Crit5_Clau1 = assess.Jus_Crit5_Clau1;
             assessmentEdit.Crit5_Clau2 = assess.Crit5_Clau2;
+            assessmentEdit.Jus_Crit5_Clau2 = assess.Jus_Crit5_Clau2;
             assessmentEdit.Crit5_Clau3 = assess.Crit5_Clau3;
+            assessmentEdit.Jus_Crit5_Clau3 = assess.Jus_Crit5_Clau3;
             assessmentEdit.Crit5_Clau4 = assess.Crit5_Clau4;
+            assessmentEdit.Jus_Crit5_Clau4 = assess.Jus_Crit5_Clau4;
             assessmentEdit.Crit5_Clau5 = assess.Crit5_Clau5;
+            assessmentEdit.Jus_Crit5_Clau5 = assess.Jus_Crit5_Clau5;
 
             assessmentEdit.Crit6_Clau1 = assess.Crit6_Clau1;
+            assessmentEdit.Jus_Crit6_Clau1 = assess.Jus_Crit6_Clau1;
             assessmentEdit.Crit6_Clau2 = assess.Crit6_Clau2;
+            assessmentEdit.Jus_Crit6_Clau2 = assess.Jus_Crit6_Clau2;
             assessmentEdit.Crit6_Clau3 = assess.Crit6_Clau3;
+            assessmentEdit.Jus_Crit6_Clau3 = assess.Jus_Crit6_Clau3;
             assessmentEdit.Crit6_Clau4 = assess.Crit6_Clau4;
+            assessmentEdit.Jus_Crit6_Clau4 = assess.Jus_Crit6_Clau4;
             assessmentEdit.Crit6_Clau5 = assess.Crit6_Clau5;
-
-            assessmentEdit.Crit5_Clau1 = assess.Crit5_Clau1;
-            assessmentEdit.Crit5_Clau2 = assess.Crit5_Clau2;
-            assessmentEdit.Crit5_Clau3 = assess.Crit5_Clau3;
-            assessmentEdit.Crit5_Clau4 = assess.Crit5_Clau4;
-            assessmentEdit.Crit5_Clau5 = assess.Crit5_Clau5;
+            assessmentEdit.Jus_Crit6_Clau5 = assess.Jus_Crit6_Clau5;
 
             assessmentEdit.Crit7_Clau1 = assess.Crit7_Clau1;
+            assessmentEdit.Jus_Crit7_Clau1 = assess.Jus_Crit7_Clau1;
             assessmentEdit.Crit7_Clau2 = assess.Crit7_Clau2;
+            assessmentEdit.Jus_Crit7_Clau2 = assess.Jus_Crit7_Clau2;
             assessmentEdit.Crit7_Clau3 = assess.Crit7_Clau3;
+            assessmentEdit.Jus_Crit7_Clau3 = assess.Jus_Crit7_Clau3;
             assessmentEdit.Crit7_Clau4 = assess.Crit7_Clau4;
+            assessmentEdit.Jus_Crit7_Clau4 = assess.Jus_Crit7_Clau4;
             assessmentEdit.Crit7_Clau5 = assess.Crit7_Clau5;
+            assessmentEdit.Jus_Crit7_Clau5 = assess.Jus_Crit7_Clau5;
             
             assessmentEdit.Crit8_Clau1 = assess.Crit8_Clau1;
+            assessmentEdit.Jus_Crit8_Clau1 = assess.Jus_Crit8_Clau1;
 
             assessmentEdit.Crit9_Clau1 = assess.Crit9_Clau1;
+            assessmentEdit.Jus_Crit9_Clau1 = assess.Jus_Crit9_Clau1;
             assessmentEdit.Crit9_Clau2 = assess.Crit9_Clau2;
+            assessmentEdit.Jus_Crit9_Clau2 = assess.Jus_Crit9_Clau2;
             assessmentEdit.Crit9_Clau3 = assess.Crit9_Clau3;
+            assessmentEdit.Jus_Crit9_Clau3 = assess.Jus_Crit9_Clau3;
             assessmentEdit.Crit9_Clau4 = assess.Crit9_Clau4;
+            assessmentEdit.Jus_Crit9_Clau4 = assess.Jus_Crit9_Clau4;
             assessmentEdit.Crit9_Clau5 = assess.Crit9_Clau5;
+            assessmentEdit.Jus_Crit9_Clau5 = assess.Jus_Crit9_Clau5;
 
             assessmentEdit.MedicalRestriction = assess.MedicalRestriction;
             assessmentEdit.Crit10_Justification = assess.Crit10_Justification;

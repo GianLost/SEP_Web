@@ -3,14 +3,16 @@
 @model Assessment
 
 <ul class="list-group">
-    <li class="list-group-item"><span>1 - ASSIDUIDADE :</span>
-    <input placeholder="insira uma justificativa..." style="margin-left: 110vh;" class="form-control w-25 me-3" type="text">
-        <select class="form-select form-select-sm" asp-for="Crit1_Clau1">
-            <option value=""> - </option>
-            <option value="15">15 pts</option>
-            <option value="12">12 pts</option>
-            <option value="9">9 pts</option>
-            <option value="6">6 pts</option>
-        </select>
+    <li class="list-group-item "><span class="m-0 p-0 w-25">1 - ASSIDUIDADE :</span>
+        <div class="container assess-line-al">
+            <select class="form-select form-select-sm" asp-for="Crit1_Clau1">
+                <option value=""> - </option>
+                <option value="15">15 pts</option>
+                <option value="12">12 pts</option>
+                <option value="9">9 pts</option>
+                <option value="6">6 pts</option>
+            </select>
+            <input placeholder="insira uma justificativa..." class="form-control ms-3 justification" type="text" asp-for="Jus_Crit1_Clau1">
+        </div>
     </li>
 </ul>

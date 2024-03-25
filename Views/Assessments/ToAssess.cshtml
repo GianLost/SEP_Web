@@ -36,7 +36,8 @@
 <div class="container-fluid">
 
     <div class="validate-fields mt-2">
-        <span class="field-validation-error">@TempData["ValidationMessage"]</span>
+        <span class="field-validation-error ms-3">@TempData["ValidationMessage"]</span>
+        <span id="errorMessage" class="field-validation-error ms-3 me-5" style="display: none;">* Todos os campos de justificativa devem ser preenchidos.</span>
     </div>
 
     <form class="p-3 mt-5 assessments-form" asp-action="ToAssess" asp-controller="Assessments" method="post">
