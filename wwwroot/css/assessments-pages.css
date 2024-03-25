@@ -172,7 +172,7 @@
   border: 1px solid #DC3545;
 }
 
-input:focus {
+#avaliacaoTabContent input:focus {
   border-color: #DC3545 !important;
   -webkit-box-shadow: 0 0 8px #DC3545 !important;
   box-shadow: 0 0 8px #DC3545 !important;

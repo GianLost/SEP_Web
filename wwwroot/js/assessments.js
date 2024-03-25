@@ -8,7 +8,7 @@ $(document).ready(function () {
     });
 
     // Adiciona evento de mudança para todos os campos de seleção
-    $('select').change(function () {
+    $('#avaliacaoTabContent select').change(function () {
         // Obtém o valor selecionado
         var selectedValue = parseInt($(this).val());
         // Obtém o campo de entrada de texto correspondente
@@ -59,10 +59,10 @@ $(document).ready(function () {
     });
 
     // Adiciona validação ao enviar o formulário
-    $('form').submit(function (event) {
+    $('.assessments-form').submit(function (event) {
         // Itera sobre todos os campos de justificativa obrigatórios
         var anyInvalid = false;
-        $('.justification.required').each(function () {
+        $('.justification .required').each(function () {
             // Verifica se o campo está vazio
             if ($(this).val().trim() === '') {
                 // Adiciona uma classe de estilo para indicar erro
