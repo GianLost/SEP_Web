@@ -1,4 +1,10 @@
 /* Lista de avaliações => (Index.cshtml) */
+#assess-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 #assessments-data {
   padding: 1.5vh;
 }
@@ -7,6 +13,7 @@
   border: 1px solid #b7b6b6;
   background-color: #cdcdcda6;
   color: #636262;
+  font-size: 0.8rem;
 }
 
 #assessments-data section:hover {

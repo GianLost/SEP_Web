@@ -83,7 +83,7 @@ public class AssessmentsController : Controller
             }
 
             string name = await _assessmentServices.ServantName(assess.CivilServantId);
-            TempData["SuccessMessage"] = $"O servidor {name}, foi avaliado na {assess.Phase}º Etapa com sucesso !";
+            TempData["SuccessMessage"] = $"O(A) servidor(a) {name}, foi avaliado na {assess.Phase}º Etapa com sucesso !";
 
             if (assess.Stats == AssessmentStatsEnum.EVALUATED)
             {

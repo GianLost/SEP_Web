@@ -23,34 +23,40 @@
 
 /* Estilização do card de login */
 
-#login-container {
+#login-card .card {
+    width: 50%;
+}
+
+#login-card .card .card-body
+{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
 }
 
 #login-alert {
     font-size: 0.75em;
-    width: auto;
     text-align: center;
-    border: 1px solid red;
     font-weight: 500;
+    padding: 0%;
+}
+
+#login-alert .alert {
+    margin: -3.5vh 0vh 0vh 0vh;
+    width: 100%;
 }
 
 /* Estilização do formulário de login */
-#login-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 5vh;
-    margin-top: auto;
-}
 
 #login-form .form-control:focus {
     border-color: #cccccc;
     outline: 0;
-    -webkit-box-shadow: none;
+    -webkit-box-shadow: none !important;
     box-shadow: none;
+}
+
+.input-group {
+    width: 30rem;
 }
 
 #login-password {

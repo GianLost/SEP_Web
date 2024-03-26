@@ -7,80 +7,71 @@
     ViewData["Title"] = "Login";
 }
 
-<div id="login-card" class="card container-fluid col-xs-12 col-sm-12 col-md-6 col-lg-6 shadow-lg m-auto p-0">
+<div class="container-fluid d-flex align-items-center">
 
-    <div class="card-header bg-primary text-light">
-        <h2 class="my-0 text-center">@ViewData["title"]</h2>
-    </div>
+    <div class="card shadow-lg m-auto p-0">
 
-    <div id="login-container" class="card-body">
+        <div class="card-header bg-primary text-light">
+            <h2 class="my-0 text-center">@ViewData["title"]</h2>
+        </div>
 
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div id="login-alert" class="alert alert-danger shadow-md" role="alert">
+        <div class="card-body">
 
-                <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                    <span class="close-span" aria-hidden="true">&times;</span>
-                </button>
+            <form id="login-form" class="py-4 px-4" asp-controller="Login" asp-action="SignIn" method="post">
+                
+                <div id="login-alert" class="container-fluid justify-content-start w-100">
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger shadow-md" role="alert">
+                            <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
+                                <span class="close-span" aria-hidden="true">&times;</span>
+                            </button>
+                            @TempData["ErrorMessage"]
+                        </div>
+                        TempData.Clear();
+                    }
+                </div>
 
-                @TempData["ErrorMessage"]
-            </div>
-            TempData.Clear();
-        }
+                <div class="input-group mt-2">
+                    <span class="input-group-text bg-primary border-primary text-light"><i
+                            class="bi bi-person-vcard"></i></span>
+                    <label for="login-masp" hidden>MASP:</label>
+                    <input type="number" class="form-control" id="login-masp" asp-for="Masp"
+                        placeholder="Informe seu MASP">
+                </div>
+                <div class="validate-fields mb-1">
+                    <span class="field-validation-error">@TempData["InvalidMASP"]</span>
+                    @Html.ValidationMessageFor(x => x.Masp)
+                </div>
 
-        <form id="login-form" class="" asp-controller="Login" asp-action="SignIn" method="post">
+                <div class="input-group">
+                    <span class="input-group-text bg-primary border-primary text-light"><i class="bi bi-person-circle"></i></span>
+                    <label for="login-name" hidden>Login:</label>
+                    <input type="text" class="form-control" id="login-name" asp-for="LoginName" placeholder="Nome de usuário">
+                </div>
+                <div class="validate-fields mb-1">
+                    <span class="field-validation-error">@TempData["Invalidlogin"]</span>
+                    @Html.ValidationMessageFor(x => x.LoginName)
+                </div>
 
-            <div class="input-group">
+                <div class="input-group">
+                    <span class="input-group-text bg-primary text-light"><i class="bi bi-lock-fill"></i></span>
+                    <label for="login-password" hidden>Senha:</label>
+                    <input type="password" class="form-control" id="login-password" asp-for="Password" placeholder="Digite sua senha">
+                    <a title="Exibir Senha" class="input-group-text" id="toggle-password"><i title="Exibir Senha" id="password-icon" class="bi bi-eye-slash-fill"></i></a>
+                </div>
+                <div class="validate-fields mb-1">
+                    <span class="field-validation-error">@TempData["InvalidPass"]</span>
+                    @Html.ValidationMessageFor(x => x.Password)
+                </div>
 
-                <span class="input-group-text bg-primary border-primary text-light"><i
-                        class="bi bi-person-vcard"></i></span>
+                <div class="d-grid col-md-6 m-auto">
+                    <button type="submit" class="btn bg-primary text-light">Entrar</button>
+                </div>
 
-                <label for="login-masp" hidden>MASP:</label>
-                <input type="number" class="form-control" id="login-masp" asp-for="Masp" placeholder="Informe seu MASP">
+            </form>
 
-            </div>
-            <div class="validate-fields mb-1">
-                <span class="field-validation-error">@TempData["InvalidMASP"]</span>
-                @Html.ValidationMessageFor(x => x.Masp)
-            </div>
-
-            <div class="input-group">
-
-                <span class="input-group-text bg-primary border-primary text-light"><i
-                        class="bi bi-person-circle"></i></span>
-
-                <label for="login-name" hidden>Login:</label>
-                <input type="text" class="form-control" id="login-name" asp-for="LoginName"
-                    placeholder="Nome de usuário">
-
-            </div>
-            <div class="validate-fields mb-1">
-                <span class="field-validation-error">@TempData["Invalidlogin"]</span>
-                @Html.ValidationMessageFor(x => x.LoginName)
-            </div>
-
-            <div class="input-group">
-
-                <span class="input-group-text bg-primary text-light"><i class="bi bi-lock-fill"></i></span>
-
-                <label for="login-password" hidden>Senha:</label>
-                <input type="password" class="form-control" id="login-password" asp-for="Password"
-                    placeholder="Digite sua senha">
-
-                <a title="Exibir Senha" class="input-group-text" id="toggle-password"><i title="Exibir Senha"
-                        id="password-icon" class="bi bi-eye-slash-fill"></i></a>
-
-            </div>
-            <div class="validate-fields mb-1">
-                <span class="field-validation-error">@TempData["InvalidPass"]</span>
-                @Html.ValidationMessageFor(x => x.Password)
-            </div>
-
-            <div class="d-grid col-md-6 m-auto">
-                <button type="submit" class="btn bg-primary text-light">Entrar</button>
-            </div>
-
-        </form>
+        </div>
 
     </div>
 
