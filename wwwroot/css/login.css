@@ -22,27 +22,18 @@
 
 
 /* Estilização do card de login */
-#login-card .card-body {
-    display: flex;
-    justify-content: center;
-    margin: 0%;
-    padding: 5vh;
-}
 
 #login-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 50vh;
-    padding: 3rem;
 }
 
 #login-alert {
     font-size: 0.75em;
     width: auto;
     text-align: center;
-    margin-top: -3.8vh;
-    margin-bottom: 0.5vh;
+    border: 1px solid red;
     font-weight: 500;
 }
 
@@ -51,6 +42,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding: 5vh;
     margin-top: auto;
 }
 

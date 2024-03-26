@@ -12,33 +12,8 @@
 <div>
 
     <div class="container-fluid justify-content-start w-100 pop-up">
-
-        <a title="Cadastrar novo avaliador ..." style="width: 15vh;" role="button" asp-controller="UserEvaluator"
-            asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i
-                class="bi bi-person-plus-fill"></i> Novo</a>
-
-        @if (TempData["SuccessMessage"] != null)
-        {
-            <div class="alert alert-success" role="alert">
-                <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                    <span class="close-span" aria-hidden="true">&times;</span>
-                </button>
-                <i class="bi bi-shield-fill-check"></i>
-                @TempData["SuccessMessage"]
-            </div>
-        }
-
-        @if (TempData["ErrorMessage"] != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                    <span class="close-span" aria-hidden="true">&times;</span>
-                </button>
-                <i class="bi bi-shield-fill-x"></i>
-                @TempData["ErrorMessage"]
-            </div>
-        }
-
+        <a title="Cadastrar novo avaliador ..." role="button" asp-controller="UserEvaluator" asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary"><i class="bi bi-person-plus-fill"></i> Novo</a>
+        @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
     <div class="card">
@@ -51,9 +26,9 @@
 
             <div class="table-responsive">
 
-                <table class="table table-sm table-bordered table-striped table-light table-style users-table p-0">
+                <table class="table table-sm table-bordered table-striped table-light table-style users-table">
 
-                    <thead class="table-light bg-danger border-light text-primary">
+                    <thead class="table-light text-primary">
                         <tr>
                             <th scope="col">Status</th>
                             <th scope="col">MASP</th>

@@ -8,10 +8,7 @@
 <div>
 
     <div class="container-fluid justify-content-start w-100 pop-up">
-        <a title="Cadastrar novo órgão ..." style="width: 15vh;" type="button" data-bs-toggle="modal"
-            data-bs-target="#instituition-register" class="btn btn-primary d-flex justify-content-evenly btn-md mb-3"><i
-                class="bi bi-building-add"></i> Novo</a>
-
+        <a title="Cadastrar novo órgão ..." type="button" data-bs-toggle="modal" data-bs-target="#instituition-register" class="btn btn-primary d-flex justify-content-evenly btn-md"><i class="bi bi-building-add"></i> Novo</a>
         @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
@@ -52,7 +49,7 @@
 
                 <table id="instituition-table" class="table table-sm table-bordered table-striped table-light table-style p-0">
 
-                    <thead class="table-light bg-danger border-light text-primary">
+                    <thead class="table-light text-primary">
                         <tr>
                             <th scope="col">Descrição</th>
                             <th scope="col"></th>

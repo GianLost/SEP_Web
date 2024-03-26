@@ -10,7 +10,9 @@
 <div>
 
     <div class="container-fluid justify-content-start w-100 pop-up">
-        <a title="Cadastrar novo administrador ..." style="width: 15vh;" role="button" asp-controller="UserAdministrator" asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary mb-3"><i class="bi bi-person-plus-fill"></i> Novo</a>
+        <a title="Cadastrar novo administrador ..." role="button" asp-controller="UserAdministrator"
+            asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary"><i
+                class="bi bi-person-plus-fill"></i> Novo</a>
         @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
@@ -21,12 +23,9 @@
         </div>
 
         <div class="card-body">
-
             <div class="table-responsive">
-
-                <table class="table table-sm table-bordered table-striped table-light table-style users-table p-0">
-
-                    <thead class="table-light bg-danger border-light text-primary">
+                <table class="table table-sm table-bordered table-striped table-light table-style users-table">
+                    <thead class="table-light text-primary">
                         <tr>
                             <th scope="col">Status</th>
                             <th scope="col">MASP</th>
@@ -42,14 +41,18 @@
 
                         @foreach (UserAdministrator u in Model)
                         {
-
                             <tr class="table-light border-light">
-                                
-                                @if(u.UserStats == UserStatsEnum.Active)
+                                @if (u.UserStats == UserStatsEnum.Active)
                                 {
-                                    <td scope="row"><span title="Ativo" id="statsAdministratorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1">radio_button_checked</span></td>
-                                }else {
-                                    <td scope="row"><span title="Inativo" id="statsAdministratorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1">radio_button_checked</span></td>
+                                    <td scope="row"><span title="Ativo" id="statsAdministratorActive"
+                                            class="material-symbols-outlined text-success fs-5 m-1 p-1">radio_button_checked</span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td scope="row"><span title="Inativo" id="statsAdministratorInactive"
+                                            class="material-symbols-outlined text-danger fs-5 m-1 p-1">radio_button_checked</span>
+                                    </td>
                                 }
 
                                 <td scope="row">@($"{u.Masp:D8}")</td>
@@ -59,9 +62,15 @@
                                 <td scope="row">@u.Phone</td>
 
                                 <td scope="row">
-                                    <a title="Editar administrador ..." role="button" asp-route-id="@u.Id" asp-controller="UserAdministrator" asp-action="Edit" class="btn btn-sm btn-outline-primary"><i title="Editar administrador ..." class="bi bi-person-vcard"></i></a>
+                                    <a title="Editar administrador ..." role="button" asp-route-id="@u.Id"
+                                        asp-controller="UserAdministrator" asp-action="Edit"
+                                        class="btn btn-sm btn-outline-primary"><i title="Editar administrador ..."
+                                            class="bi bi-person-vcard"></i></a>
 
-                                    <button title="Excluir administrador ..." type="button" data-bs-toggle="modal" asp-route-id="@u.Id" data-bs-target="#adm-delete-@(u.Id)" class="btn btn-sm btn-outline-danger"><i title="Excluir administrador ..." class="bi bi-person-dash"></i></button>
+                                    <button title="Excluir administrador ..." type="button" data-bs-toggle="modal"
+                                        asp-route-id="@u.Id" data-bs-target="#adm-delete-@(u.Id)"
+                                        class="btn btn-sm btn-outline-danger"><i title="Excluir administrador ..."
+                                            class="bi bi-person-dash"></i></button>
                                 </td>
 
                             </tr>
@@ -72,9 +81,7 @@
                                 aria-labelledby="adm-delete-@(u.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
                                     <div class="modal-content">
-
                                         <div class="modal-header bg-danger text-light p-3">
                                             <h3 class="modal-title text-center fs-4 mb-0 p-0" id="deleteTitle">
                                                 Alerta</h3>
@@ -82,28 +89,20 @@
                                                 aria-label="Close">
                                             </button>
                                         </div>
-
                                         <div class="modal-body p-1">
                                             @await Html.PartialAsync("_Delete.cshtml", @u)
                                         </div>
-
                                     </div>
-
                                 </div>
-
                             </div>
 
                             @* Finish Delete Modal *@
                         }
 
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
 
 </div>
