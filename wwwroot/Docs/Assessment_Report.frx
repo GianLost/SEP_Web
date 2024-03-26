@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="01/19/2024 01:21:08" ReportInfo.Modified="01/31/2024 12:37:13" ReportInfo.CreatorVersion="2024.1.3.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="03/26/2024 15:53:19" ReportInfo.Modified="03/26/2024 17:47:54" ReportInfo.CreatorVersion="2024.1.3.0">
   <Dictionary>
     <BusinessObjectDataSource Name="assessment" ReferenceName="assessment" DataType="System.Int32" Enabled="true">
       <Column Name="Id" DataType="System.Int32"/>
@@ -9,7 +9,7 @@
       <Column Name="EndEvaluationPeriod" DataType="System.Int32"/>
       <Column Name="CivilServantId" DataType="System.Int32"/>
       <Column Name="CivilServant" DataType="System.Int32">
-        <Column Name="AdmissionDate" DataType="System.Int32"/>
+        <Column Name="AdmissionDate" DataType="System.DateTime"/>
         <Column Name="InstituitionId" DataType="System.Int32"/>
         <Column Name="Instituition" DataType="System.Int32">
           <Column Name="Id" DataType="System.Int32"/>
@@ -776,8 +776,8 @@
         <Column Name="ModifyDate" DataType="System.Int32"/>
         <Column Name="LastModifiedBy" DataType="System.String"/>
       </Column>
-      <Column Name="UserEvaluatorId" DataType="System.Int32"/>
-      <Column Name="UserEvaluator" DataType="System.Int32">
+      <Column Name="UserEvaluatorId1" DataType="System.Int32"/>
+      <Column Name="UserEvaluatorFirst" DataType="System.Int32">
         <Column Name="InstituitionId" DataType="System.Int32"/>
         <Column Name="Instituition" DataType="System.Int32">
           <Column Name="Id" DataType="System.Int32"/>
@@ -1032,69 +1032,365 @@
         <Column Name="ModifyDate" DataType="System.Int32"/>
         <Column Name="LastModifiedBy" DataType="System.String"/>
       </Column>
+      <Column Name="UserEvaluatorId2" DataType="System.Int32"/>
+      <Column Name="UserEvaluatorSecond" DataType="System.Int32">
+        <Column Name="InstituitionId" DataType="System.Int32"/>
+        <Column Name="Instituition" DataType="System.Int32">
+          <Column Name="Id" DataType="System.Int32"/>
+          <Column Name="Name" DataType="System.String"/>
+          <Column Name="RegisterDate" DataType="System.DateTime"/>
+          <Column Name="ModifyDate" DataType="System.Int32"/>
+          <Column Name="LastModifiedBy" DataType="System.String"/>
+          <Column Name="UserAdministratorId" DataType="System.Int32"/>
+          <Column Name="UserAdministrator" DataType="System.Int32">
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Masp" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="Login" DataType="System.String"/>
+            <Column Name="Password" DataType="System.String"/>
+            <Column Name="Email" DataType="System.String"/>
+            <Column Name="Phone" DataType="System.String"/>
+            <Column Name="Position" DataType="System.String"/>
+            <Column Name="UserType" DataType="System.Int32"/>
+            <Column Name="UserStats" DataType="System.Int32"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+          </Column>
+        </Column>
+        <Column Name="DivisionId" DataType="System.Int32"/>
+        <Column Name="Division" DataType="System.Int32">
+          <Column Name="InstituitionId" DataType="System.Int32"/>
+          <Column Name="Instituition" DataType="System.Int32">
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+            <Column Name="UserAdministratorId" DataType="System.Int32"/>
+            <Column Name="UserAdministrator" DataType="System.Int32">
+              <Column Name="Id" DataType="System.Int32"/>
+              <Column Name="Masp" DataType="System.Int32"/>
+              <Column Name="Name" DataType="System.String"/>
+              <Column Name="Login" DataType="System.String"/>
+              <Column Name="Password" DataType="System.String"/>
+              <Column Name="Email" DataType="System.String"/>
+              <Column Name="Phone" DataType="System.String"/>
+              <Column Name="Position" DataType="System.String"/>
+              <Column Name="UserType" DataType="System.Int32"/>
+              <Column Name="UserStats" DataType="System.Int32"/>
+              <Column Name="RegisterDate" DataType="System.DateTime"/>
+              <Column Name="ModifyDate" DataType="System.Int32"/>
+              <Column Name="LastModifiedBy" DataType="System.String"/>
+            </Column>
+          </Column>
+          <Column Name="Id" DataType="System.Int32"/>
+          <Column Name="Name" DataType="System.String"/>
+          <Column Name="RegisterDate" DataType="System.DateTime"/>
+          <Column Name="ModifyDate" DataType="System.Int32"/>
+          <Column Name="LastModifiedBy" DataType="System.String"/>
+          <Column Name="UserAdministratorId" DataType="System.Int32"/>
+          <Column Name="UserAdministrator" DataType="System.Int32">
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Masp" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="Login" DataType="System.String"/>
+            <Column Name="Password" DataType="System.String"/>
+            <Column Name="Email" DataType="System.String"/>
+            <Column Name="Phone" DataType="System.String"/>
+            <Column Name="Position" DataType="System.String"/>
+            <Column Name="UserType" DataType="System.Int32"/>
+            <Column Name="UserStats" DataType="System.Int32"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+          </Column>
+        </Column>
+        <Column Name="SectionId" DataType="System.Int32"/>
+        <Column Name="Section" DataType="System.Int32">
+          <Column Name="DivisionId" DataType="System.Int32"/>
+          <Column Name="Division" DataType="System.Int32">
+            <Column Name="InstituitionId" DataType="System.Int32"/>
+            <Column Name="Instituition" DataType="System.Int32">
+              <Column Name="Id" DataType="System.Int32"/>
+              <Column Name="Name" DataType="System.String"/>
+              <Column Name="RegisterDate" DataType="System.DateTime"/>
+              <Column Name="ModifyDate" DataType="System.Int32"/>
+              <Column Name="LastModifiedBy" DataType="System.String"/>
+              <Column Name="UserAdministratorId" DataType="System.Int32"/>
+              <Column Name="UserAdministrator" DataType="System.Int32">
+                <Column Name="Id" DataType="System.Int32"/>
+                <Column Name="Masp" DataType="System.Int32"/>
+                <Column Name="Name" DataType="System.String"/>
+                <Column Name="Login" DataType="System.String"/>
+                <Column Name="Password" DataType="System.String"/>
+                <Column Name="Email" DataType="System.String"/>
+                <Column Name="Phone" DataType="System.String"/>
+                <Column Name="Position" DataType="System.String"/>
+                <Column Name="UserType" DataType="System.Int32"/>
+                <Column Name="UserStats" DataType="System.Int32"/>
+                <Column Name="RegisterDate" DataType="System.DateTime"/>
+                <Column Name="ModifyDate" DataType="System.Int32"/>
+                <Column Name="LastModifiedBy" DataType="System.String"/>
+              </Column>
+            </Column>
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+            <Column Name="UserAdministratorId" DataType="System.Int32"/>
+            <Column Name="UserAdministrator" DataType="System.Int32">
+              <Column Name="Id" DataType="System.Int32"/>
+              <Column Name="Masp" DataType="System.Int32"/>
+              <Column Name="Name" DataType="System.String"/>
+              <Column Name="Login" DataType="System.String"/>
+              <Column Name="Password" DataType="System.String"/>
+              <Column Name="Email" DataType="System.String"/>
+              <Column Name="Phone" DataType="System.String"/>
+              <Column Name="Position" DataType="System.String"/>
+              <Column Name="UserType" DataType="System.Int32"/>
+              <Column Name="UserStats" DataType="System.Int32"/>
+              <Column Name="RegisterDate" DataType="System.DateTime"/>
+              <Column Name="ModifyDate" DataType="System.Int32"/>
+              <Column Name="LastModifiedBy" DataType="System.String"/>
+            </Column>
+          </Column>
+          <Column Name="Id" DataType="System.Int32"/>
+          <Column Name="Name" DataType="System.String"/>
+          <Column Name="RegisterDate" DataType="System.DateTime"/>
+          <Column Name="ModifyDate" DataType="System.Int32"/>
+          <Column Name="LastModifiedBy" DataType="System.String"/>
+          <Column Name="UserAdministratorId" DataType="System.Int32"/>
+          <Column Name="UserAdministrator" DataType="System.Int32">
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Masp" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="Login" DataType="System.String"/>
+            <Column Name="Password" DataType="System.String"/>
+            <Column Name="Email" DataType="System.String"/>
+            <Column Name="Phone" DataType="System.String"/>
+            <Column Name="Position" DataType="System.String"/>
+            <Column Name="UserType" DataType="System.Int32"/>
+            <Column Name="UserStats" DataType="System.Int32"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+          </Column>
+        </Column>
+        <Column Name="SectorId" DataType="System.Int32"/>
+        <Column Name="Sector" DataType="System.Int32">
+          <Column Name="SectionId" DataType="System.Int32"/>
+          <Column Name="Section" DataType="System.Int32">
+            <Column Name="DivisionId" DataType="System.Int32"/>
+            <Column Name="Division" DataType="System.Int32">
+              <Column Name="InstituitionId" DataType="System.Int32"/>
+              <Column Name="Instituition" DataType="System.Int32">
+                <Column Name="Id" DataType="System.Int32"/>
+                <Column Name="Name" DataType="System.String"/>
+                <Column Name="RegisterDate" DataType="System.DateTime"/>
+                <Column Name="ModifyDate" DataType="System.Int32"/>
+                <Column Name="LastModifiedBy" DataType="System.String"/>
+                <Column Name="UserAdministratorId" DataType="System.Int32"/>
+                <Column Name="UserAdministrator" DataType="System.Int32">
+                  <Column Name="Id" DataType="System.Int32"/>
+                  <Column Name="Masp" DataType="System.Int32"/>
+                  <Column Name="Name" DataType="System.String"/>
+                  <Column Name="Login" DataType="System.String"/>
+                  <Column Name="Password" DataType="System.String"/>
+                  <Column Name="Email" DataType="System.String"/>
+                  <Column Name="Phone" DataType="System.String"/>
+                  <Column Name="Position" DataType="System.String"/>
+                  <Column Name="UserType" DataType="System.Int32"/>
+                  <Column Name="UserStats" DataType="System.Int32"/>
+                  <Column Name="RegisterDate" DataType="System.DateTime"/>
+                  <Column Name="ModifyDate" DataType="System.Int32"/>
+                  <Column Name="LastModifiedBy" DataType="System.String"/>
+                </Column>
+              </Column>
+              <Column Name="Id" DataType="System.Int32"/>
+              <Column Name="Name" DataType="System.String"/>
+              <Column Name="RegisterDate" DataType="System.DateTime"/>
+              <Column Name="ModifyDate" DataType="System.Int32"/>
+              <Column Name="LastModifiedBy" DataType="System.String"/>
+              <Column Name="UserAdministratorId" DataType="System.Int32"/>
+              <Column Name="UserAdministrator" DataType="System.Int32">
+                <Column Name="Id" DataType="System.Int32"/>
+                <Column Name="Masp" DataType="System.Int32"/>
+                <Column Name="Name" DataType="System.String"/>
+                <Column Name="Login" DataType="System.String"/>
+                <Column Name="Password" DataType="System.String"/>
+                <Column Name="Email" DataType="System.String"/>
+                <Column Name="Phone" DataType="System.String"/>
+                <Column Name="Position" DataType="System.String"/>
+                <Column Name="UserType" DataType="System.Int32"/>
+                <Column Name="UserStats" DataType="System.Int32"/>
+                <Column Name="RegisterDate" DataType="System.DateTime"/>
+                <Column Name="ModifyDate" DataType="System.Int32"/>
+                <Column Name="LastModifiedBy" DataType="System.String"/>
+              </Column>
+            </Column>
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+            <Column Name="UserAdministratorId" DataType="System.Int32"/>
+            <Column Name="UserAdministrator" DataType="System.Int32">
+              <Column Name="Id" DataType="System.Int32"/>
+              <Column Name="Masp" DataType="System.Int32"/>
+              <Column Name="Name" DataType="System.String"/>
+              <Column Name="Login" DataType="System.String"/>
+              <Column Name="Password" DataType="System.String"/>
+              <Column Name="Email" DataType="System.String"/>
+              <Column Name="Phone" DataType="System.String"/>
+              <Column Name="Position" DataType="System.String"/>
+              <Column Name="UserType" DataType="System.Int32"/>
+              <Column Name="UserStats" DataType="System.Int32"/>
+              <Column Name="RegisterDate" DataType="System.DateTime"/>
+              <Column Name="ModifyDate" DataType="System.Int32"/>
+              <Column Name="LastModifiedBy" DataType="System.String"/>
+            </Column>
+          </Column>
+          <Column Name="Id" DataType="System.Int32"/>
+          <Column Name="Name" DataType="System.String"/>
+          <Column Name="RegisterDate" DataType="System.DateTime"/>
+          <Column Name="ModifyDate" DataType="System.Int32"/>
+          <Column Name="LastModifiedBy" DataType="System.String"/>
+          <Column Name="UserAdministratorId" DataType="System.Int32"/>
+          <Column Name="UserAdministrator" DataType="System.Int32">
+            <Column Name="Id" DataType="System.Int32"/>
+            <Column Name="Masp" DataType="System.Int32"/>
+            <Column Name="Name" DataType="System.String"/>
+            <Column Name="Login" DataType="System.String"/>
+            <Column Name="Password" DataType="System.String"/>
+            <Column Name="Email" DataType="System.String"/>
+            <Column Name="Phone" DataType="System.String"/>
+            <Column Name="Position" DataType="System.String"/>
+            <Column Name="UserType" DataType="System.Int32"/>
+            <Column Name="UserStats" DataType="System.Int32"/>
+            <Column Name="RegisterDate" DataType="System.DateTime"/>
+            <Column Name="ModifyDate" DataType="System.Int32"/>
+            <Column Name="LastModifiedBy" DataType="System.String"/>
+          </Column>
+        </Column>
+        <Column Name="Id" DataType="System.Int32"/>
+        <Column Name="Masp" DataType="System.Int32"/>
+        <Column Name="Name" DataType="System.String"/>
+        <Column Name="Login" DataType="System.String"/>
+        <Column Name="Password" DataType="System.String"/>
+        <Column Name="Email" DataType="System.String"/>
+        <Column Name="Phone" DataType="System.String"/>
+        <Column Name="Position" DataType="System.String"/>
+        <Column Name="UserType" DataType="System.Int32"/>
+        <Column Name="UserStats" DataType="System.Int32"/>
+        <Column Name="RegisterDate" DataType="System.DateTime"/>
+        <Column Name="ModifyDate" DataType="System.Int32"/>
+        <Column Name="LastModifiedBy" DataType="System.String"/>
+      </Column>
+      <Column Name="EvaluatedFor" DataType="System.String"/>
       <Column Name="Crit1_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit1_Clau1" DataType="System.String"/>
       <Column Name="Tot_Crit1" DataType="System.Int32"/>
       <Column Name="Average_Crit1" DataType="System.Double"/>
       <Column Name="Crit2_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit2_Clau1" DataType="System.String"/>
       <Column Name="Crit2_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit2_Clau2" DataType="System.String"/>
       <Column Name="Crit2_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit2_Clau3" DataType="System.String"/>
       <Column Name="Crit2_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit2_Clau4" DataType="System.String"/>
       <Column Name="Crit2_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit2_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit2" DataType="System.Int32"/>
       <Column Name="Average_Crit2" DataType="System.Double"/>
       <Column Name="Crit3_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit3_Clau1" DataType="System.String"/>
       <Column Name="Crit3_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit3_Clau2" DataType="System.String"/>
       <Column Name="Crit3_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit3_Clau3" DataType="System.String"/>
       <Column Name="Crit3_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit3_Clau4" DataType="System.String"/>
       <Column Name="Crit3_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit3_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit3" DataType="System.Int32"/>
       <Column Name="Average_Crit3" DataType="System.Double"/>
       <Column Name="Crit4_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit4_Clau1" DataType="System.String"/>
       <Column Name="Crit4_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit4_Clau2" DataType="System.String"/>
       <Column Name="Crit4_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit4_Clau3" DataType="System.String"/>
       <Column Name="Crit4_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit4_Clau4" DataType="System.String"/>
       <Column Name="Crit4_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit4_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit4" DataType="System.Int32"/>
       <Column Name="Average_Crit4" DataType="System.Double"/>
       <Column Name="Crit5_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit5_Clau1" DataType="System.String"/>
       <Column Name="Crit5_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit5_Clau2" DataType="System.String"/>
       <Column Name="Crit5_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit5_Clau3" DataType="System.String"/>
       <Column Name="Crit5_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit5_Clau4" DataType="System.String"/>
       <Column Name="Crit5_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit5_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit5" DataType="System.Int32"/>
       <Column Name="Average_Crit5" DataType="System.Double"/>
       <Column Name="Crit6_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit6_Clau1" DataType="System.String"/>
       <Column Name="Crit6_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit6_Clau2" DataType="System.String"/>
       <Column Name="Crit6_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit6_Clau3" DataType="System.String"/>
       <Column Name="Crit6_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit6_Clau4" DataType="System.String"/>
       <Column Name="Crit6_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit6_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit6" DataType="System.Int32"/>
       <Column Name="Average_Crit6" DataType="System.Double"/>
       <Column Name="Crit7_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit7_Clau1" DataType="System.String"/>
       <Column Name="Crit7_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit7_Clau2" DataType="System.String"/>
       <Column Name="Crit7_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit7_Clau3" DataType="System.String"/>
       <Column Name="Crit7_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit7_Clau4" DataType="System.String"/>
       <Column Name="Crit7_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit7_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit7" DataType="System.Int32"/>
       <Column Name="Average_Crit7" DataType="System.Double"/>
       <Column Name="Crit8_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit8_Clau1" DataType="System.String"/>
       <Column Name="Tot_Crit8" DataType="System.Int32"/>
       <Column Name="Average_Crit8" DataType="System.Double"/>
       <Column Name="Crit9_Clau1" DataType="System.Int32"/>
+      <Column Name="Jus_Crit9_Clau1" DataType="System.String"/>
       <Column Name="Crit9_Clau2" DataType="System.Int32"/>
+      <Column Name="Jus_Crit9_Clau2" DataType="System.String"/>
       <Column Name="Crit9_Clau3" DataType="System.Int32"/>
+      <Column Name="Jus_Crit9_Clau3" DataType="System.String"/>
       <Column Name="Crit9_Clau4" DataType="System.Int32"/>
+      <Column Name="Jus_Crit9_Clau4" DataType="System.String"/>
       <Column Name="Crit9_Clau5" DataType="System.Int32"/>
+      <Column Name="Jus_Crit9_Clau5" DataType="System.String"/>
       <Column Name="Tot_Crit9" DataType="System.Int32"/>
       <Column Name="Average_Crit9" DataType="System.Double"/>
       <Column Name="MedicalRestriction" DataType="System.Int32"/>
       <Column Name="Crit10_Justification" DataType="System.String"/>
       <Column Name="ForwardingDate" DataType="System.Int32"/>
+      <Column Name="RegisterDate" DataType="System.DateTime"/>
+      <Column Name="ModifyDate" DataType="System.Int32"/>
+      <Column Name="LastModifiedBy" DataType="System.String"/>
       <Column Name="Grand_Tot" DataType="System.Double"/>
       <Column Name="Overall_Average" DataType="System.Double"/>
-      <Column Name="AssessmentResult" DataType="System.Int32" Format="General"/>
+      <Column Name="AssessmentResult" DataType="System.Int32"/>
     </BusinessObjectDataSource>
-    <Parameter Name="result" DataType="System.String" AsString=""/>
     <Total Name="Total_Crit1" Expression="[assessment.Average_Crit1]" Evaluator="Data1" PrintOn="DataFooter1"/>
     <Total Name="Total_Crit2" Expression="[assessment.Average_Crit2]" Evaluator="Data1" PrintOn="DataFooter1"/>
     <Total Name="Total_Crit3" Expression="[assessment.Average_Crit3]" Evaluator="Data1" PrintOn="DataFooter1"/>
@@ -1106,7 +1402,7 @@
     <Total Name="Total_Crit9" Expression="[assessment.Average_Crit9]" Evaluator="Data1" PrintOn="DataFooter1"/>
     <Total Name="Total_GrangTot" Expression="[assessment.Grand_Tot]" Evaluator="Data1" PrintOn="DataFooter1"/>
     <Total Name="Total_OverallAverage" Expression="[assessment.Overall_Average]" Evaluator="Data1" PrintOn="DataFooter1"/>
-    <Total Name="Result" Expression="[assessment.Grand_Tot]" Evaluator="Data1" PrintOn="PageFooter1"/>
+    <Total Name="Result" TotalType="Max" Expression="[assessment.AssessmentResult]" Evaluator="Data1" PrintOn="PageFooter1"/>
   </Dictionary>
   <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
     <PageHeaderBand Name="PageHeader1" Width="718.2" Height="378">
@@ -1213,11 +1509,12 @@
       <ShapeObject Name="Shape6" Left="9.45" Top="113.4" Width="699.3" Height="94.5" Border.Width="1.5"/>
       <LineObject Name="Line31" Left="9.45" Top="151.2" Width="699.3" Border.Width="1.5"/>
       <LineObject Name="Line32" Left="529.2" Top="151.2" Height="56.7" Border.Width="1.5"/>
-      <LineObject Name="Line33" Left="9.45" Top="179.55" Width="699.3" Border.Width="1.5"/>
       <TextObject Name="Text39" Left="9.45" Top="113.4" Width="255.15" Height="37.8" Text="O SERVIDOR FOI CONSIDERADO : " HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
       <TextObject Name="Text40" Left="9.45" Top="151.2" Width="519.75" Height="28.35" Text="ASSINATURA DO RESPONSÁVEL" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
       <TextObject Name="Text41" Left="529.2" Top="151.2" Width="179.55" Height="28.35" Text="DATA" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <LineObject Name="Line33" Left="9.45" Top="179.55" Width="699.3" Border.Width="1.5"/>
       <TextObject Name="Text42" Left="529.2" Top="179.55" Width="179.55" Height="28.35" Text="[Date]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text55" Left="255.15" Top="113.4" Width="85.05" Height="37.8" Text="[Result]O" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
     </PageFooterBand>
   </ReportPage>
 </Report>
