@@ -7,6 +7,9 @@ namespace SEP_Web.Models;
 [Table("Assessments")]
 public class Assessment
 {
+    public const int APT = 1;
+    public const int INAPT = 0;
+    
     [Key, Required(ErrorMessage = "O campo id é obrigatório !")]
     public int Id { get; set; }
 
@@ -246,5 +249,5 @@ public class Assessment
     public double Grand_Tot { get; set; }
     public double Overall_Average { get; set; }
 
-    public AssessmentResultEnum? AssessmentResult { get; set; }
+    public int? AssessmentResult { get; set; }
 }

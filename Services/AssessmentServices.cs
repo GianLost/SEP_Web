@@ -23,7 +23,7 @@ public class AssessmentServices : IAssessmentServices
         _database = database;
         _httpContext = httpContext;
     }
-    
+
     public async Task<Assessment> RegisterAssessments(Assessment assessment)
     {
         try
@@ -69,125 +69,67 @@ public class AssessmentServices : IAssessmentServices
 
             assessmentEdit.Stats = AssessmentStatsEnum.EVALUATED;
             assessmentEdit.EndEvaluationPeriod = DateTime.Now;
-            assessmentEdit.Crit1_Clau1 = assess.Crit1_Clau1;
-            assessmentEdit.Jus_Crit1_Clau1 = assess.Jus_Crit1_Clau1;
 
-            assessmentEdit.Crit2_Clau1 = assess.Crit2_Clau1;
-            assessmentEdit.Jus_Crit2_Clau1 = assess.Jus_Crit2_Clau1;
-            assessmentEdit.Crit2_Clau2 = assess.Crit2_Clau2;
-            assessmentEdit.Jus_Crit2_Clau2 = assess.Jus_Crit2_Clau2;
-            assessmentEdit.Crit2_Clau3 = assess.Crit2_Clau3;
-            assessmentEdit.Jus_Crit2_Clau3 = assess.Jus_Crit2_Clau3;
-            assessmentEdit.Crit2_Clau4 = assess.Crit2_Clau4;
-            assessmentEdit.Jus_Crit2_Clau4 = assess.Jus_Crit2_Clau4;
-            assessmentEdit.Crit2_Clau5 = assess.Crit2_Clau5;
-            assessmentEdit.Jus_Crit2_Clau5 = assess.Jus_Crit2_Clau5;
+            List<string> propertiesToUpdate = new ()
+            {
+                "Crit1_Clau1", "Jus_Crit1_Clau1",
+                "Crit2_Clau1", "Jus_Crit2_Clau1", "Crit2_Clau2", "Jus_Crit2_Clau2", "Crit2_Clau3", "Jus_Crit2_Clau3", "Crit2_Clau4", "Jus_Crit2_Clau4", "Crit2_Clau5", "Jus_Crit2_Clau5",
+                "Crit3_Clau1", "Jus_Crit3_Clau1", "Crit3_Clau2", "Jus_Crit3_Clau2", "Crit3_Clau3", "Jus_Crit3_Clau3", "Crit3_Clau4", "Jus_Crit3_Clau4", "Crit3_Clau5", "Jus_Crit3_Clau5",
+                "Crit4_Clau1", "Jus_Crit4_Clau1", "Crit4_Clau2", "Jus_Crit4_Clau2", "Crit4_Clau3", "Jus_Crit4_Clau3", "Crit4_Clau4", "Jus_Crit4_Clau4", "Crit4_Clau5", "Jus_Crit4_Clau5",
+                "Crit5_Clau1", "Jus_Crit5_Clau1", "Crit5_Clau2", "Jus_Crit5_Clau2", "Crit5_Clau3", "Jus_Crit5_Clau3", "Crit5_Clau4", "Jus_Crit5_Clau4", "Crit5_Clau5", "Jus_Crit5_Clau5",
+                "Crit6_Clau1", "Jus_Crit6_Clau1", "Crit6_Clau2", "Jus_Crit6_Clau2", "Crit6_Clau3", "Jus_Crit6_Clau3", "Crit6_Clau4", "Jus_Crit6_Clau4", "Crit6_Clau5", "Jus_Crit6_Clau5",
+                "Crit7_Clau1", "Jus_Crit7_Clau1", "Crit7_Clau2", "Jus_Crit7_Clau2", "Crit7_Clau3", "Jus_Crit7_Clau3", "Crit7_Clau4", "Jus_Crit7_Clau4", "Crit7_Clau5", "Jus_Crit7_Clau5",
+                "Crit8_Clau1", "Jus_Crit8_Clau1",
+                "Crit9_Clau1", "Jus_Crit9_Clau1", "Crit9_Clau2", "Jus_Crit9_Clau2", "Crit9_Clau3", "Jus_Crit9_Clau3", "Crit9_Clau4", "Jus_Crit9_Clau4", "Crit9_Clau5", "Jus_Crit9_Clau5",
+                "MedicalRestriction", "Crit10_Justification", "ForwardingDate"
+            };
 
-            assessmentEdit.Crit3_Clau1 = assess.Crit3_Clau1;
-            assessmentEdit.Jus_Crit3_Clau1 = assess.Jus_Crit3_Clau1;
-            assessmentEdit.Crit3_Clau2 = assess.Crit3_Clau2;
-            assessmentEdit.Jus_Crit3_Clau2 = assess.Jus_Crit3_Clau2;
-            assessmentEdit.Crit3_Clau3 = assess.Crit3_Clau3;
-            assessmentEdit.Jus_Crit3_Clau3 = assess.Jus_Crit3_Clau3;
-            assessmentEdit.Crit3_Clau4 = assess.Crit3_Clau4;
-            assessmentEdit.Jus_Crit3_Clau4 = assess.Jus_Crit3_Clau4;
-            assessmentEdit.Crit3_Clau5 = assess.Crit3_Clau5;
-            assessmentEdit.Jus_Crit3_Clau5 = assess.Jus_Crit3_Clau5;
-
-            assessmentEdit.Crit4_Clau1 = assess.Crit4_Clau1;
-            assessmentEdit.Jus_Crit4_Clau1 = assess.Jus_Crit4_Clau1;
-            assessmentEdit.Crit4_Clau2 = assess.Crit4_Clau2;
-            assessmentEdit.Jus_Crit4_Clau2 = assess.Jus_Crit4_Clau2;
-            assessmentEdit.Crit4_Clau3 = assess.Crit4_Clau3;
-            assessmentEdit.Jus_Crit4_Clau3 = assess.Jus_Crit4_Clau3;
-            assessmentEdit.Crit4_Clau4 = assess.Crit4_Clau4;
-            assessmentEdit.Jus_Crit4_Clau4 = assess.Jus_Crit4_Clau4;
-            assessmentEdit.Crit4_Clau5 = assess.Crit4_Clau5;
-            assessmentEdit.Jus_Crit4_Clau5 = assess.Jus_Crit4_Clau5;
-
-            assessmentEdit.Crit5_Clau1 = assess.Crit5_Clau1;
-            assessmentEdit.Jus_Crit5_Clau1 = assess.Jus_Crit5_Clau1;
-            assessmentEdit.Crit5_Clau2 = assess.Crit5_Clau2;
-            assessmentEdit.Jus_Crit5_Clau2 = assess.Jus_Crit5_Clau2;
-            assessmentEdit.Crit5_Clau3 = assess.Crit5_Clau3;
-            assessmentEdit.Jus_Crit5_Clau3 = assess.Jus_Crit5_Clau3;
-            assessmentEdit.Crit5_Clau4 = assess.Crit5_Clau4;
-            assessmentEdit.Jus_Crit5_Clau4 = assess.Jus_Crit5_Clau4;
-            assessmentEdit.Crit5_Clau5 = assess.Crit5_Clau5;
-            assessmentEdit.Jus_Crit5_Clau5 = assess.Jus_Crit5_Clau5;
-
-            assessmentEdit.Crit6_Clau1 = assess.Crit6_Clau1;
-            assessmentEdit.Jus_Crit6_Clau1 = assess.Jus_Crit6_Clau1;
-            assessmentEdit.Crit6_Clau2 = assess.Crit6_Clau2;
-            assessmentEdit.Jus_Crit6_Clau2 = assess.Jus_Crit6_Clau2;
-            assessmentEdit.Crit6_Clau3 = assess.Crit6_Clau3;
-            assessmentEdit.Jus_Crit6_Clau3 = assess.Jus_Crit6_Clau3;
-            assessmentEdit.Crit6_Clau4 = assess.Crit6_Clau4;
-            assessmentEdit.Jus_Crit6_Clau4 = assess.Jus_Crit6_Clau4;
-            assessmentEdit.Crit6_Clau5 = assess.Crit6_Clau5;
-            assessmentEdit.Jus_Crit6_Clau5 = assess.Jus_Crit6_Clau5;
-
-            assessmentEdit.Crit7_Clau1 = assess.Crit7_Clau1;
-            assessmentEdit.Jus_Crit7_Clau1 = assess.Jus_Crit7_Clau1;
-            assessmentEdit.Crit7_Clau2 = assess.Crit7_Clau2;
-            assessmentEdit.Jus_Crit7_Clau2 = assess.Jus_Crit7_Clau2;
-            assessmentEdit.Crit7_Clau3 = assess.Crit7_Clau3;
-            assessmentEdit.Jus_Crit7_Clau3 = assess.Jus_Crit7_Clau3;
-            assessmentEdit.Crit7_Clau4 = assess.Crit7_Clau4;
-            assessmentEdit.Jus_Crit7_Clau4 = assess.Jus_Crit7_Clau4;
-            assessmentEdit.Crit7_Clau5 = assess.Crit7_Clau5;
-            assessmentEdit.Jus_Crit7_Clau5 = assess.Jus_Crit7_Clau5;
-            
-            assessmentEdit.Crit8_Clau1 = assess.Crit8_Clau1;
-            assessmentEdit.Jus_Crit8_Clau1 = assess.Jus_Crit8_Clau1;
-
-            assessmentEdit.Crit9_Clau1 = assess.Crit9_Clau1;
-            assessmentEdit.Jus_Crit9_Clau1 = assess.Jus_Crit9_Clau1;
-            assessmentEdit.Crit9_Clau2 = assess.Crit9_Clau2;
-            assessmentEdit.Jus_Crit9_Clau2 = assess.Jus_Crit9_Clau2;
-            assessmentEdit.Crit9_Clau3 = assess.Crit9_Clau3;
-            assessmentEdit.Jus_Crit9_Clau3 = assess.Jus_Crit9_Clau3;
-            assessmentEdit.Crit9_Clau4 = assess.Crit9_Clau4;
-            assessmentEdit.Jus_Crit9_Clau4 = assess.Jus_Crit9_Clau4;
-            assessmentEdit.Crit9_Clau5 = assess.Crit9_Clau5;
-            assessmentEdit.Jus_Crit9_Clau5 = assess.Jus_Crit9_Clau5;
-
-            assessmentEdit.MedicalRestriction = assess.MedicalRestriction;
-            assessmentEdit.Crit10_Justification = assess.Crit10_Justification;
-            assessmentEdit.ForwardingDate = assess.ForwardingDate;
-
+            foreach (var propertyName in propertiesToUpdate)
+            {
+                var assessProperty = typeof(Assessment).GetProperty(propertyName);
+                if (assessProperty != null)
+                {
+                    var value = assessProperty.GetValue(assess);
+                    typeof(Assessment).GetProperty(propertyName)?.SetValue(assessmentEdit, value);
+                }
+            }
 
             assessmentEdit.Tot_Crit1 = assess.Crit1_Clau1;
-            assessmentEdit.Average_Crit1 = Convert.ToDouble(assessmentEdit.Tot_Crit1);
-
             assessmentEdit.Tot_Crit2 = assess.Crit2_Clau1 + assess.Crit2_Clau2 + assess.Crit2_Clau3 + assess.Crit2_Clau4 + assess.Crit2_Clau5;
-            assessmentEdit.Average_Crit2 = Convert.ToDouble(assessmentEdit.Tot_Crit2)/5;
-
             assessmentEdit.Tot_Crit3 = assess.Crit3_Clau1 + assess.Crit3_Clau2 + assess.Crit3_Clau3 + assess.Crit3_Clau4 + assess.Crit3_Clau5;
-            assessmentEdit.Average_Crit3 = Convert.ToDouble(assessmentEdit.Tot_Crit3)/5;
-
             assessmentEdit.Tot_Crit4 = assess.Crit4_Clau1 + assess.Crit4_Clau2 + assess.Crit4_Clau3 + assess.Crit4_Clau4 + assess.Crit4_Clau5;
-            assessmentEdit.Average_Crit4 = Convert.ToDouble(assessmentEdit.Tot_Crit4)/5;
-
             assessmentEdit.Tot_Crit5 = assess.Crit5_Clau1 + assess.Crit5_Clau2 + assess.Crit5_Clau3 + assess.Crit5_Clau4 + assess.Crit5_Clau5;
-            assessmentEdit.Average_Crit5 = Convert.ToDouble(assessmentEdit.Tot_Crit5)/5;
-
             assessmentEdit.Tot_Crit6 = assess.Crit6_Clau1 + assess.Crit6_Clau2 + assess.Crit6_Clau3 + assess.Crit6_Clau4 + assess.Crit6_Clau5;
-            assessmentEdit.Average_Crit6 = Convert.ToDouble(assessmentEdit.Tot_Crit6)/5;
-
             assessmentEdit.Tot_Crit7 = assess.Crit7_Clau1 + assess.Crit7_Clau2 + assess.Crit7_Clau3 + assess.Crit7_Clau4 + assess.Crit7_Clau5;
-            assessmentEdit.Average_Crit7 = Convert.ToDouble(assessmentEdit.Tot_Crit7)/5;
-
             assessmentEdit.Tot_Crit8 = assess.Crit8_Clau1;
-            assessmentEdit.Average_Crit8 = Convert.ToDouble(assessmentEdit.Tot_Crit8);
-
             assessmentEdit.Tot_Crit9 = assess.Crit9_Clau1 + assess.Crit9_Clau2 + assess.Crit9_Clau3 + assess.Crit9_Clau4 + assess.Crit9_Clau5;
-            assessmentEdit.Average_Crit9 = Convert.ToDouble(assessmentEdit.Tot_Crit9)/5;
+
+            assessmentEdit.Average_Crit1 = Convert.ToDouble(assessmentEdit.Tot_Crit1);
+            assessmentEdit.Average_Crit2 = Convert.ToDouble(assessmentEdit.Tot_Crit2) / 5;
+            assessmentEdit.Average_Crit3 = Convert.ToDouble(assessmentEdit.Tot_Crit3) / 5;
+            assessmentEdit.Average_Crit4 = Convert.ToDouble(assessmentEdit.Tot_Crit4) / 5;
+            assessmentEdit.Average_Crit5 = Convert.ToDouble(assessmentEdit.Tot_Crit5) / 5;
+            assessmentEdit.Average_Crit6 = Convert.ToDouble(assessmentEdit.Tot_Crit6) / 5;
+            assessmentEdit.Average_Crit7 = Convert.ToDouble(assessmentEdit.Tot_Crit7) / 5;
+            assessmentEdit.Average_Crit8 = Convert.ToDouble(assessmentEdit.Tot_Crit8);
+            assessmentEdit.Average_Crit9 = Convert.ToDouble(assessmentEdit.Tot_Crit9) / 5;
 
             assessmentEdit.Grand_Tot = assessmentEdit.Average_Crit1 + assessmentEdit.Average_Crit2 + assessmentEdit.Average_Crit3 + assessmentEdit.Average_Crit4 + assessmentEdit.Average_Crit5 + assessmentEdit.Average_Crit6 + assessmentEdit.Average_Crit7 + assessmentEdit.Average_Crit8 + assessmentEdit.Average_Crit9;
-            assessmentEdit.Overall_Average = Convert.ToDouble(assessmentEdit.Grand_Tot)/9;
 
-            assessmentEdit.AssessmentResult = (assessmentEdit.Grand_Tot >= 50.0) ? AssessmentResultEnum.APT : AssessmentResultEnum.INAPT;
+            assessmentEdit.Overall_Average = assessmentEdit.Grand_Tot / 9;
+
+            bool apto = assessmentEdit.Average_Crit1 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit2 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit3 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit4 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit5 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit6 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit7 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit8 / 10 * 100 >= 60 &&
+            assessmentEdit.Average_Crit9 / 10 * 100 >= 60 &&
+            assessmentEdit.Overall_Average >= 70;
+
+            assessmentEdit.AssessmentResult = apto ? Assessment.APT : Assessment.INAPT;
 
             assessmentEdit.EvaluatedFor = userType == Convert.ToInt32(UsersTypeEnum.User_Evaluator) ? await _evaluatorServices.EvaluatorsName(idUser) : await _administratorServices.AdministratorsName(idUser);
 
@@ -197,7 +139,7 @@ public class AssessmentServices : IAssessmentServices
             _database.Assessments.Update(assessmentEdit);
             await _database.SaveChangesAsync();
 
-            return assessmentEdit; 
+            return assessmentEdit;
         }
         catch (DbUpdateException dbException) when (dbException.InnerException is MySqlException mySqlException)
         {
@@ -285,13 +227,13 @@ public class AssessmentServices : IAssessmentServices
 
     public async Task<string> ServantName(int? CivilServantId)
     {
-        ICollection<CivilServant> servant =  await _database.Servants.Where(x => x.Id == CivilServantId).ToListAsync();
+        ICollection<CivilServant> servant = await _database.Servants.Where(x => x.Id == CivilServantId).ToListAsync();
         return servant.FirstOrDefault().Name;
     }
 
     public int? ServantMasp(int CivilServantId)
     {
-        ICollection<CivilServant> servant =  _database.Servants.Where(x => x.Id == CivilServantId).ToList();
+        ICollection<CivilServant> servant = _database.Servants.Where(x => x.Id == CivilServantId).ToList();
         return servant.FirstOrDefault().Masp;
     }
 
