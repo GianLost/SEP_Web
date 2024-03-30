@@ -19,10 +19,10 @@ const phoneMask = (value) => {
 $('.close-alert').click(function () {
     $('.alert').hide('hide');
 });
-// /* Esta função também realiza o fechamneto dos alerts, porém de forma automática utilizando o setTimeout(); */
-// setTimeout(function () {
-//     $('.alert').hide('hide').fadeOut(500);
-// }, 3000);
+/* Esta função também realiza o fechamneto dos alerts, porém de forma automática utilizando o setTimeout(); */
+setTimeout(function () {
+    $('.alert').hide('hide').fadeOut(500);
+}, 3000);
 
 
 /* Fnção que realiza a formatação da data enquanto é digitada no input em data de admissão de CivilServant */

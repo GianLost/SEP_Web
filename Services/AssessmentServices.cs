@@ -70,7 +70,8 @@ public class AssessmentServices : IAssessmentServices
             assessmentEdit.Stats = AssessmentStatsEnum.EVALUATED;
             assessmentEdit.EndEvaluationPeriod = DateTime.Now;
 
-            List<string> propertiesToUpdate = new ()
+            // Atualizar propriedades
+            var propertiesToUpdate = new List<string>
             {
                 "Crit1_Clau1", "Jus_Crit1_Clau1",
                 "Crit2_Clau1", "Jus_Crit2_Clau1", "Crit2_Clau2", "Jus_Crit2_Clau2", "Crit2_Clau3", "Jus_Crit2_Clau3", "Crit2_Clau4", "Jus_Crit2_Clau4", "Crit2_Clau5", "Jus_Crit2_Clau5",
@@ -89,50 +90,48 @@ public class AssessmentServices : IAssessmentServices
                 var assessProperty = typeof(Assessment).GetProperty(propertyName);
                 if (assessProperty != null)
                 {
-                    var value = assessProperty.GetValue(assess);
+                    object value = assessProperty.GetValue(assess);
                     typeof(Assessment).GetProperty(propertyName)?.SetValue(assessmentEdit, value);
                 }
             }
 
-            assessmentEdit.Tot_Crit1 = assess.Crit1_Clau1;
-            assessmentEdit.Tot_Crit2 = assess.Crit2_Clau1 + assess.Crit2_Clau2 + assess.Crit2_Clau3 + assess.Crit2_Clau4 + assess.Crit2_Clau5;
-            assessmentEdit.Tot_Crit3 = assess.Crit3_Clau1 + assess.Crit3_Clau2 + assess.Crit3_Clau3 + assess.Crit3_Clau4 + assess.Crit3_Clau5;
-            assessmentEdit.Tot_Crit4 = assess.Crit4_Clau1 + assess.Crit4_Clau2 + assess.Crit4_Clau3 + assess.Crit4_Clau4 + assess.Crit4_Clau5;
-            assessmentEdit.Tot_Crit5 = assess.Crit5_Clau1 + assess.Crit5_Clau2 + assess.Crit5_Clau3 + assess.Crit5_Clau4 + assess.Crit5_Clau5;
-            assessmentEdit.Tot_Crit6 = assess.Crit6_Clau1 + assess.Crit6_Clau2 + assess.Crit6_Clau3 + assess.Crit6_Clau4 + assess.Crit6_Clau5;
-            assessmentEdit.Tot_Crit7 = assess.Crit7_Clau1 + assess.Crit7_Clau2 + assess.Crit7_Clau3 + assess.Crit7_Clau4 + assess.Crit7_Clau5;
-            assessmentEdit.Tot_Crit8 = assess.Crit8_Clau1;
-            assessmentEdit.Tot_Crit9 = assess.Crit9_Clau1 + assess.Crit9_Clau2 + assess.Crit9_Clau3 + assess.Crit9_Clau4 + assess.Crit9_Clau5;
+            // Calcular totais e médias
+            var criterias = Enumerable.Range(1, 9).Select(i => new
+            {
+                TotProperty = $"Tot_Crit{i}",
+                AvgProperty = $"Average_Crit{i}",
+                Total = i == 1 || i == 8
+                    ? Convert.ToInt32(assess.GetType().GetProperty($"Crit{i}_Clau1").GetValue(assess)) // Se for Crit1_Clau1 ou Crit8_Clau1, manter como int
+                    : assess.GetType().GetProperties().Where(p => p.Name.StartsWith($"Crit{i}_Clau")).Sum(p => Convert.ToInt32(p.GetValue(assess))), // Para os outros, somar e converter para int
+            });
 
-            assessmentEdit.Average_Crit1 = Convert.ToDouble(assessmentEdit.Tot_Crit1);
-            assessmentEdit.Average_Crit2 = Convert.ToDouble(assessmentEdit.Tot_Crit2) / 5;
-            assessmentEdit.Average_Crit3 = Convert.ToDouble(assessmentEdit.Tot_Crit3) / 5;
-            assessmentEdit.Average_Crit4 = Convert.ToDouble(assessmentEdit.Tot_Crit4) / 5;
-            assessmentEdit.Average_Crit5 = Convert.ToDouble(assessmentEdit.Tot_Crit5) / 5;
-            assessmentEdit.Average_Crit6 = Convert.ToDouble(assessmentEdit.Tot_Crit6) / 5;
-            assessmentEdit.Average_Crit7 = Convert.ToDouble(assessmentEdit.Tot_Crit7) / 5;
-            assessmentEdit.Average_Crit8 = Convert.ToDouble(assessmentEdit.Tot_Crit8);
-            assessmentEdit.Average_Crit9 = Convert.ToDouble(assessmentEdit.Tot_Crit9) / 5;
+            foreach (var crit in criterias)
+            {
+                typeof(Assessment).GetProperty(crit.TotProperty)?.SetValue(assessmentEdit, crit.Total);
 
-            assessmentEdit.Grand_Tot = assessmentEdit.Average_Crit1 + assessmentEdit.Average_Crit2 + assessmentEdit.Average_Crit3 + assessmentEdit.Average_Crit4 + assessmentEdit.Average_Crit5 + assessmentEdit.Average_Crit6 + assessmentEdit.Average_Crit7 + assessmentEdit.Average_Crit8 + assessmentEdit.Average_Crit9;
+                // Verificar se é Crit1_Clau1 ou Crit8_Clau1 para manter o valor original
+                if (crit.TotProperty == "Tot_Crit1" || crit.TotProperty == "Tot_Crit8")
+                {
+                    typeof(Assessment).GetProperty(crit.AvgProperty)?.SetValue(assessmentEdit, (double)crit.Total);
+                }
+                else
+                {
+                    // Se for um critério diferente de Crit1_Clau1 ou Crit8_Clau1, calcular a média
+                    typeof(Assessment).GetProperty(crit.AvgProperty)?.SetValue(assessmentEdit, (double)crit.Total / 5);
+                }
+            }
 
+            // Calcular grand total e overall average
+            assessmentEdit.Grand_Tot = criterias.Sum(crit => (double)typeof(Assessment).GetProperty(crit.AvgProperty)?.GetValue(assessmentEdit));
             assessmentEdit.Overall_Average = assessmentEdit.Grand_Tot / 9;
 
-            bool apto = assessmentEdit.Average_Crit1 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit2 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit3 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit4 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit5 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit6 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit7 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit8 / 10 * 100 >= 60 &&
-            assessmentEdit.Average_Crit9 / 10 * 100 >= 60 &&
-            assessmentEdit.Overall_Average >= 70;
+            // Verificar se é apto
+            bool apto = assessmentEdit.Grand_Tot >= 70 && assessmentEdit.Overall_Average >= 6.0;
 
             assessmentEdit.AssessmentResult = apto ? Assessment.APT : Assessment.INAPT;
 
+            // Restante das atualizações
             assessmentEdit.EvaluatedFor = userType == Convert.ToInt32(UsersTypeEnum.User_Evaluator) ? await _evaluatorServices.EvaluatorsName(idUser) : await _administratorServices.AdministratorsName(idUser);
-
             assessmentEdit.ModifyDate = assess.ModifyDate;
             assessmentEdit.LastModifiedBy = assess.LastModifiedBy;
 
