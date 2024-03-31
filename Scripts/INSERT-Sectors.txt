@@ -1,4 +1,4 @@
-INSERT INTO `sectors`(`Id`, `SectionId`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) VALUES (NULL, '44', 'Escola Municipal Policena Alves de Amorim', '2023-10-02 09:54:06.667739', NULL, NULL, '1'), 
+INSERT INTO `Sectors`(`Id`, `SectionId`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) VALUES (NULL, '44', 'Escola Municipal Policena Alves de Amorim', '2023-10-02 09:54:06.667739', NULL, NULL, '1'), 
 (NULL, '1', 'Centro de Assistência Psico-Social', '2023-10-02 09:54:32.571313', NULL, NULL, '1'), 
 (NULL, '2', 'Centro de Educação Inf. Lucilênia A. O. Sil', '2023-10-02 09:55:09.947182', NULL, NULL, '1'), 
 (NULL, '4', 'Coordenadoria do SIAT', '2023-10-02 09:55:32.543196', NULL, NULL, '1'), 

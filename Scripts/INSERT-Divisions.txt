@@ -1,4 +1,4 @@
-INSERT INTO `divisions` (`Id`, `InstituitionId`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
+INSERT INTO `Divisions` (`Id`, `InstituitionId`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
 VALUES (NULL, '11', 'Escola Municipal Antônio Fonseca Leal', '2023-09-27 13:39:48.921364', NULL, NULL, '3'),
 (NULL, '11', 'Escola Municipal Memorial Zumbi', '2023-09-27 13:52:41.191752', NULL, NULL, '3'),
 (NULL, '10', 'Sítio da Criança', '2023-09-27 13:55:16.883640', NULL, NULL, '3'),

@@ -1,4 +1,4 @@
-INSERT INTO `sections`(`Id`, `DivisionId`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`)
+INSERT INTO `Sections`(`Id`, `DivisionId`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`)
 VALUES (NULL, '4', 'Centro de Assistência Psico Social', '2023-09-29 12:28:02.500711', NULL, NULL, '1'), 
 (NULL, '5', 'Centro de Educação Inf. Luculênia A. O. Sil', '2023-09-29 12:29:17.818665', NULL, NULL, '1'), 
 (NULL, '21', 'Centro Público de Prom. Trabalho', '2023-09-29 12:29:54.155940', NULL, NULL, '1'), 

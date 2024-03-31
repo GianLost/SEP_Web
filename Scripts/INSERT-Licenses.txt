@@ -1,4 +1,4 @@
-INSERT INTO `licenses` (`Id`, `Name`, `Time`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
+INSERT INTO `Licenses` (`Id`, `Name`, `Time`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
 VALUES (NULL, 'Licença Afastamento', '30', '2024-03-13 13:46:22.137315', NULL, NULL, '1'),
 (NULL, 'Licença Cargo Comissionado', '40', '2024-03-13 13:46:43.281478', NULL, NULL, '1'),
 (NULL, 'Licença Acidente', '25', '2024-03-13 13:47:06.705659', NULL, NULL, '1'),

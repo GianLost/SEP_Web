@@ -1,4 +1,4 @@
-INSERT INTO `instituitions` (`Id`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
+INSERT INTO `Instituitions` (`Id`, `Name`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
 VALUES (NULL, 'Fundação Municipal São Francisco', '2023-11-20 17:05:45.064894', NULL, NULL, '1'), 
 (NULL, 'Gabinete do Prefeito', '2023-11-20 17:11:30.367020', NULL, NULL, '1'), 
 (NULL, 'Instituto de Previdência Municipal de Três Marias', '2023-11-20 17:11:41.912027', NULL, NULL, '1'), 
