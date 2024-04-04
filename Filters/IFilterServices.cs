@@ -31,5 +31,5 @@ public interface IFilterServices
     /// Redireciona o usuário para a página de listagem de avaliações.
     /// </summary>
     /// <param name="context">Realiza o redirecionamento de acordo com o contexto de execução da ação.</param>
-    void RedirectToAssessments(ActionExecutedContext context);
+    void RedirectToAssessments(ActionExecutedContext context, string errorMessage);
 }

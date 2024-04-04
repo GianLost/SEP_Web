@@ -57,7 +57,7 @@ public class ReportServices : IReportServices
     {
         try
         {
-            string reportFile = Path.Combine(_environment.WebRootPath, @"Docs\Assessment_Report.frx");
+            string reportFile = Path.Combine(_environment.WebRootPath, @"Docs/Assessment_Report.frx");
 
             using Report r = new();
 

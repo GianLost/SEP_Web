@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using SEP_Web.Models;
 
 namespace SEP_Web.Filters;
@@ -8,12 +9,15 @@ namespace SEP_Web.Filters;
 public class FilterServices : IFilterServices
 {
     private const string UserSessionKey = "userCheckIn";
+    private const string ErrorMessageKey = "ErrorMessage";
     private readonly ILogger<IFilterServices> _logger;
+    private readonly ITempDataDictionaryFactory _tempData;
 
-    public FilterServices(ILogger<IFilterServices> logger)
-    {
-        _logger = logger;
-    }
+        public FilterServices(ILogger<FilterServices> logger, ITempDataDictionaryFactory tempData)
+        {
+            _logger = logger;
+            _tempData = tempData;
+        }
 
     public Users GetUserFromSession(ActionExecutedContext context)
     {
@@ -37,8 +41,9 @@ public class FilterServices : IFilterServices
         }
     }
 
-    public void RedirectToAssessments(ActionExecutedContext context)
+    public void RedirectToAssessments(ActionExecutedContext context, string errorMessage)
     {
+        SetErrorMessage(context, errorMessage);
         context.Result = new RedirectToActionResult("Index", "Assessments", null);
     }
 
@@ -50,5 +55,11 @@ public class FilterServices : IFilterServices
     public void RedirectToHome(ActionExecutedContext context)
     {
         context.Result = new RedirectToActionResult("Index", "Home", null);
+    }
+
+    private void SetErrorMessage(ActionExecutedContext context, string message)
+    {
+        var tempData = _tempData.GetTempData(context.HttpContext);
+        tempData[ErrorMessageKey] = message;
     }
 }

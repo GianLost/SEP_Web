@@ -22,7 +22,7 @@ $('.close-alert').click(function () {
 /* Esta função também realiza o fechamneto dos alerts, porém de forma automática utilizando o setTimeout(); */
 setTimeout(function () {
     $('.alert').hide('hide').fadeOut(500);
-}, 3000);
+}, 4000);
 
 
 /* Fnção que realiza a formatação da data enquanto é digitada no input em data de admissão de CivilServant */

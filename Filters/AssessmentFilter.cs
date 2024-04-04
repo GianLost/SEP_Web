@@ -40,19 +40,19 @@ public class AssessmentFilter : ActionFilterAttribute
 
                     if (servant.UserStats == UserStatsEnum.UnderLicense) // Impede que avaliações de servidores que estejam sob licença sejam acessadas em qualquer instância;
                     {
-                        _filters.RedirectToAssessments(context);
+                        _filters.RedirectToAssessments(context, "Acesso Negado! Servidores sob licença não podem ser avaliados durante o perído de vigência da mesma.");
                         return;
                     }
 
                     if (!DontAccessEvaluatedAssessment(user, assessment)) // Valida o acesso de usuários à avaliações já avaliadas;
                     {
-                        _filters.RedirectToAssessments(context);
+                        _filters.RedirectToAssessments(context, "Acesso Negado! As etapas já avaliadas não podem ser reabertas com o seu nível de usuário.");
                         return;
                     }
 
                     if (!DontAccessAssessmentIsNotEvaluator(user, assessment)) // valida o acesso de usuários em avaliações permitindo que apenas o responsável pela avaliação possa acessá-la, exceto quando se tratar de um administrador, que terá o aceso irrestrito às avaliações desde que o servidor avaliado não esteja sob licença;
                     {
-                        _filters.RedirectToAssessments(context);
+                        _filters.RedirectToAssessments(context, "Acesso Negado! Esta avaliação não está vinculada ao seu usuário.");
                         return;
                     }
                     return;
@@ -67,7 +67,7 @@ public class AssessmentFilter : ActionFilterAttribute
     {
         if (context.HttpContext.Request.RouteValues.TryGetValue("id", out var id))
             if (id is string idString && int.TryParse(idString, out var assessmentId))
-                return assessmentId;
+                return assessmentId;        
 
         return null;
     }
