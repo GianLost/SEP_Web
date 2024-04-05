@@ -33,14 +33,13 @@
     <link rel="stylesheet" href="~/css/licenses.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/enableDisable-Button.css" asp-append-version="true" />
 
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
 
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow fixed-top border-bottom p-3">
+    <header id="my-header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light box-shadow fixed-top border-bottom px-4">
             @await Component.InvokeAsync("Menu") @* chamada do componente de menu implementado em ViewsComponent *@
         </nav>
     </header>
@@ -53,7 +52,7 @@
 
     <footer class="footer border-top text-muted">
         <div class="container text-center">
-            <span class="">&copy;</span> 2023 - SEP WEB - Sistema de Estágio Probatório da Prefeitura Municipal de Três
+            <span class="">&copy;</span> @DateTime.Now.ToString("yyyy") - SEP WEB - Sistema de Estágio Probatório da Prefeitura Municipal de Três
             Marias - <span class=""><i class="bi bi-calendar-event"></i> @DateTime.Now.ToString("dd/MM/yyyy")
         </div>
     </footer>
