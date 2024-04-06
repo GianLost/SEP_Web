@@ -66,7 +66,7 @@ public class ServantLicenseController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register([Bind("CivilServantId, LicensesId, StartDate, EndDate")]ServantLicense servantLicense)
+    public async Task<IActionResult> Register(ServantLicense servantLicense)
     {
         try
         {
@@ -78,18 +78,10 @@ public class ServantLicenseController : Controller
                 TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
                 
                 if (duration.Value.Days > maxDuration)
-                {
-                    TempData["ErrorMessage"] = "O prazo estabelecido excede o tempo máximo permitido para a licença selecionada !";
                     return Json(new { stats = StatsAJAXEnum.ERROR_TIME});
-                }
-
+                
                 if (servantLicense.EndDate <= servantLicense.StartDate)
-                {
-                    TempData["ErrorMessage"] = "A data final da licença não pode ser anterior a data de início !";
                     return Json(new { stats = StatsAJAXEnum.INVALID_TIME});
-                }else {
-                    TempData.Clear();
-                }
 
                 await _servantLicenses.RegisterServantLicense(servantLicense);
 

@@ -1,69 +1,51 @@
 /* JavaScript responsável pelo POST do formulário de cadastro de licenças */
 
 function RegisterServantLicense() {
-    let properties = {
-        CivilServantId: $("#servantLicense-civilServantId").val(),
-        LicensesId: $("#servantLicense-LicensesId").val(),
-        StartDate: $("#servantLicense-startDate").val(),
-        EndDate: $("#servantLicense-endDate").val(),
-    };
-    $.post("/ServantLicense/Register", properties)
 
-        .done(function (output) {
-            if (output.stats == 1) {
-                $(location).attr('href', '/ServantLicense/Index');
+    let civilServantId = $("#servantLicense-civilServantId").val();
+    let licensesId = $("#servantLicense-LicensesId").val();
+    let startDate = $("#servantLicense-startDate").val();
+    let endDate = $("#servantLicense-endDate").val();
 
-            } else if (output.stats == 2) {
-                if (properties.CivilServantId <= 0) {
-                    $(".select-servant-validation-error").html('selecione um servidor !');
-                } else {
-                    $(".select-servant-validation-error").empty();
-                }
-                if (properties.LicensesId <= 0) {
-                    $(".select-license-validation-error").html('selecione o tipo de licença !');
-                } else {
-                    $(".select-license-validation-error").empty();
-                }
-                if (properties.StartDate <= 0) {
-                    $(".field-sdate-validation-error").html('informe a data de início !');
-                } else {
-                    $(".field-sdate-validation-error").empty();
-                }
-                if (properties.EndDate <= 0) {
-                    $(".field-edate-validation-error").html('informe a data de término !');
-                } else {
-                    $(".field-edate-validation-error").empty();
-                }
-            } else if (output.stats == 7) {
-                $(location).attr('href', '/ServantLicense/Index');
-            } else if (output.stats == 6) {
-                if (new Date(properties.EndDate).getDate() <= new Date(properties.StartDate).getDate()) {
-                    $(".field-Time-validation-error").html('A data de término não pode ser anterior à data de início !');
-                } else {
-                    $(".field-Time-validation-error").empty();
-                    $(".alert").empty();
-                }
-            }
-        })
+    // Verifica se os campos obrigatórios estão preenchidos
+    if (!civilServantId || !licensesId || !startDate || !endDate) {
+        $(".select-servant-validation-error").html(!civilServantId ? 'Selecione um servidor!' : '');
+        $(".select-license-validation-error").html(!licensesId ? 'Selecione o tipo de licença!' : '');
+        $(".field-sdate-validation-error").html(!startDate ? 'Informe a data de início!' : '');
+        $(".field-edate-validation-error").html(!endDate ? 'Informe a data de término!' : '');
+        return;
+    }
 
-        .fail(function () {
-            alert("Ocorreu um erro ao aplicar a licença!");
-        });
+    // Verifica se a data de término é anterior à data de início
+    if (new Date(endDate) <= new Date(startDate)) {
+        $(".field-Time-validation-error").html('A data de término não pode ser anterior à data de início!');
+        return;
+    }
+
+    $.post("/ServantLicense/Register", {
+        CivilServantId: civilServantId,
+        LicensesId: licensesId,
+        StartDate: startDate,
+        EndDate: endDate
+    }).done(function (output) {
+        if (output.stats === 1 || output.stats === 7) {
+            $(location).attr('href', '/ServantLicense/Index');
+        }
+    }).fail(function () {
+        alert("Ocorreu um erro ao aplicar a licença!");
+    });
 }
 
 function CalculateDurationLicenses() {
     var startDate = new Date($('#servantLicense-startDate').val());
     var endDate = new Date($('#servantLicense-endDate').val());
 
-    // Verificar se as datas são válidas
+    // Verifica se as datas são válidas
     if (startDate && endDate && startDate <= endDate) {
         var differenceInTime = endDate.getTime() - startDate.getTime();
         var differenceInDays = differenceInTime / (1000 * 3600 * 24); // Convertendo milissegundos para dias
-
-        // Exibir o resultado no campo
         $('#license-duration').val(differenceInDays.toFixed(0) + ' dias');
     } else {
-        // Limpar o campo se as datas forem inválidas
         $('#license-duration').val('');
     }
 }
