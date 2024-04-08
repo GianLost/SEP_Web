@@ -12,12 +12,12 @@
             </p>
             <div class="d-flex flex-row">
                 <div class="form-check">
-                    <input class="form-check-input me-1" type="radio" id="sim" value="1" asp-for="MedicalRestriction">
+                    <input class="form-check-input me-1" type="radio" name="MedicalRestriction" id="sim" value="1" asp-for="MedicalRestriction">
                     <label class="form-check-label me-1" for="sim"> Sim </label>
                 </div>
 
                 <div class="form-check">
-                    <input class="form-check-input me-1" type="radio" id="nao" value="0" asp-for="MedicalRestriction" checked>
+                    <input class="form-check-input me-1" type="radio" name="MedicalRestriction" id="nao" value="0" asp-for="MedicalRestriction">
                     <label class="form-check-label" for="nao"> Não </label>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                 <span class="fw-normal">Dia:</span>
 
                 <div class="form-check">
-                    <input class="form-control" type="date" id="forwardingDate" asp-for="ForwardingDate">
+                    <input class="form-control" type="date" name="ForwardingDate" id="forwardingDate" asp-for="ForwardingDate" value="@Model.ForwardingDate?.ToString("yyyy-MM-dd")">
                     <label class="form-label" for="forwardingDate" hidden> Data de Encaminhamento </label>
                 </div>
 

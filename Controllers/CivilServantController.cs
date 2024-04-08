@@ -102,7 +102,8 @@ public class CivilServantController : Controller
                         CivilServantId = servant.Id,
                         UserEvaluatorId1 = servant.UserEvaluatorId1,
                         UserEvaluatorId2 = servant.UserEvaluatorId2,
-                        EvaluatedFor = null
+                        EvaluatedFor = null,
+                        RegisterDate = DateTime.Now
                     };
 
                     evaluationDate = Convert.ToDateTime(newTest.StartEvaluationPeriod).AddDays(210);

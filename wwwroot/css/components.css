@@ -118,6 +118,13 @@
   margin-top: 5vh;
 }
 
+#forwardingDate-error,
+#justification-error {
+  color: #e01d1d;
+  font-size: 0.7em;
+  font-style: italic;
+}
+
 .validate-fields {
   margin-bottom: -20px;
   height: 4vh;

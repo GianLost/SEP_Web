@@ -25,8 +25,8 @@ public class CivilServantServices : ICivilServantServices
         {
             if (user == null) throw new ArgumentNullException(nameof(user), ExceptionMessages.ErrorArgumentNullException);
 
-            user.UserType = Keys.UsersTypeEnum.User_Server;
-            user.UserStats = Keys.UserStatsEnum.Active;
+            user.UserType = UsersTypeEnum.User_Server;
+            user.UserStats = UserStatsEnum.Active;
             user.Password = Cryptography.EncryptPassword(user.Password);
             user.RegisterDate = DateTime.Now;
 

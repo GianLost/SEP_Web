@@ -131,6 +131,9 @@ public class AssessmentServices : IAssessmentServices
             assessmentEdit.AssessmentResult = apto ? Assessment.APT : Assessment.INAPT;
 
             // Restante das atualizações
+            assessmentEdit.MedicalRestriction = assess.MedicalRestriction;
+            assessmentEdit.Crit10_Justification = assess.Crit10_Justification;
+            assessmentEdit.ForwardingDate = assess.ForwardingDate;
             assessmentEdit.EvaluatedFor = userType == Convert.ToInt32(UsersTypeEnum.User_Evaluator) ? await _evaluatorServices.EvaluatorsName(idUser) : await _administratorServices.AdministratorsName(idUser);
             assessmentEdit.ModifyDate = assess.ModifyDate;
             assessmentEdit.LastModifiedBy = assess.LastModifiedBy;
