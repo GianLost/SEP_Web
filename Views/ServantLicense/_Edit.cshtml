@@ -1,38 +1,88 @@
-@model Licenses
+@model ServantLicense
 @using SEP_Web.Models
+@using SEP_Web.Services
+@inject ICivilServantServices _servantServices
+@inject ILicenseServices _licenseServices
+
 @{
-    ViewData["Title"] = "Cadastrar Licença";
+    ViewData["Title"] = "Editar licença do servidor";
 }
 
 <!-- Partial View de Cadastro de Licença -->
 
 <div>
 
-    <form id="edit-license-form" asp-action="Edit" asp-controller="License" method="post">
-
-        <input type="hidden" asp-for="Id">
+    <form id="edit-servantLicense-form">
 
         <div class="form-group p-4">
 
-            <label class="form-label" for="edit-license-name" hidden></label>
-            <input type="text" placeholder="Informe um nome para a licença :" class="form-control" asp-for="Name" id="edit-license-name" autocomplete="disabled"/>
-            <div class="validate-fields mb-1">
-                <span class="select-validation-error"></span>
+            <div class="row justify-content-between ps-3">
+                <input class="form-control w-25" type="text" id="edit-license-duration-hidden" disabled>
+                <input class="form-control w-25 me-3" type="text" id="edit-license-duration" disabled hidden>
             </div>
 
-            <label class="form-label" for="edit-license-time" hidden></label>
-            <input type="number" placeholder="Informe o tempo da licença : (Em dias)" class="form-control" asp-for="Time" id="edit-license-time" autocomplete="disabled"/>
-            <div class="validate-fields">
-                <span class="field-validation-error"></span>
+            <div class="validate-fields mt-0 mb-1">
+                <span class="field-Time-validation-error m-0"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" value="@Model.CivilServant.Name" id="edit-servantLicense-civilServantId" asp-for="CivilServantId" disabled>
+                <div class="validate-fields mb-1">
+                    <span class="select-servant-validation-error"></span>
+                </div>
+            </div>
+
+            @if((await _licenseServices.LicenseList()).Count > 0)
+            {
+                <div class="form-group">
+                    <select class="form-select" id="edit-servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
+                        <option value="" selected>-- selecione a licença --</option>
+                        @foreach (var i in await _licenseServices.LicenseList())
+                        {
+                            <option value="@i.Id">@i.Name</option>
+                        }
+                    </select>
+                    <div class="validate-fields mb-1">
+                        <span class="select-license-validation-error"></span>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-group">
+                    <select class="form-select" id="edit-servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
+                        <option value="" selected>-- selecione a licença --</option>
+                    </select>
+                    <div class="validate-fields mb-1">
+                        <span class="select-license-validation-error"></span>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-6  form-group">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-servantLicense-startDate">Data de início:</label>
+                    <input type="date" class="form-control" id="edit-servantLicense-startDate" name="StartDate" asp-for="StartDate" autocomplete="disabled">
+                    <div class="validate-fields mb-1">
+                        <span class="field-sdate-validation-error"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6 form-group">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-servantLicense-endDate">Data de término:</label>
+                    <input type="date" class="form-control" id="edit-servantLicense-endDate" name="EndDate"  asp-for="EndDate" autocomplete="disabled">
+                    <div class="validate-fields mb-1">
+                        <span class="field-edate-validation-error"></span>
+                    </div>
+                </div>
+
             </div>
 
         </div>
 
         <div class="d-flex justify-content-start modal-footer p-2">
-
             <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
-            <a asp-controller="License" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
-
+            <a asp-controller="ServantLicense" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
         </div>
 
     </form>

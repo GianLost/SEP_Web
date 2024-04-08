@@ -77,9 +77,21 @@ public class ServantLicenseServices : IServantLicenseServices
         }
     }
 
-    public Task<ServantLicense> ServantLicensesEdit(ServantLicense servantLicense)
+    public async Task<ServantLicense> ServantLicensesEdit(ServantLicense servantLicense)
     {
-        throw new NotImplementedException();
+        ServantLicense servantLicensesEdit = SearchForId(servantLicense.Id) ?? throw new Exception("Houve um erro na edição da licença deste servidor !");
+
+        servantLicensesEdit.LicensesId = servantLicense.LicensesId;
+        servantLicensesEdit.StartDate = servantLicense.StartDate;
+        servantLicensesEdit.EndDate = servantLicense.EndDate;
+
+        servantLicensesEdit.ModifyDate = DateTime.Now;
+        servantLicensesEdit.LastModifiedBy = servantLicense.LastModifiedBy;
+
+        _database.ServantLicense.Update(servantLicensesEdit);
+        await _database.SaveChangesAsync();
+
+        return servantLicensesEdit;
     }
 
     public void DeleteServantLicenses(int id)

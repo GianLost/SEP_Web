@@ -2,6 +2,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using MySqlConnector;
 using SEP_Web.Filters;
+using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Keys;
 using SEP_Web.Models;
@@ -15,12 +16,14 @@ public class ServantLicenseController : Controller
     private readonly ILogger<ServantLicenseController> _logger;
     private readonly ILicenseServices _licenses;
     private readonly IServantLicenseServices _servantLicenses;
+    private readonly IUserSession _session;
 
-    public ServantLicenseController(ILogger<ServantLicenseController> logger, ILicenseServices licenses, IServantLicenseServices servantLicenses)
+    public ServantLicenseController(ILogger<ServantLicenseController> logger, ILicenseServices licenses, IServantLicenseServices servantLicenses, IUserSession session)
     {
         _logger = logger;
         _licenses = licenses;
         _servantLicenses = servantLicenses;
+        _session = session;
     }
 
     public async Task<IActionResult> Index()
@@ -95,6 +98,43 @@ public class ServantLicenseController : Controller
         {
             _logger.LogError("Não foi possível adicionar a licença. Error : {Message}", e.Message);
             return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível adicionar a liceça!" });
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Edit(ServantLicense servantLicense)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                Users userInSession = await _session.SearchUserSession();
+
+                int maxDuration = await _licenses.GetMaxLicenseDuration(servantLicense.LicensesId);
+
+                // Verificar se a diferença entre as datas excede a duração máxima
+                TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
+                
+                if (duration.Value.Days > maxDuration)
+                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME});
+                
+                if (servantLicense.EndDate <= servantLicense.StartDate)
+                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME});
+
+                servantLicense.LastModifiedBy = userInSession.Login;
+
+                await _servantLicenses.ServantLicensesEdit(servantLicense);
+
+                TempData["SuccessMessage"] = $"A licença para o servidor {servantLicense.CivilServant.Name} foi editada com sucesso!";
+                return Json(new { stats = StatsAJAXEnum.OK });
+            }
+
+            return Json(new { stats = StatsAJAXEnum.ERROR, message = "Não foi possível editar a licença!" });
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Não foi possível editar a licença. Error : {Message}", e.Message);
+            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível editar a liceça!" });
         }
     }
 

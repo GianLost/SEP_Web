@@ -88,7 +88,7 @@
 
                             </tr>
 
-                            @* Modal de Edição 
+                            @* Modal de Edição *@
 
                             <div class="modal fade" id="edit-licenseModal@(license.Id)" tabindex="-1"
                                 role="dialog" aria-labelledby="edit-licenseModal@(license.Id)" aria-hidden="true">
@@ -99,7 +99,7 @@
                                         <div class="modal-header bg-primary p-3">
                                             <h3 class="modal-title text-light fs-4 text-center">Editar licença</h3>
                                             <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="License"></a>
+                                                asp-controller="ServantLicense"></a>
                                         </div>
                                         <div class="modal-body p-1">
                                             @await Html.PartialAsync("_Edit.cshtml", license)
@@ -110,7 +110,7 @@
 
                             </div>
 
-                           Fim do Modal de Edição *@
+                           @* Fim do Modal de Edição *@
 
 
                             @* Modal de Exclusão *@
