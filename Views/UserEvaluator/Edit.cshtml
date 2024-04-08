@@ -103,7 +103,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-evaluator-phone" hidden></label>
-                            <input type="tel" class="form-control" onkeyup="handlePhone(event)" id="edit-evaluator-phone" name="phone" asp-for="Phone" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
+                            <input type="tel" class="form-control mask-phone" id="edit-evaluator-phone" name="phone" asp-for="Phone" maxlength="15" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Phone)
                             </div>

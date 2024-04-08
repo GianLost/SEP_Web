@@ -52,7 +52,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="servant-login" hidden></label>
-                            <input type="text" class="form-control" id="servant-login" name="Login" asp-for="Login" placeholder="Nome de login" maxlength="35" minlength="10" autocomplete="disabled">
+                            <input type="text" class="form-control" id="servant-login" name="Login" asp-for="Login" placeholder="Nome de login" maxlength="50" minlength="10" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Login)
                             </div>
@@ -76,7 +76,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="servant-phone" hidden></label>
-                            <input type="tel" class="form-control" onkeyup="handlePhone(event)" id="servant-phone" name="phone" asp-for="Phone" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
+                            <input type="tel" class="form-control mask-phone" id="servant-phone" name="phone" asp-for="Phone" maxlength="15" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Phone)
                             </div>
@@ -86,7 +86,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="servant-position" hidden></label>
-                            <input type="text" class="form-control" id="servant-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="9" autocomplete="disabled">
+                            <input type="text" class="form-control" id="servant-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="5" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Position)
                             </div>
