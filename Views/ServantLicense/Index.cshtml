@@ -59,7 +59,7 @@
                         </tr>
                     </thead>
 
-                    <tbody>
+                    <tbody id="license-table-container">
 
                         @foreach (ServantLicense license in Model)
                         {
@@ -73,16 +73,9 @@
 
                                 <td scope="row">
 
-                                    <button type="button" title="Editar ..." data-bs-toggle="modal"
-                                        data-bs-target="#edit-licenseModal@(license.Id)"
-                                        class="btn btn-sm btn-outline-primary"><i title="Editar ..."
-                                            class="bi bi-file-earmark-medical"></i></button>
+                                    <button type="button" asp-route-id="@license.Id" data-bs-target="#edit-servantLicenseModal-@(license.Id)" data-route-id="@license.Id" title="Editar ..." class="btn-edit-license btn btn-sm btn-outline-primary"><i title="Editar ..." class="bi bi-file-earmark-medical"></i></button>
 
-                                    <button type="button" title="Excluir ..." data-bs-toggle="modal"
-                                        asp-route-id="@license.Id"
-                                        data-bs-target="#deleteLicense@(license.Id)"
-                                        class="btn btn-sm btn-outline-danger"><i title="Excluir ..."
-                                            class="bi bi-trash"></i></button>
+                                    <button type="button" asp-route-id="@license.Id" title="Excluir ..." data-bs-toggle="modal" data-bs-target="#deleteLicense-@(license.Id)" class="btn-delete-license btn btn-sm btn-outline-danger"><i title="Excluir ..." class="bi bi-trash"></i></button>
 
                                 </td>
 
@@ -90,24 +83,18 @@
 
                             @* Modal de Edição *@
 
-                            <div class="modal fade" id="edit-licenseModal@(license.Id)" tabindex="-1"
-                                role="dialog" aria-labelledby="edit-licenseModal@(license.Id)" aria-hidden="true">
-
+                            <div class="modal fade" id="edit-servantLicenseModal-@(license.Id)" tabindex="-1" role="dialog" aria-labelledby="edit-servantLicenseModalLabel-@(license.Id)" aria-hidden="true">
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
                                     <div class="modal-content">
                                         <div class="modal-header bg-primary p-3">
                                             <h3 class="modal-title text-light fs-4 text-center">Editar licença</h3>
-                                            <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="ServantLicense"></a>
+                                            <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="ServantLicense"></a>
                                         </div>
                                         <div class="modal-body p-1">
                                             @await Html.PartialAsync("_Edit.cshtml", license)
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
 
                            @* Fim do Modal de Edição *@
@@ -115,8 +102,7 @@
 
                             @* Modal de Exclusão *@
 
-                            <div class="modal fade" id="deleteLicense@(license.Id)" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteLicense@(license.Id)" aria-hidden="true">
+                            <div class="modal fade" id="deleteLicense-@(license.Id)" tabindex="-1" role="dialog" aria-labelledby="deleteLicenseLabel-@(license.Id)" aria-hidden="true">
 
                                 <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 

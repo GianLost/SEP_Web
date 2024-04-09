@@ -125,7 +125,7 @@ public class ServantLicenseController : Controller
 
                 await _servantLicenses.ServantLicensesEdit(servantLicense);
 
-                TempData["SuccessMessage"] = $"A licença para o servidor {servantLicense.CivilServant.Name} foi editada com sucesso!";
+                TempData["SuccessMessage"] = $"A licença foi editada com sucesso!";
                 return Json(new { stats = StatsAJAXEnum.OK });
             }
 
