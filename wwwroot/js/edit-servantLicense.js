@@ -1,5 +1,65 @@
+function EditServantLicense() {
+    let servantLicenseId = $("#edit-servantLicense-Id").val();
+    let civilServantId = $("#edit-civilServantId").val();
+    let licensesId = $("#edit-licenseType").val();
+    let startDate = $("#edit-startDate").val();
+    let endDate = $("#edit-endDate").val();
+
+    // Verifica se os campos obrigatórios estão preenchidos
+    let errors = false;
+    if (!civilServantId) {
+        $(".select-servant-validation-error").html('Selecione um servidor!');
+        errors = true;
+    } else {
+        $(".select-servant-validation-error").html('');
+    }
+    if (!licensesId) {
+        $(".select-license-validation-error").html('Selecione o tipo de licença!');
+        errors = true;
+    } else {
+        $(".select-license-validation-error").html('');
+    }
+    if (!startDate) {
+        $(".field-sdate-validation-error").html('Informe a data de início!');
+        errors = true;
+    } else {
+        $(".field-sdate-validation-error").html('');
+    }
+    if (!endDate) {
+        $(".field-edate-validation-error").html('Informe a data de término!');
+        errors = true;
+    } else {
+        $(".field-edate-validation-error").html('');
+    }
+
+    if (errors) {
+        return; // Impede o envio do formulário se houver erros
+    }
+
+    // Verifica se a data de término é anterior à data de início
+    if (new Date(endDate) <= new Date(startDate)) {
+        $(".field-Time-validation-error").html('A data de término não pode ser anterior à data de início!');
+        return;
+    }
+
+    // Se não houver erros, prosseguir com o envio do formulário via AJAX
+    $.post("/ServantLicense/Edit", {
+        Id: servantLicenseId,
+        CivilServantId: civilServantId,
+        LicensesId: licensesId,
+        StartDate: startDate,
+        EndDate: endDate
+    }).done(function (output) {
+        if (output.stats === 1 || output.stats === 7) {
+            $(location).attr('href', '/ServantLicense/Index');
+        }
+    }).fail(function () {
+        alert("Ocorreu um erro ao aplicar a licença!");
+    });
+}
+
 $(document).ready(function () {
-    
+
     // Função para calcular a duração da licença com base nas datas selecionadas
     function calculateDuration(startDate, endDate) {
         if (startDate && endDate && startDate <= endDate) {
@@ -43,9 +103,10 @@ $(document).ready(function () {
         var licenseId = $(this).val();
         var modal = $(this).closest('.modal');
         if (!licenseId) {
-            modal.find('.edit-license-duration-hidden').val('');
+            modal.find('.edit-license-duration-hidden').val();
             return;
         }
+
         $.ajax({
             url: '/ServantLicense/GetLicenseDuration',
             type: 'GET',
@@ -72,26 +133,9 @@ $(document).ready(function () {
     });
 
     // Evento submit do formulário via AJAX
-    $(document).on('submit', '.edit-servantLicense-form', function (e) {
+    $('#edit-servantLicense-form').submit(function (e) {
         e.preventDefault();
-        var form = $(this);
-
-        $.ajax({
-            url: form.attr('action'),
-            method: form.attr('method'),
-            data: form.serialize(),
-            success: function (output) {
-                if (output.stats === 1 || output.stats === 7) {
-                    $(location).attr('href', '/ServantLicense/Index');
-                } else if (output.stats === 2) {
-                    form.find(".select-validation-error").html(output.licenseName ? '' : 'Informe o nome para a licença!');
-                    form.find(".field-Time-validation-error").html(output.licenseTime <= 0 ? 'Informe tempo máx. de validade da licença!' : '');
-                }
-            },
-            error: function () {
-                alert('Ocorreu um erro!');
-            }
-        });
+        EditServantLicense();
     });
 
     // Evento click para abrir o modal de edição

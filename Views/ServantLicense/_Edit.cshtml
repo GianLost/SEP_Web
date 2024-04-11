@@ -3,6 +3,7 @@
 @using SEP_Web.Services
 @inject ICivilServantServices _servantServices
 @inject ILicenseServices _licenseServices
+@inject ICivilServantServices _servantServices
 
 @{
     ViewData["Title"] = "Editar licença do servidor";
@@ -16,11 +17,12 @@
 
         <div class="form-group p-4">
             
-            <input type="hidden" id="edit-servantLicense-Id" name="Id" asp-for="Id">
+            <input type="hidden" id="edit-servantLicense-Id" asp-for="Id">
 
             <div class="row justify-content-between ps-3">
-                <input class="form-control w-25 edit-license-duration-hidden" type="text" disabled>
-                <input class="form-control w-25 me-3 edit-license-duration" type="text" disabled>
+                <label style="font-size: 0.9em;" class="form-label m-0 p-0" for="license-duration-helper">Duração:</label>
+                <input id="license-duration-helper" class="form-control w-25 edit-license-duration-hidden" type="text" disabled>
+                <input name="license-difference" class="form-control w-25 me-3 edit-license-duration" type="hidden" disabled>
             </div>
 
             <div class="validate-fields mt-0 mb-1">
@@ -30,7 +32,8 @@
             @if ((await _servantServices.ServantsList()).Count > 0)
             {
                 <div class="form-group">
-                    <select class="form-select edit-servantLicense-civilServantId" asp-for="CivilServantId">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-civilServantId">Servidor:</label>
+                    <select id="edit-civilServantId" class="form-select edit-servantLicense-civilServantId" asp-for="CivilServantId">
                         <option value="@Model.CivilServant.Id" selected>@Model.CivilServant.Name</option> 
                     </select>
                     <div class="validate-fields mb-1">
@@ -41,7 +44,8 @@
             else
             {
                 <div class="form-group">
-                    <select class="form-select edit-servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-civilServantId">Servidor:</label>
+                    <select id="edit-civilServantId" class="form-select edit-servantLicense-civilServantId" asp-for="CivilServantId">
                         <option value="">-- selecione o servidor --</option>
                     </select>
                     <div class="validate-fields mb-1">
@@ -53,7 +57,8 @@
             @if((await _licenseServices.LicenseList()).Count > 0)
             {
                 <div class="form-group">
-                    <select class="form-select edit-servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-licenseType">Tipo da Licença:</label>
+                    <select id="edit-licenseType" class="form-select edit-servantLicense-LicensesId" asp-for="LicensesId">
                         <option value="" selected>-- selecione a licença --</option>
                         @foreach (var i in await _licenseServices.LicenseList())
                         {
@@ -68,7 +73,8 @@
             else
             {
                 <div class="form-group">
-                    <select class="form-select edit-servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-licenseType">Tipo da Licença:</label>
+                    <select class="form-select edit-servantLicense-LicensesId" id="edit-licenseType" asp-for="LicensesId">
                         <option value="" selected>-- selecione a licença --</option>
                     </select>
                     <div class="validate-fields mb-1">
@@ -79,16 +85,16 @@
 
             <div class="row">
                 <div class="col-md-6  form-group">
-                    <label style="font-size: 0.9em;" class="form-label" for="edit-servantLicense-startDate">Data de início:</label>
-                    <input type="date" class="form-control edit-servantLicense-startDate" name="StartDate" asp-for="StartDate" autocomplete="disabled">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-startDate">Data de início:</label>
+                    <input type="date" id="edit-startDate" class="form-control edit-servantLicense-startDate" asp-for="StartDate" autocomplete="disabled">
                     <div class="validate-fields mb-1">
                         <span class="field-sdate-validation-error"></span>
                     </div>
                 </div>
 
                 <div class="col-md-6 form-group">
-                    <label style="font-size: 0.9em;" class="form-label" for="edit-servantLicense-endDate">Data de término:</label>
-                    <input type="date" class="form-control edit-servantLicense-endDate" name="EndDate"  asp-for="EndDate" autocomplete="disabled">
+                    <label style="font-size: 0.9em;" class="form-label" for="edit-endDate">Data de término:</label>
+                    <input type="date" id="edit-endDate" class="form-control edit-servantLicense-endDate" asp-for="EndDate" autocomplete="disabled">
                     <div class="validate-fields mb-1">
                         <span class="field-edate-validation-error"></span>
                     </div>
@@ -99,7 +105,7 @@
         </div>
 
         <div class="d-flex justify-content-start modal-footer p-2">
-            <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
+            <button type="submit" class="btn btn-sm btn-primary" title="Editar ..."><i class="bi bi-check-circle-fill" title="Editar ..."></i></button>
             <a asp-controller="ServantLicense" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
         </div>
 

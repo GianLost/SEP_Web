@@ -17,6 +17,7 @@
         <div class="form-group p-4">
 
             <div class="row justify-content-between ps-3">
+                <label style="font-size: 0.9em;" class="form-label m-0 p-0" for="license-duration-hidden">Duração:</label>
                 <input class="form-control w-25" type="text" id="license-duration-hidden" disabled>
                 <input class="form-control w-25 me-3" type="text" id="license-duration" disabled hidden>
             </div>
@@ -28,6 +29,7 @@
             @if ((await _servantServices.ServantsList()).Count > 0)
             {
                 <div class="form-group">
+                    <label style="font-size: 0.9em;" class="form-label m-0 p-0" for="servantLicense-civilServantId">Servidor:</label>
                     <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
                         <option value="" selected>-- selecione o servidor --</option>
                         @foreach (var i in await _servantServices.ServantsListUnderLicense())
@@ -43,6 +45,7 @@
             else
             {
                 <div class="form-group">
+                    <label style="font-size: 0.9em;" class="form-label m-0 p-0" for="servantLicense-civilServantId">Servidor:</label>
                     <select class="form-select" id="servantLicense-civilServantId" name="civilServantId" asp-for="CivilServantId">
                         <option value="" selected>-- selecione o servidor --</option>
                     </select>
@@ -55,6 +58,7 @@
             @if((await _licenseServices.LicenseList()).Count > 0)
             {
                 <div class="form-group">
+                    <label style="font-size: 0.9em;" class="form-label m-0 p-0" for="servantLicense-LicensesId">Licença:</label>
                     <select class="form-select" id="servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
                         <option value="" selected>-- selecione a licença --</option>
                         @foreach (var i in await _licenseServices.LicenseList())
@@ -70,6 +74,7 @@
             else
             {
                 <div class="form-group">
+                    <label style="font-size: 0.9em;" class="form-label m-0 p-0" for="servantLicense-LicensesId">Licença:</label>
                     <select class="form-select" id="servantLicense-LicensesId" name="licensesId" asp-for="LicensesId">
                         <option value="" selected>-- selecione a licença --</option>
                     </select>

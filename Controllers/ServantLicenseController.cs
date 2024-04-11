@@ -79,12 +79,12 @@ public class ServantLicenseController : Controller
 
                 // Verificar se a diferença entre as datas excede a duração máxima
                 TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
-                
+
                 if (duration.Value.Days > maxDuration)
-                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME});
-                
+                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME });
+
                 if (servantLicense.EndDate <= servantLicense.StartDate)
-                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME});
+                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME });
 
                 await _servantLicenses.RegisterServantLicense(servantLicense);
 
@@ -92,6 +92,7 @@ public class ServantLicenseController : Controller
                 return Json(new { stats = StatsAJAXEnum.OK });
             }
 
+            TempData["ErrorMessage"] = "Erro ao adicionar licença para o servidor.";
             return Json(new { stats = StatsAJAXEnum.ERROR, message = "Não foi possível adicionar a licença!" });
         }
         catch (InvalidOperationException e)
@@ -109,32 +110,32 @@ public class ServantLicenseController : Controller
             if (ModelState.IsValid)
             {
                 Users userInSession = await _session.SearchUserSession();
-
                 int maxDuration = await _licenses.GetMaxLicenseDuration(servantLicense.LicensesId);
 
                 // Verificar se a diferença entre as datas excede a duração máxima
                 TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
-                
+
                 if (duration.Value.Days > maxDuration)
-                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME});
-                
+                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME });
+
                 if (servantLicense.EndDate <= servantLicense.StartDate)
-                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME});
+                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME });
 
                 servantLicense.LastModifiedBy = userInSession.Login;
 
                 await _servantLicenses.ServantLicensesEdit(servantLicense);
 
-                TempData["SuccessMessage"] = $"A licença foi editada com sucesso!";
-                return Json(new { stats = StatsAJAXEnum.OK });
+                TempData["SuccessMessage"] = "Licença editada para o servidor.";
+                return Json(new { stats = StatsAJAXEnum.OK, message = "A licença foi editada com sucesso!" });
             }
 
+            TempData["ErrorMessage"] = "Erro ao editar licença para o servidor.";
             return Json(new { stats = StatsAJAXEnum.ERROR, message = "Não foi possível editar a licença!" });
         }
         catch (Exception e)
         {
             _logger.LogError("Não foi possível editar a licença. Error : {Message}", e.Message);
-            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível editar a liceça!" });
+            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Erro interno ao editar a licença!" });
         }
     }
 

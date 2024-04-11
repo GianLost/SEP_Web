@@ -10,7 +10,7 @@ public class ServantLicense
     public int Id { get; set; }
 
     [ForeignKey("Servant"), Required(ErrorMessage = "Informe o servidor !")]
-    public int? CivilServantId { get; set; }
+    public int CivilServantId { get; set; }
     public CivilServant CivilServant { get; set; }
 
     [ForeignKey("LicensesId")]
