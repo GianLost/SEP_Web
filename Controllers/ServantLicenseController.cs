@@ -103,48 +103,42 @@ public class ServantLicenseController : Controller
     }
 
     [HttpPost]
-public async Task<IActionResult> Edit(ServantLicense servantLicense)
-{
-    try
+    public async Task<IActionResult> Edit(ServantLicense servantLicense)
     {
-        if (ModelState.IsValid)
+        try
         {
-            Users userInSession = await _session.SearchUserSession();
-            int maxDuration = await _licenses.GetMaxLicenseDuration(servantLicense.LicensesId);
-
-            // Verificar se a diferença entre as datas excede a duração máxima
-            TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
-
-            if (duration.Value.Days > maxDuration)
+            if (ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "A duração da licença excede o tempo máximo permitido.";
-                return RedirectToAction("Edit", new { id = servantLicense.Id });
+                Users userInSession = await _session.SearchUserSession();
+                int maxDuration = await _licenses.GetMaxLicenseDuration(servantLicense.LicensesId);
+
+                // Verificar se a diferença entre as datas excede a duração máxima
+                TimeSpan? duration = servantLicense.EndDate - servantLicense.StartDate;
+
+                if (duration.Value.Days > maxDuration)
+                    return Json(new { stats = StatsAJAXEnum.ERROR_TIME });
+
+                if (servantLicense.EndDate <= servantLicense.StartDate)
+                    return Json(new { stats = StatsAJAXEnum.INVALID_TIME });
+
+                servantLicense.LastModifiedBy = userInSession.Login;
+
+                await _servantLicenses.ServantLicensesEdit(servantLicense);
+
+                TempData["SuccessMessage"] = "Licença editada para o servidor.";
+                return Json(new { stats = StatsAJAXEnum.OK });
             }
 
-            if (servantLicense.EndDate <= servantLicense.StartDate)
-            {
-                TempData["ErrorMessage"] = "A data de término não pode ser anterior à data de início.";
-                return RedirectToAction("Edit", new { id = servantLicense.Id });
-            }
-
-            servantLicense.LastModifiedBy = userInSession.Login;
-
-            await _servantLicenses.ServantLicensesEdit(servantLicense);
-
-            TempData["SuccessMessage"] = "Licença editada para o servidor.";
-            return RedirectToAction("Index");
+            TempData["ErrorMessage"] = "Erro ao editar licença para o servidor.";
+            return Json(new { stats = StatsAJAXEnum.ERROR, civilServantId = servantLicense.CivilServantId, licenseName = servantLicense.LicensesId, sDate = servantLicense.StartDate, eDate = servantLicense.EndDate });
         }
-
-        TempData["ErrorMessage"] = "Erro ao editar licença para o servidor.";
-        return RedirectToAction("Edit", new { id = servantLicense.Id });
+        catch (Exception e)
+        {
+            _logger.LogError("Não foi possível editar a licença. Error : {Message}", e.Message);
+            TempData["ErrorMessage"] = "Erro interno ao editar a licença!";
+            return Json(new { stats = StatsAJAXEnum.INVALID, message = "Não foi possível adicionar a liceça!" });
+        }
     }
-    catch (Exception e)
-    {
-        _logger.LogError("Não foi possível editar a licença. Error : {Message}", e.Message);
-        TempData["ErrorMessage"] = "Erro interno ao editar a licença!";
-        return RedirectToAction("Edit", new { id = servantLicense.Id });
-    }
-}
 
     [HttpPost]
     public IActionResult Delete(string decision, ServantLicense servantLicense)
