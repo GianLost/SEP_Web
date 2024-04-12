@@ -106,11 +106,6 @@ $(document).on("submit", "#edit-servantLicense-form", function (e) {
             if (output.stats === 1) {
                 $(location).attr('href', '/ServantLicense/Index');
             } else if (output.stats === 2) {
-                if (output.civilServantId <= 0) {
-                    $(".select-servant-validation-error").html('Selecione um servidor!');
-                } else {
-                    $(".select-servant-validation-error").empty();
-                }
                 if (output.licenseName <= 0) {
                     $(".select-license-validation-error").html('Selecione o tipo da licença!');
                 } else {
