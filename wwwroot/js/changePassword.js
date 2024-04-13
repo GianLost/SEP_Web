@@ -8,7 +8,7 @@ function handleSuccess(properties, output) {
         $(".compPass").html('As senhas são diferentes !');
         return false;
     } else if (output.stats === 4) {
-        $(location).attr('href', "/Login/Index");
+        window.location.href = "/Login/Logout";
         alert('A senha foi alterada com sucesso e você deve realizar o login novamente !');
     }
 }

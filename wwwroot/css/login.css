@@ -37,15 +37,22 @@
     font-size: 0.75em;
     text-align: center;
     font-weight: 500;
-    padding: 0%;
 }
 
 #login-alert .alert {
-    margin: -3.5vh 0vh 0vh 0vh;
+    margin: -2rem 0rem 0rem 0rem;
+    text-align: justify;
     width: 100%;
 }
 
 /* Estilização do formulário de login */
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 35rem;
+}
 
 #login-form .form-control:focus {
     border-color: #cccccc;

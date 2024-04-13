@@ -9,6 +9,10 @@
   white-space: nowrap;
 }
 
+.modify-structure-form .evaluator-col{
+  padding: 0.8rem;
+}
+
 .duo-table tr > td:first-child,
 .duo-table tr > td:nth-child(2) {
   width: auto;

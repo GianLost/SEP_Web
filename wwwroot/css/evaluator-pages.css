@@ -18,6 +18,8 @@
   margin: 15px;
 }
 
-.evaluator-col .form-group {
-  margin: 12px;
+.eval-col {
+  display:flex; 
+  flex-direction:column; 
+  justify-content:center;
 }

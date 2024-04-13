@@ -82,8 +82,7 @@
 }
 
 #btn-cgPass span {
-  font-size: 2.5vh;
-  padding: 0.3vh;
+  font-size: 1rem;
 }
 
 .sorting::before {
@@ -145,6 +144,19 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.users-manager-container {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+#menu-config {
+  width: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* END: Chrome e outros - Ocultar setas do input type="number" */

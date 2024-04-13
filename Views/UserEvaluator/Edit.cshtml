@@ -14,13 +14,13 @@
     ViewData["Title"] = "Edição de avaliadores";
 }
 
-<div id="edit-eval-container" class="container-fluid">
+<div class="container-fluid">
 
     @await Html.PartialAsync("../Shared/Components/Menu/_UserSettings.cshtml")
 
     <div class="row">
 
-        <div class="col-md-12 p-0 m-0">
+        <div class="col-md-12">
 
             <div class="d-flex justify-content-center align-items-center">
                 <div class="eval-line"></div>
@@ -30,27 +30,7 @@
 
             <form class="evaluator-register register-adm-form" asp-controller="UserEvaluator" asp-action="Edit" method="post">
 
-                @if (TempData["SuccessMessage"] != null)
-                {
-                    <div class="alert alert-success alert-edit-success" role="alert">
-                        <button type="button" class="btn btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                            <span class="close-span" aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="bi bi-shield-fill-check"></i>
-                        @TempData["SuccessMessage"]
-                    </div>
-                }
-
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    <div class="alert alert-danger alert-edit-error" role="alert">
-                        <button type="button" class="btn  btn-sm btn-danger close-alert" data-dismiss="modal" aria-label="Close">
-                            <span class="close-span" aria-hidden="true">&times;</span>
-                        </button>
-                        <i class="bi bi-shield-fill-x"></i>
-                        @TempData["ErrorMessage"]
-                    </div>
-                }
+                @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
 
                 <div class="row">
 

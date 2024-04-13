@@ -39,11 +39,8 @@ public class ChangePasswordController : Controller
             await _usersServices.ChangePassword(changePassword);
 
             if(changePassword.Masp == userInSession.Masp)
-            {
-                _session.UserCheckOut();
                 return Json(new { stats = StatsAJAXEnum.END_SESSION });
-            }
-
+            
             TempData["SuccessMessage"] = "Senha editada com sucesso.";
             return Json(new { stats = StatsAJAXEnum.OK });
 

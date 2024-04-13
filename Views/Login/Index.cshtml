@@ -19,7 +19,7 @@
 
             <form id="login-form" class="py-4 px-4" asp-controller="Login" asp-action="SignIn" method="post">
                 
-                <div id="login-alert" class="container-fluid justify-content-start w-100">
+                <div id="login-alert" class="container-fluid p-0 m-0">
                     @if (TempData["ErrorMessage"] != null)
                     {
                         <div class="alert alert-danger shadow-md" role="alert">
