@@ -159,4 +159,14 @@ input::-webkit-inner-spin-button {
   justify-content: center;
 }
 
+.disabled-style {
+  pointer-events: none;
+  background-color: #E9ECEF;
+  cursor: not-allowed;
+}
+
+.disabled-style:hover {
+  border: 1px solid red !important;
+}
+
 /* END: Chrome e outros - Ocultar setas do input type="number" */

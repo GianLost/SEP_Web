@@ -24,13 +24,33 @@ public class AssessmentServices : IAssessmentServices
         _httpContext = httpContext;
     }
 
-    public async Task<Assessment> RegisterAssessments(Assessment assessment)
+    public async Task<Assessment> RegisterAssessments(Assessment assessment, CivilServant servant)
     {
         try
         {
-            if (assessment == null) throw new ArgumentNullException(nameof(assessment), ExceptionMessages.ErrorArgumentNullException);
+            if (assessment == null)
+                throw new ArgumentNullException(nameof(assessment), ExceptionMessages.ErrorArgumentNullException);
 
-            await _database.Assessments.AddAsync(assessment);
+            DateTime startDate = servant.AdmissionDate;
+            int[] phaseDays = { 210, 420, 630, 840, 1040 };
+
+            for (int stage = 1; stage <= 5; stage++)
+            {
+                assessment = new Assessment
+                {
+                    Stats = AssessmentStatsEnum.NOT_EVALUATED,
+                    Phase = stage,
+                    StartEvaluationPeriod = startDate.AddDays(phaseDays[stage - 1]),
+                    CivilServantId = servant.Id,
+                    UserEvaluatorId1 = servant.UserEvaluatorId1,
+                    UserEvaluatorId2 = servant.UserEvaluatorId2,
+                    EvaluatedFor = null,
+                    RegisterDate = DateTime.Now
+                };
+
+                await _database.Assessments.AddAsync(assessment);
+            }
+
             await _database.SaveChangesAsync();
 
             return assessment;

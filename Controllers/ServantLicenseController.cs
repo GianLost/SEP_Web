@@ -16,13 +16,15 @@ public class ServantLicenseController : Controller
     private readonly ILogger<ServantLicenseController> _logger;
     private readonly ILicenseServices _licenses;
     private readonly IServantLicenseServices _servantLicenses;
+    private readonly IAssessmentServices _assessmentServices;
     private readonly IUserSession _session;
 
-    public ServantLicenseController(ILogger<ServantLicenseController> logger, ILicenseServices licenses, IServantLicenseServices servantLicenses, IUserSession session)
+    public ServantLicenseController(ILogger<ServantLicenseController> logger, ILicenseServices licenses, IServantLicenseServices servantLicenses,IAssessmentServices assessmentServices, IUserSession session)
     {
         _logger = logger;
         _licenses = licenses;
         _servantLicenses = servantLicenses;
+        _assessmentServices = assessmentServices;
         _session = session;
     }
 
@@ -88,7 +90,7 @@ public class ServantLicenseController : Controller
 
                 await _servantLicenses.RegisterServantLicense(servantLicense);
 
-                TempData["SuccessMessage"] = "Licença adicionada para o servidor.";
+                TempData["SuccessMessage"] = $" A Licença para o(a) servidor(a) {await _assessmentServices.ServantName(servantLicense.CivilServantId)} foi cadastrada com sucesso !";
                 return Json(new { stats = StatsAJAXEnum.OK });
             }
 
@@ -125,7 +127,7 @@ public class ServantLicenseController : Controller
 
                 await _servantLicenses.ServantLicensesEdit(servantLicense);
 
-                TempData["SuccessMessage"] = "Licença editada para o servidor.";
+                TempData["SuccessMessage"] = $" A Licença do(a) servidor(a) {await _assessmentServices.ServantName(servantLicense.CivilServantId)} foi editada com sucesso !";
                 return Json(new { stats = StatsAJAXEnum.OK });
             }
 

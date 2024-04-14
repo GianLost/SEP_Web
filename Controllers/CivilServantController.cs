@@ -60,7 +60,7 @@ public class CivilServantController : Controller
     public IActionResult Register() => View();
     
     [HttpPost]
-    public async Task<IActionResult> Register(CivilServant servant, string confirmPass)
+    public async Task<IActionResult> Register(CivilServant servant, Assessment assessment, string confirmPass)
     {
 
         try
@@ -88,28 +88,7 @@ public class CivilServantController : Controller
                 TempData["SuccessMessage"] = FeedbackMessages.SuccessServantRegister;
 
                 await _civilServantServices.RegisterServant(servant);
-
-                DateTime evaluationDate = DateTime.Now.AddMonths(7); 
-
-                for(int stage = 1; stage <= 5; stage++)
-                {
-                    
-                    Assessment newTest = new ()
-                    {
-                        Stats = AssessmentStatsEnum.NOT_EVALUATED,
-                        Phase = stage,
-                        StartEvaluationPeriod = stage == 1 ? servant.AdmissionDate.AddDays(210) : evaluationDate,
-                        CivilServantId = servant.Id,
-                        UserEvaluatorId1 = servant.UserEvaluatorId1,
-                        UserEvaluatorId2 = servant.UserEvaluatorId2,
-                        EvaluatedFor = null,
-                        RegisterDate = DateTime.Now
-                    };
-
-                    evaluationDate = Convert.ToDateTime(newTest.StartEvaluationPeriod).AddDays(210);
-
-                    await _assessmentServices.RegisterAssessments(newTest);
-                }
+                await _assessmentServices.RegisterAssessments(assessment, servant);
 
                 return RedirectToAction("Index");
             }

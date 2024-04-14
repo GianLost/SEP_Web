@@ -35,8 +35,8 @@
             {
                 <div class="form-group">
                     <label style="font-size: 0.9em;" class="form-label" for="edit-civilServantId">Servidor:</label>
-                    <select id="edit-civilServantId" class="form-select edit-servantLicense-civilServantId"
-                        asp-for="CivilServantId" disabled>
+                    <select id="edit-civilServantId" class="form-select edit-servantLicense-civilServantId disabled-style"
+                        asp-for="CivilServantId">
                         <option value="@Model.CivilServant.Id" selected>@Model.CivilServant.Name</option>
                     </select>
                     <div class="validate-fields mb-1">

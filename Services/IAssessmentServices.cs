@@ -4,7 +4,7 @@ namespace SEP_Web.Services;
 
 public interface IAssessmentServices
 {
-    Task<Assessment> RegisterAssessments(Assessment assessment);
+    Task<Assessment> RegisterAssessments(Assessment assessment, CivilServant servant);
     Task<Assessment> Assess(Assessment assess);
     Task<ICollection<Assessment>> AssessmentsList();
     Task<ICollection<Assessment>> AssessmentsList(int userEvaluatorId);
