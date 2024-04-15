@@ -1,5 +1,5 @@
+using SEP_Web.Models.UsersModels;
 using Microsoft.AspNetCore.Mvc;
-using SEP_Web.Models;
 
 namespace SEP_Web.Helper.Authentication;
 

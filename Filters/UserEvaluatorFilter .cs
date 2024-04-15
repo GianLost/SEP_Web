@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using SEP_Web.Keys;
-using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
 
 namespace SEP_Web.Filters;
 public class UserEvaluatorFilter : ActionFilterAttribute

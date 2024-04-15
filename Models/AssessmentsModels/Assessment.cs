@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SEP_Web.Models.UsersModels;
 using SEP_Web.Keys;
 
-namespace SEP_Web.Models;
+namespace SEP_Web.Models.AssessmentsModels;
 
 [Table("Assessments")]
 public class Assessment

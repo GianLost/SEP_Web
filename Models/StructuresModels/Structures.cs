@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SEP_Web.Models.UsersModels;
 
-namespace SEP_Web.Models;
+namespace SEP_Web.Models.StructuresModels;
 public class Structures
 {
     [Key, Required(ErrorMessage = "O campo id é obrigatório !")]

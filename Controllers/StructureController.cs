@@ -2,7 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SEP_Web.Filters;
 using SEP_Web.Keys;
-using SEP_Web.Models;
+using SEP_Web.Models.StructuresModels;
+using SEP_Web.Models.UsersModels;
 using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;

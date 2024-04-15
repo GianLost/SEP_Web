@@ -1,7 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SEP_Web.Models.StructuresModels;
 
-namespace SEP_Web.Models;
+namespace SEP_Web.Models.UsersModels;
 
 /// <summary>
 ///     <para><b>Avaliadores:</b></para>

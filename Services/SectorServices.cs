@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
-using SEP_Web.Models;
+using SEP_Web.Models.StructuresModels;
 using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services;

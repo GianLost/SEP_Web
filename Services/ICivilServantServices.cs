@@ -1,4 +1,5 @@
-using SEP_Web.Models;
+using SEP_Web.Models.StructuresModels;
+using SEP_Web.Models.UsersModels;
 
 namespace SEP_Web.Services;
 

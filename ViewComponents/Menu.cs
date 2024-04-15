@@ -2,7 +2,7 @@ using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Helper.Messages;
-using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
 
 namespace SEP_Web.ViewComponents;
 

@@ -6,7 +6,8 @@ using MySqlConnector;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Keys;
-using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
+using SEP_Web.Models.AssessmentsModels;
 using SEP_Web.Services;
 using SEP_Web.ViewModels;
 

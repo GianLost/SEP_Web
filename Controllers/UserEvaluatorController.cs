@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SEP_Web.Filters;
 using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
 using SEP_Web.Services;
 using MySqlConnector;
 using SEP_Web.Helper.Validation;

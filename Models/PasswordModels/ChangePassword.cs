@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SEP_Web.Models;
+namespace SEP_Web.Models.PasswordModels;
 
 public class ChangePassword
 {

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SEP_Web.Models;
+namespace SEP_Web.Models.UsersModels;
 
 /// <summary>
 ///     <para><b>Administradores:</b></para>

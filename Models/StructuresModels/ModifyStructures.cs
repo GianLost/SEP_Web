@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SEP_Web.Models;
+namespace SEP_Web.Models.StructuresModels;
 
 public class ModifyStructures
 {

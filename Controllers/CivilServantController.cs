@@ -6,6 +6,8 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Helper.Validation;
 using SEP_Web.Keys;
 using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
+using SEP_Web.Models.AssessmentsModels;
 using SEP_Web.Services;
 
 namespace SEP_Web.Controllers;
