@@ -1,13 +1,1 @@
-INSERT INTO `Licenses` (`Id`, `Name`, `Time`, `RegisterDate`, `ModifyDate`, `LastModifiedBy`, `UserAdministratorId`) 
-VALUES (NULL, 'Licença Afastamento', '30', '2024-03-13 13:46:22.137315', NULL, NULL, '1'),
-(NULL, 'Licença Cargo Comissionado', '40', '2024-03-13 13:46:43.281478', NULL, NULL, '1'),
-(NULL, 'Licença Acidente', '25', '2024-03-13 13:47:06.705659', NULL, NULL, '1'),
-(NULL, 'Licença Afastamento p/ Estudos', '28', '2024-03-13 13:47:34.451075', NULL, NULL, '1'),
-(NULL, 'Licença Casamento', '43', '2024-03-13 13:47:47.491334', NULL, NULL, '1'),
-(NULL, 'Licença Interesse Particular', '27', '2024-03-13 13:48:30.509475', NULL, NULL, '1'),
-(NULL, 'Licença Maternidade', '38', '2024-03-13 13:48:42.485592', NULL, NULL, '1'),
-(NULL, 'Licença Óbito', '32', '2024-03-13 13:48:55.126268', NULL, NULL, '1'),
-(NULL, 'Licença p/ Servir em Outro Órgão', '41', '2024-03-13 13:49:16.942946', NULL, NULL, '1'),
-(NULL, 'Licença Paternidade', '25', '2024-03-13 13:49:47.260657', NULL, NULL, '1'),
-(NULL, 'Licença Prêmio', '20', '2024-03-13 13:50:02.745007', NULL, NULL, '1'),
-(NULL, 'Licença Saúde', '30', '2024-03-13 13:50:15.160263', NULL, NULL, '1')
+INSERT INTO `licenses` VALUES (1,'Licença Afastamento',30,'2024-03-13 13:46:22.137315',NULL,NULL,1),(2,'Licença Cargo Comissionado',40,'2024-03-13 13:46:43.281478',NULL,NULL,1),(3,'Licença Acidente',25,'2024-03-13 13:47:06.705659',NULL,NULL,1),(4,'Licença Afastamento p/ Estudos',28,'2024-03-13 13:47:34.451075',NULL,NULL,1),(5,'Licença Casamento',43,'2024-03-13 13:47:47.491334',NULL,NULL,1),(6,'Licença Interesse Particular',27,'2024-03-13 13:48:30.509475',NULL,NULL,1),(7,'Licença Maternidade',38,'2024-03-13 13:48:42.485592',NULL,NULL,1),(8,'Licença Óbito',32,'2024-03-13 13:48:55.126268',NULL,NULL,1),(9,'Licença p/ Servir em Outro Órgão',41,'2024-03-13 13:49:16.942946',NULL,NULL,1),(10,'Licença Paternidade',25,'2024-03-13 13:49:47.260657',NULL,NULL,1),(11,'Licença Prêmio',20,'2024-03-13 13:50:02.745007',NULL,NULL,1),(12,'Licença Saúde',30,'2024-03-13 13:50:15.160263',NULL,NULL,1);
