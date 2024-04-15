@@ -45,7 +45,8 @@ public class AssessmentServices : IAssessmentServices
                     UserEvaluatorId1 = servant.UserEvaluatorId1,
                     UserEvaluatorId2 = servant.UserEvaluatorId2,
                     EvaluatedFor = null,
-                    RegisterDate = DateTime.Now
+                    RegisterDate = DateTime.Now,
+                    FinishEvaluate = startDate.AddDays(1040)
                 };
 
                 await _database.Assessments.AddAsync(assessment);

@@ -27,12 +27,12 @@ public class ReportServices : IReportServices
     {
         try
         {
-           string directoryPath = Path.Combine(webRootPath, @"Docs");
+           string directoryPath = Path.Combine(webRootPath, @"Reports");
 
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
-            string reportFileName = $"Assessment_Report.frx";
+            string reportFileName = $"Boletim.frx";
             string reportFilePath = Path.Combine(directoryPath, reportFileName);
 
             using(Report r = new())
@@ -57,7 +57,7 @@ public class ReportServices : IReportServices
     {
         try
         {
-            string reportFile = Path.Combine(_environment.WebRootPath, @"Docs/Assessment_Report.frx");
+            string reportFile = Path.Combine(_environment.WebRootPath, @"Reports/Boletim.frx");
 
             using Report r = new();
 

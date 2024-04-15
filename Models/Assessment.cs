@@ -27,6 +27,10 @@ public class Assessment
     [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
     public DateTime? EndEvaluationPeriod { get; set; }
 
+    [DataType(DataType.DateTime)]
+    [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MM/yyyy}")]
+    public DateTime? FinishEvaluate { get; set; }
+
     [ForeignKey("CivilServantId"), Required(ErrorMessage = "Informe o servidor avaliado !")]
     public int CivilServantId { get; set; }
     public CivilServant CivilServant { get; set; }
