@@ -67,10 +67,10 @@
         @if (Model.UserType == UsersTypeEnum.User_Admin)
         {
             <li class="nav-item dropdown">
-                <a title="estruturas ..." class="nav-link dropdown-toggle" id="menu-structure" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i title="estruturas ..." class="bi bi-building-fill-add"></i> Estrutura</a>
+                <a title="estruturas ..." class="nav-link dropdown-toggle" id="menu-structure" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i title="estruturas ..." class="bi bi-building-fill-add"></i> Organizações</a>
                 <ul class="dropdown-menu" aria-labelledby="menu-structure">
                     <li>
-                        <a class="dropdown-item" asp-controller="Instituition" asp-action="Index">Órgão</a>
+                        <a class="dropdown-item" asp-controller="Instituition" asp-action="Index">Órgãos</a>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
@@ -88,14 +88,14 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a title="licenças ..." class="nav-link dropdown-toggle" id="menu-license" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i title="licenças ..." class="bi bi-stickies-fill"></i> Licença</a>
+                <a title="licenças ..." class="nav-link dropdown-toggle" id="menu-license" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i title="licenças ..." class="bi bi-stickies-fill"></i> Licenças</a>
                 <ul class="dropdown-menu" aria-labelledby="menu-license">
                     <li>
                         <a class="dropdown-item" asp-controller="License" asp-action="Index">Tipos de Licença</a>
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a class="dropdown-item" asp-controller="ServantLicense" asp-action="Index">Licença</a>
+                        <a class="dropdown-item" asp-controller="ServantLicense" asp-action="Index">Sob Licença</a>
                     </li>
                 </ul>
             </li>
