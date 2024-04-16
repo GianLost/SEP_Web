@@ -1,8 +1,17 @@
+using SEP_Web.Interfaces.UsersInterfaces;
+using SEP_Web.Interfaces.StructuresInterfaces;
+using SEP_Web.Interfaces.LicensesInterfaces;
+using SEP_Web.Interfaces.AssessmentsInterfaces;
+using SEP_Web.Interfaces.ReportsInterfaces;
+using SEP_Web.Services.UsersRepository;
+using SEP_Web.Services.StructuresRepository;
+using SEP_Web.Services.LicensesRepository;
+using SEP_Web.Services.AssessmentsRepository;
+using SEP_Web.Services.ReportsRepository;
 using SEP_Web.Database;
 using SEP_Web.Filters;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Validation;
-using SEP_Web.Services;
 using Serilog;
 using Serilog.Events;
 

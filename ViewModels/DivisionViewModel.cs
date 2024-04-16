@@ -1,5 +1,3 @@
-using SEP_Web.Models;
-
 namespace SEP_Web.ViewModels;
 
 public class DivisionViewModel

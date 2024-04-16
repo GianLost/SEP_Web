@@ -1,11 +1,12 @@
-@using SEP_Web.Models
-@using SEP_Web.Services
+@model Assessment
+
+@using SEP_Web.Models.AssessmentsModels
+@using SEP_Web.Interfaces.AssessmentsInterfaces
+@using SEP_Web.Interfaces.UsersInterfaces
 @using SEP_Web.Keys
 
 @inject IAssessmentServices _assessmentServices
 @inject IUserEvaluatorServices _evaluatorServices
-
-@model Assessment
 
 @{
     ViewData["Title"] = "Avaliações";

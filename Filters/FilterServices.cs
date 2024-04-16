@@ -2,7 +2,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
 
 namespace SEP_Web.Filters;
 

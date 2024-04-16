@@ -1,13 +1,15 @@
+@model ICollection<AssessmentViewModel>
+
 @using SEP_Web.Models
+@using SEP_Web.Models.AssessmentsModels
 @using SEP_Web.ViewModels
-@using SEP_Web.Services
+@using SEP_Web.Interfaces.AssessmentsInterfaces
 @using SEP_Web.Database
 @using SEP_Web.Keys
 
 @inject IAssessmentServices _assessmentServices
 @inject SEP_WebContext _database
 @inject IHttpContextAccessor _httpContext
-@model ICollection<AssessmentViewModel>
 
 @{
     ViewData["Title"] = "Avaliações de servidores";

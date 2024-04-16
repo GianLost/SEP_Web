@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
 
 namespace SEP_Web.Helper.Validation;
 

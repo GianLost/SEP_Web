@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
-using SEP_Web.Models;
+using SEP_Web.Models.UsersModels;
 
 namespace SEP_Web.Helper.Validation;
 public class UsersValidation : IUsersValidation

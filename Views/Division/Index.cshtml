@@ -1,8 +1,11 @@
 @model ICollection<DivisionViewModel>
-@using SEP_Web.Models
+
+@using SEP_Web.Models.StructuresModels
 @using SEP_Web.ViewModels
-@using SEP_Web.Services
+@using SEP_Web.Interfaces.StructuresInterfaces
+
 @inject IInstituitionServices _instituitionServices
+
 @{
     ViewData["Title"] = "Divisões";
 }
