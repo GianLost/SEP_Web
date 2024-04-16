@@ -57,6 +57,14 @@ public class SEP_WebContext : DbContext
         modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Phone).IsUnique();
         modelBuilder.Entity<UserEvaluator>().HasIndex(u => u.Password).IsUnique();
 
+        // Adiciona como índice exclusivo as propriedades que não podem ser duplicadas na tabela de Servidores Públicos presente no banco de dados;
+        modelBuilder.Entity<CivilServant>().HasIndex(u => u.Masp).IsUnique();
+        modelBuilder.Entity<CivilServant>().HasIndex(u => u.Name).IsUnique();
+        modelBuilder.Entity<CivilServant>().HasIndex(u => u.Login).IsUnique();
+        modelBuilder.Entity<CivilServant>().HasIndex(u => u.Email).IsUnique();
+        modelBuilder.Entity<CivilServant>().HasIndex(u => u.Phone).IsUnique();
+        modelBuilder.Entity<CivilServant>().HasIndex(u => u.Password).IsUnique();
+
         // Adiciona como índice exclusivo as propriedades que não podem ser duplicadas na tabela de licenças presente no banco de dados;
         modelBuilder.Entity<Licenses>().HasIndex(u => u.Name).IsUnique();
 
