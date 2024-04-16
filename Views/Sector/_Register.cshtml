@@ -1,8 +1,10 @@
 @model Sector
-@using SEP_Web.Models
+
 @using SEP_Web.Models.StructuresModels
-@using SEP_Web.Services
+@using SEP_Web.Interfaces.StructuresInterfaces
+
 @inject ISectionServices _sectionServices
+
 @{
     ViewData["Title"] = "Cadastrar setor";
 }

@@ -1,16 +1,17 @@
-@using SEP_Web.Models
-@using SEP_Web.Models.StructuresModels
+@model CivilServant
+
 @using SEP_Web.Models.UsersModels
+@using SEP_Web.Models.StructuresModels
 @using SEP_Web.Models.PasswordModels
-@using SEP_Web.Services
+@using SEP_Web.Interfaces.UsersInterfaces
+@using SEP_Web.Interfaces.StructuresInterfaces
 @using SEP_Web.Keys
+
 @inject IInstituitionServices _instituitionServices
 @inject IDivisionServices _divisionServices
 @inject ISectionServices _sectionServices
 @inject ISectorServices _sectorServices
 @inject IUserEvaluatorServices _evaluatorServices
-
-@model CivilServant
 
 @{
     ViewData["Title"] = "Edição de servidores";

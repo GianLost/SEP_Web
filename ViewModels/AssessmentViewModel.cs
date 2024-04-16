@@ -1,6 +1,6 @@
 using SEP_Web.Keys;
 using SEP_Web.Models.AssessmentsModels;
-using SEP_Web.Services;
+using SEP_Web.Interfaces.AssessmentsInterfaces;
 
 namespace SEP_Web.ViewModels;
 
