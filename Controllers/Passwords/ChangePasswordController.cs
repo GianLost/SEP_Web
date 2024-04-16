@@ -4,9 +4,11 @@ using SEP_Web.Keys;
 using SEP_Web.Models.PasswordModels;
 using SEP_Web.Models.UsersModels;
 using SEP_Web.Interfaces.UsersInterfaces;
+using SEP_Web.Filters;
 
 namespace SEP_Web.Controllers.PasswordsController;
 
+[ServiceFilter(typeof(UserEvaluatorFilter))]
 public class ChangePasswordController : Controller
 {
     private readonly ILogger<ChangePasswordController> _logger;
