@@ -176,7 +176,7 @@
                         <div class="form-group">
 
                             <label class="form-label" for="servant-admission" hidden></label>
-                            <input type="text" class="form-control" id="servant-admission" asp-for="AdmissionDate" placeholder="Data de admissão: dd/mm/aaaa" autocomplete="disabled">
+                            <input type="date" class="form-control" id="servant-admission" asp-for="AdmissionDate" title="Data de admissão" data-bs-toggle="tooltip" data-bs-placement="bottom" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.AdmissionDate)
                             </div>
