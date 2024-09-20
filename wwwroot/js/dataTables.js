@@ -1,24 +1,43 @@
-$(document).ready(function () {
-    // Chamada da função que traz o plugin DataTable
-    getDatatableClass('.table-style');
-});
+function initializeDataTable(tableId, ajaxUrl, columns, hasActions = false) {
+    var finalColumns = columns;
 
-/* Função de configuração do plugin DataTable e aplicação do plugin de acordo com a classe capturada */
-function getDatatableClass(tableClass) {
-    $(tableClass).DataTable({
+    // Se a tabela tiver colunas de ações, adicione a coluna de botões no final
+    if (hasActions) {
+        finalColumns.push({
+            data: null,
+            className: 'dt-center',
+            orderable: false, // Desativa a ordenação na coluna de botões
+            render: function (data, type, row) {
+                return `
+                    <button type="button" title="Editar" class="btn btn-sm btn-outline-primary edit-item" data-id="${row.id}">
+                        <i class="bi bi-building-up"></i>
+                    </button>
+                    <button type="button" title="Excluir" class="btn btn-sm btn-outline-danger delete-item" data-id="${row.id}">
+                        <i class="bi bi-building-x"></i>
+                    </button>
+                `;
+            }
+        });
+    }
+
+    $(tableId).DataTable({
         "ordering": true,
         "paging": true,
-        "searching": true,
+        "searching": false,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": ajaxUrl,
+            "type": "POST"
+        },
+        "columns": finalColumns,
         "language": {
             "emptyTable": "Nenhum registro encontrado na tabela",
             "info": "Mostrar _START_ até _END_ de _TOTAL_ registros",
             "infoEmpty": "Mostrar 0 até 0 de 0 Registros",
             "infoFiltered": "(Filtrar de um total de _MAX_ registros)",
-            "infoPostFix": "",
-            "infoThousands": ".",
-            "lengthMenu": "Mostrar _MENU_ registros por página",
             "loadingRecords": "Carregando...",
-            "processing": "Processando...",
+            "processing": "Carregando...",
             "zeroRecords": "Nenhum registro encontrado",
             "search": "Pesquisar",
             "paginate": {
@@ -34,3 +53,24 @@ function getDatatableClass(tableClass) {
         }
     });
 }
+
+// Inicialização do DataTables para diferentes tabelas
+
+initializeDataTable("#instituition-table", '/Instituition/Index', [
+    { data: "name", name: "Name" }
+], true);
+
+initializeDataTable("#division-table", '/Division/Index', [
+    { data: "name", name: "Name" },
+    { data: "instituitionName", name: "InstituitionName" }
+], true);
+
+initializeDataTable("#section-table", '/Section/Index', [
+    { data: "name", name: "Name" },
+    { data: "divisionName", name: "DivisionName" }
+], true);
+
+initializeDataTable("#sector-table", '/Sector/Index', [
+    { data: "name", name: "Name" },
+    { data: "sectionName", name: "SectionName" }
+], true);

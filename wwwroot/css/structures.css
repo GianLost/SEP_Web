@@ -1,5 +1,5 @@
 #instituition-table tr > td:first-child {
-  width: auto;
+  width: 95%;
   white-space: nowrap;
   text-align: left;
 }

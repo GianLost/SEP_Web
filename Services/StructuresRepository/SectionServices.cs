@@ -53,7 +53,8 @@ public class SectionServices : ISectionServices
         {
             ICollection<Section> sections = await _database.Sections.Include(x => x.Division).ToListAsync();
 
-            ICollection<SectionViewModel> sectionViewModels = sections.Select(x => new SectionViewModel {
+            ICollection<SectionViewModel> sectionViewModels = sections.Select(x => new SectionViewModel
+            {
                 Id = x.Id,
                 Name = x.Name,
                 DivisionName = x.Division.Name ?? "N/A",
@@ -112,12 +113,40 @@ public class SectionServices : ISectionServices
 
     public async Task<string> SectionsName(int? sectionId)
     {
-        ICollection<Section> section =  await _database.Sections.Where(x => x.Id == sectionId).ToListAsync();
+        ICollection<Section> section = await _database.Sections.Where(x => x.Id == sectionId).ToListAsync();
         return section.FirstOrDefault().Name;
     }
 
     public async Task<ICollection<Section>> GetSectionsAsync(int divisionId)
     {
         return await _database.Sections.Where(s => s.DivisionId == divisionId).ToListAsync();
+    }
+
+    public async Task<SectionViewModel> GetByIdAsync(int id)
+    {
+        var section = await _database.Sections
+            .Include(s => s.Division)  // Inclua quaisquer outras propriedades de navegação necessárias
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (section == null)
+        {
+            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
+        }
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new SectionViewModel
+        {
+            Id = section.Id,
+            Name = section.Name,
+            DivisionName = section.Division?.Name, // Assumindo que a propriedade Division é uma navegação
+            DivisionId = section.DivisionId
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<Section> SectionsAsQueryable()
+    {
+        return _database.Sections.Include(x => x.Division);
     }
 }

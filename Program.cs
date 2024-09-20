@@ -14,6 +14,8 @@ using SEP_Web.Helper.Authentication;
 using SEP_Web.Helper.Validation;
 using Serilog;
 using Serilog.Events;
+using SEP_Web.Interfaces.DataTableInterfaces;
+using SEP_Web.Services.DataTableRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +51,8 @@ builder.Services.AddScoped<IInstituitionServices, InstituitionServices>();
 builder.Services.AddScoped<IDivisionServices, DivisionServices>();
 builder.Services.AddScoped<ISectionServices, SectionServices>();
 builder.Services.AddScoped<ISectorServices, SectorServices>();
+
+builder.Services.AddScoped<IDataTableService, DataTableService>();
 
 builder.Services.AddScoped<IUsersServices, UsersServices>();
 builder.Services.AddScoped<IUserAdministratorServices, UserAdministratorServices>();

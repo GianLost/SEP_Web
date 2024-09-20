@@ -53,7 +53,8 @@ public class DivisionServices : IDivisionServices
         {
             ICollection<Division> divisions = await _database.Divisions.Include(x => x.Instituition).ToListAsync();
 
-            ICollection<DivisionViewModel> divisionViewModels = divisions.Select(x => new DivisionViewModel {
+            ICollection<DivisionViewModel> divisionViewModels = divisions.Select(x => new DivisionViewModel
+            {
                 Id = x.Id,
                 Name = x.Name,
                 InstituitionName = x.Instituition.Name ?? "N/A",
@@ -119,7 +120,35 @@ public class DivisionServices : IDivisionServices
 
     public async Task<string> DivisionsName(int? divisionId)
     {
-        ICollection<Division> division =  await _database.Divisions.Where(x => x.Id == divisionId).ToListAsync();
+        ICollection<Division> division = await _database.Divisions.Where(x => x.Id == divisionId).ToListAsync();
         return division.FirstOrDefault().Name;
+    }
+
+    public async Task<DivisionViewModel> GetByIdAsync(int id)
+    {
+        var division = await _database.Divisions
+            .Include(s => s.Instituition)  // Inclua quaisquer outras propriedades de navegação necessárias
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (division == null)
+        {
+            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
+        }
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new DivisionViewModel
+        {
+            Id = division.Id,
+            Name = division.Name,
+            InstituitionName = division.Instituition?.Name,
+            InstituitionId = division.InstituitionId
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<Division> SectionsAsQueryable()
+    {
+        return _database.Divisions.Include(x => x.Instituition);
     }
 }

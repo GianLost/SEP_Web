@@ -118,4 +118,29 @@ public class InstituitionServices : IInstituitionServices
     {
         return _database.Instituitions.FirstOrDefault(x => x.Id == id);
     }
+
+    public async Task<InstituitionViewModel> GetByIdAsync(int id)
+    {
+        var instituition = await _database.Instituitions
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (instituition == null)
+        {
+            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
+        }
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new InstituitionViewModel
+        {
+            Id = instituition.Id,
+            Name = instituition.Name
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<Instituition> SectionsAsQueryable()
+    {
+        return _database.Instituitions.AsQueryable();
+    }
 }

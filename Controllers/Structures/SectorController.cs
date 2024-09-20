@@ -8,6 +8,8 @@ using SEP_Web.Models.StructuresModels;
 using SEP_Web.Models.UsersModels;
 using SEP_Web.Interfaces.StructuresInterfaces;
 using SEP_Web.ViewModels;
+using SEP_Web.Models.DataTableModels;
+using SEP_Web.Interfaces.DataTableInterfaces;
 
 namespace SEP_Web.Controllers.StructuresController;
 
@@ -16,26 +18,60 @@ public class SectorController : Controller
 {
     private readonly ILogger<SectorController> _logger;
     private readonly ISectorServices _sectorServices;
+    private readonly IDataTableService _dataTableService;
     private readonly IUserSession _session;
 
-    public SectorController(ILogger<SectorController> logger, ISectorServices sectorServices, IUserSession session)
+    public SectorController(ILogger<SectorController> logger, ISectorServices sectorServices, IDataTableService dataTableService, IUserSession session)
     {
         _logger = logger;
         _sectorServices = sectorServices;
+        _dataTableService = dataTableService;
         _session = session;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<SectorViewModel> sectors = await _sectorServices.SectorsList();
-            if (sectors == null)
-                throw new ArgumentNullException(nameof(sectors), ExceptionMessages.ErrorArgumentNullException);
+            // Obter IQueryable<Section> do serviço
+            var query = _sectorServices.SectorsAsQueryable();
 
-            if (sectors?.Count == 0)
+            // Converter IQueryable<Section> para IQueryable<SectionViewModel>
+            var sectorViewModelQuery = ConvertToViewModel(query);
+
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                sectorViewModelQuery = sectorViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                sectorViewModelQuery,
+                request
+            );
+
+            // Verificar se o retorno é nulo ou vazio
+            if (response == null || response.Data.Count == 0)
+            {
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
-            return View(sectors ?? new List<SectorViewModel>());
+            }
+
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException dbException)
         {
@@ -146,5 +182,28 @@ public class SectorController : Controller
             _logger.LogError("Não foi possível excluir o setor. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
+    }
+
+    private static IQueryable<SectorViewModel> ConvertToViewModel(IQueryable<Sector> sector)
+    {
+        return sector.Select(x => new SectorViewModel
+        {
+            Id = x.Id,
+            Name = x.Name,
+            SectionName = x.Section.Name,
+            SectionId = x.SectionId
+        });
+    }
+
+    public async Task<IActionResult> EditModal(int id)
+    {
+        var sector = await _sectorServices.GetByIdAsync(id);
+        return PartialView("_EditModal", sector);
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var sector = await _sectorServices.GetByIdAsync(id);
+        return PartialView("_DeleteModal", sector);
     }
 }

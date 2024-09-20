@@ -8,6 +8,8 @@ public interface IDivisionServices
     Division SearchForId(int id);
     Task<Division> RegisterDivision(Division division);
     Task<ICollection<DivisionViewModel>> DivisionsList();
+    Task<DivisionViewModel> GetByIdAsync(int id);
+    IQueryable<Division> SectionsAsQueryable();
     Task<Division> DivisionEdit(Division division);
     Task<string> DivisionsName(int? divisionId);
     Task<ICollection<Division>> GetDivisionsAsync(int instituitionId);

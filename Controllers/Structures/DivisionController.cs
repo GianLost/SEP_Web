@@ -8,6 +8,8 @@ using MySqlConnector;
 using SEP_Web.Helper.Messages;
 using System.Reflection;
 using SEP_Web.ViewModels;
+using SEP_Web.Models.DataTableModels;
+using SEP_Web.Interfaces.DataTableInterfaces;
 
 namespace SEP_Web.Controllers.StructuresController;
 
@@ -16,28 +18,60 @@ public class DivisionController : Controller
 {
     private readonly ILogger<DivisionController> _logger;
     private readonly IDivisionServices _divisionServices;
+    private readonly IDataTableService _dataTableService;
     private readonly IUserSession _session;
 
-    public DivisionController(ILogger<DivisionController> logger, IDivisionServices divisionServices, IUserSession session)
+    public DivisionController(ILogger<DivisionController> logger, IDivisionServices divisionServices, IDataTableService dataTableService, IUserSession session)
     {
         _logger = logger;
         _divisionServices = divisionServices;
+        _dataTableService = dataTableService;
         _session = session;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<DivisionViewModel> divisions = await _divisionServices.DivisionsList();
+            // Obter IQueryable<Division> do serviço
+            var query = _divisionServices.SectionsAsQueryable();
 
-            if (divisions == null)
-                throw new ArgumentNullException(nameof(divisions), ExceptionMessages.ErrorArgumentNullException);
+            // Converter IQueryable<Division> para IQueryable<DivisionViewModel>
+            var divisionViewModelQuery = ConvertToViewModel(query);
 
-            if (divisions.Count == 0)
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                divisionViewModelQuery = divisionViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                divisionViewModelQuery,
+                request
+            );
+
+            // Verificar se o retorno é nulo ou vazio
+            if (response == null || response.Data.Count == 0)
+            {
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            }
 
-            return View(divisions ?? new List<DivisionViewModel>());
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException dbException)
         {
@@ -148,5 +182,28 @@ public class DivisionController : Controller
             _logger.LogError("Não foi possível excluir a divisão. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
+    }
+
+    private static IQueryable<DivisionViewModel> ConvertToViewModel(IQueryable<Division> divisions)
+    {
+        return divisions.Select(x => new DivisionViewModel
+        {
+            Id = x.Id,
+            Name = x.Name,
+            InstituitionName = x.Instituition.Name,
+            InstituitionId = x.InstituitionId
+        });
+    }
+
+    public async Task<IActionResult> EditModal(int id)
+    {
+        var division = await _divisionServices.GetByIdAsync(id);
+        return PartialView("_EditModal", division);
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var division = await _divisionServices.GetByIdAsync(id);
+        return PartialView("_DeleteModal", division);
     }
 }

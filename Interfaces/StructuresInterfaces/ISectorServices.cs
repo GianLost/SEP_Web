@@ -7,7 +7,8 @@ public interface ISectorServices
 {
     Sector SearchForId(int id);
     Task<Sector> RegisterSector(Sector sector);
-    Task<ICollection<SectorViewModel>> SectorsList();
+    Task<SectorViewModel> GetByIdAsync(int id);
+    IQueryable<Sector> SectorsAsQueryable();
     Task<Sector> SectorEdit(Sector sector);
     Task<string> SectorsName(int? sectorId);
     Task<ICollection<Sector>> GetSectorsAsync(int sectionId);

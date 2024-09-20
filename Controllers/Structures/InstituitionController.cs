@@ -8,6 +8,8 @@ using MySqlConnector;
 using SEP_Web.Helper.Messages;
 using System.Reflection;
 using SEP_Web.ViewModels;
+using SEP_Web.Models.DataTableModels;
+using SEP_Web.Interfaces.DataTableInterfaces;
 
 namespace SEP_Web.Controllers.StructuresController;
 
@@ -16,28 +18,60 @@ public class InstituitionController : Controller
 {
     private readonly ILogger<InstituitionController> _logger;
     private readonly IInstituitionServices _instituitionServices;
+    private readonly IDataTableService _dataTableService;
     private readonly IUserSession _session;
 
-    public InstituitionController(ILogger<InstituitionController> logger, IInstituitionServices instituitionServices, IUserSession session)
+    public InstituitionController(ILogger<InstituitionController> logger, IInstituitionServices instituitionServices, IDataTableService dataTableService, IUserSession session)
     {
         _logger = logger;
         _instituitionServices = instituitionServices;
+        _dataTableService = dataTableService;
         _session = session;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index()
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<InstituitionViewModel> instituitions = await _instituitionServices.InstituitionsList();
+            // Obter IQueryable<Instituition> do serviço
+            var query = _instituitionServices.SectionsAsQueryable();
 
-            if (instituitions == null)
-                throw new ArgumentNullException(nameof(instituitions), ExceptionMessages.ErrorArgumentNullException);
+            // Converter IQueryable<Instituition> para IQueryable<InstituitionViewModel>
+            var instituitionViewModelQuery = ConvertToViewModel(query);
 
-            if (instituitions?.Count == 0)
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                instituitionViewModelQuery = instituitionViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                instituitionViewModelQuery,
+                request
+            );
+
+            // Verificar se o retorno é nulo ou vazio
+            if (response == null || response.Data.Count == 0)
+            {
                 throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            }
 
-            return View(instituitions ?? new List<InstituitionViewModel>());
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException dbException)
         {
@@ -148,5 +182,26 @@ public class InstituitionController : Controller
             return RedirectToAction("Index");
         }
 
+    }
+
+    private static IQueryable<InstituitionViewModel> ConvertToViewModel(IQueryable<Instituition> instituitions)
+    {
+        return instituitions.Select(x => new InstituitionViewModel
+        {
+            Id = x.Id,
+            Name = x.Name
+        });
+    }
+
+    public async Task<IActionResult> EditModal(int id)
+    {
+        var section = await _instituitionServices.GetByIdAsync(id);
+        return PartialView("_EditModal", section);
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var section = await _instituitionServices.GetByIdAsync(id);
+        return PartialView("_DeleteModal", section);
     }
 }

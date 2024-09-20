@@ -1,0 +1,21 @@
+@model DivisionViewModel
+
+@using SEP_Web.ViewModels
+
+@* Modal de Edição *@
+<div class="modal fade" id="edit-divisionModal@(Model.Id)" tabindex="-1" role="dialog"
+    aria-labelledby="edit-divisionModal@(Model.Id)" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary p-3">
+                <h3 class="modal-title text-light fs-4 text-center" id="division-editTitle">Editar
+                    divisão
+                </h3>
+                <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="Division"></a>
+            </div>
+            <div class="modal-body p-1">
+                @await Html.PartialAsync("_Edit.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,52 +20,6 @@ public class SectorServices : ISectorServices
         _database = database;
     }
 
-    public async Task<ICollection<SectorViewModel>> SectorsList()
-    {
-        try
-        {
-            ICollection<Sector> sectors = await _database.Sectors.Include(x => x.Section).ToListAsync();
-
-            ICollection<SectorViewModel> sectorViewModels = sectors.Select(x => new SectorViewModel
-            {
-                Id = x.Id,
-                Name = x.Name,
-                SectionName = x.Section.Name ?? "N/A",
-                SectionId = x.SectionId
-            }).ToList();
-
-            if (sectors.Count == 0)
-                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
-
-            return sectorViewModels ?? new List<SectorViewModel>();
-        }
-        catch (MySqlException mySqlException)
-        {
-            _logger.LogError("[SECTOR_SERVICE]: {exceptionMessage} : , {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, mySqlException.Message.ToUpper(), mySqlException.Number, mySqlException.ErrorCode);
-            _logger.LogError("[SECTOR_SERVICE] : Detalhamento dos erros: {Description} - ", mySqlException.StackTrace.Trim());
-
-            return new List<SectorViewModel>();
-        }
-        catch (ArgumentNullException nullException)
-        {
-            // NULL EXCEPTION :
-
-            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, nullException.Message, nullException.InnerException);
-            _logger.LogWarning("{Description}", nullException.StackTrace.Trim());
-
-            return new List<SectorViewModel>();
-        }
-        catch (TargetParameterCountException emptyException)
-        {
-            // EMPTY EXCEPTION :
-
-            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, emptyException.Message, emptyException.InnerException);
-            _logger.LogWarning("{Description}", emptyException.StackTrace.Trim());
-
-            return new List<SectorViewModel>();
-        }
-    }
-
     public async Task<Sector> RegisterSector(Sector sector)
     {
         sector.RegisterDate = DateTime.Now;
@@ -111,9 +65,37 @@ public class SectorServices : ISectorServices
         return await _database.Sectors.Where(s => s.SectionId == sectionId).ToListAsync();
     }
 
+    public async Task<SectorViewModel> GetByIdAsync(int id)
+    {
+        var sector = await _database.Sectors
+            .Include(s => s.Section)  // Inclua quaisquer outras propriedades de navegação necessárias
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (sector == null)
+        {
+            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
+        }
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new SectorViewModel
+        {
+            Id = sector.Id,
+            Name = sector.Name,
+            SectionName = sector.Section?.Name,
+            SectionId = sector.SectionId
+        };
+
+        return viewModel;
+    }
+
     public async Task<string> SectorsName(int? sectorId)
     {
         ICollection<Sector> sector =  await _database.Sectors.Where(x => x.Id == sectorId).ToListAsync();
         return sector.FirstOrDefault().Name;
+    }
+
+    public IQueryable<Sector> SectorsAsQueryable()
+    {
+        return _database.Sectors.Include(x => x.Section);
     }
 }
