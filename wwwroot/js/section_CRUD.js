@@ -83,33 +83,3 @@ $(document).ready(function () {
         e.preventDefault();
     });
 });
-
-// Evento para o botão de edição
-$('#section-table').on('click', '.edit-item', function () {
-    var sectionId = $(this).data('id');
-
-    $.ajax({
-        url: '/Section/EditModal',
-        type: 'GET',
-        data: { id: sectionId },
-        success: function (response) {
-            $('#dynamic-modal').html(response);
-            $('#edit-sectionModal' + sectionId).modal('show');
-        }
-    });
-});
-
-// Evento para o botão de exclusão
-$('#section-table').on('click', '.delete-item', function () {
-    var sectionId = $(this).data('id');
-
-    $.ajax({
-        url: '/Section/DeleteModal',
-        type: 'GET',
-        data: { id: sectionId },
-        success: function (response) {
-            $('#dynamic-modal').html(response);
-            $('#deleteSection' + sectionId).modal('show');
-        }
-    });
-});

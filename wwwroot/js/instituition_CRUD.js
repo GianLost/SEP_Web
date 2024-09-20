@@ -66,33 +66,3 @@ $(document).ready(function () {
         e.preventDefault();
     });
 });
-
-// // Evento para o botão de edição
-// $('#instituition-table').on('click', '.edit-item', function () {
-//     var instituitionId = $(this).data('id');
-
-//     $.ajax({
-//         url: '/Instituition/EditModal',
-//         type: 'GET',
-//         data: { id: instituitionId },
-//         success: function (response) {
-//             $('#dynamic-modal').html(response);
-//             $('#edit-instituitionModal' + instituitionId).modal('show');
-//         }
-//     });
-// });
-
-// // Evento para o botão de exclusão
-// $('#instituition-table').on('click', '.delete-item', function () {
-//     var instituitionId = $(this).data('id');
-
-//     $.ajax({
-//         url: '/Instituition/DeleteModal',
-//         type: 'GET',
-//         data: { id: instituitionId },
-//         success: function (response) {
-//             $('#dynamic-modal').html(response);
-//             $('#deleteInstituition' + instituitionId).modal('show');
-//         }
-//     });
-// });
