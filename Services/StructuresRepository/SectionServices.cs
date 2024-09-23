@@ -126,12 +126,7 @@ public class SectionServices : ISectionServices
     {
         var section = await _database.Sections
             .Include(s => s.Division)  // Inclua quaisquer outras propriedades de navegação necessárias
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (section == null)
-        {
-            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
-        }
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
 
         // Mapeie a entidade para a ViewModel
         var viewModel = new SectionViewModel

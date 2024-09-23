@@ -10,6 +10,9 @@ using SEP_Web.Models.UsersModels;
 using SEP_Web.Models.AssessmentsModels;
 using SEP_Web.Interfaces.UsersInterfaces;
 using SEP_Web.Interfaces.AssessmentsInterfaces;
+using SEP_Web.ViewModels;
+using SEP_Web.Models.DataTableModels;
+using SEP_Web.Interfaces.DataTableInterfaces;
 
 namespace SEP_Web.Controllers.UsersControllers;
 
@@ -20,25 +23,53 @@ public class CivilServantController : Controller
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
     private readonly ICivilServantServices _civilServantServices;
+    private readonly IDataTableService _dataTableService;
     private readonly IAssessmentServices _assessmentServices;
 
-    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices, IAssessmentServices assessmentServices)
+    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices, IDataTableService dataTableService, IAssessmentServices assessmentServices)
     {
         _logger = logger;
         _validation = validation;
         _session = session;
         _civilServantServices = civilServantServices;
+        _dataTableService = dataTableService;
         _assessmentServices = assessmentServices;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index() => View();
+    
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<CivilServant> users = await _civilServantServices.ServantsList();
-            if (users?.Count == 0)
-                throw new ArgumentNullException(nameof(users), ExceptionMessages.ErrorArgumentNullException);
-            return View(users);
+            // Obter IQueryable<CivilServant> do serviço
+            var query = _civilServantServices.ServantsAsQueryable();
+
+            // Converter IQueryable<CivilServant> para IQueryable<UsersViewModel>
+            var servantViewModelQuery = ConvertToViewModel(query);
+
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                servantViewModelQuery = servantViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                servantViewModelQuery,
+                request
+            );
+
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException ex)
         {
@@ -61,7 +92,7 @@ public class CivilServantController : Controller
     }
 
     public IActionResult Register() => View();
-    
+
     [HttpPost]
     public async Task<IActionResult> Register(CivilServant servant, Assessment assessment, string confirmPass)
     {
@@ -82,11 +113,11 @@ public class CivilServantController : Controller
                 foreach (var (FieldName, Message) in duplicateErrors)
                     ModelState.AddModelError(FieldName, Message);
 
-                    if (ModelState.ErrorCount > 0)
-                        return View(servant);
+                if (ModelState.ErrorCount > 0)
+                    return View(servant);
 
-                        if (!_validation.ValidatePassword(servant.Password, confirmPass, this))
-                            return View(servant);
+                if (!_validation.ValidatePassword(servant.Password, confirmPass, this))
+                    return View(servant);
 
                 TempData["SuccessMessage"] = FeedbackMessages.SuccessServantRegister;
 
@@ -250,5 +281,25 @@ public class CivilServantController : Controller
 
             return RedirectToAction("Index");
         }
+    }
+
+    private static IQueryable<UsersViewModel> ConvertToViewModel(IQueryable<CivilServant> servants)
+    {
+        return servants.Select(x => new UsersViewModel
+        {
+            Id = x.Id,
+            UserStats = x.UserStats,
+            Masp = x.Masp,
+            Name = x.Name,
+            Login = x.Login,
+            Email = x.Email,
+            Phone = x.Phone
+        });
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var servant = await _civilServantServices.GetByIdAsync(id);
+        return PartialView("_DeleteModal", servant);
     }
 }

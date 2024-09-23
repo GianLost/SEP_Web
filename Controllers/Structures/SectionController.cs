@@ -30,10 +30,7 @@ public class SectionController : Controller
         _session = session;
     }
 
-    public IActionResult Index()
-    {
-        return View(); // A view não precisa receber a lista de sections.
-    }
+    public IActionResult Index() => View();
 
     [HttpPost]
     public async Task<IActionResult> Index(DataTableRequest request)
@@ -59,12 +56,6 @@ public class SectionController : Controller
                 request
             );
 
-            // Verificar se o retorno é nulo ou vazio
-            if (response == null || response.Data.Count == 0)
-            {
-                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
-            }
-
             // Retornar os dados no formato JSON esperado pelo DataTables
             return Json(new
             {
@@ -81,33 +72,53 @@ public class SectionController : Controller
                 ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
             TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorSectionList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem para o usuário;
 
-            return Json(new { error = FeedbackMessages.ErrorSectionList });
+           return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
         catch (ArgumentNullException ex)
         {
             // Log de erro para exceções ArgumentNull
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'",
                 ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
-            TempData["ErrorMessage"] = ExceptionMessages.ErrorArgumentNullException; // Mensagem para o usuário;
 
-            return Json(new { error = ExceptionMessages.ErrorArgumentNullException });
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
         catch (TargetParameterCountException ex2)
         {
             // Log de erro para exceções TargetParameterCount
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'",
                 FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
-            TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem para o usuário;
 
-            return Json(new { error = FeedbackMessages.ErrorEmptyCollection });
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
         catch (Exception ex)
         {
             // Log de erro genérico
             _logger.LogError("Erro inesperado: {Message}", ex.Message);
-            TempData["ErrorMessage"] = "Ocorreu um erro inesperado."; // Mensagem para o usuário;
-
-            return Json(new { error = "Ocorreu um erro inesperado." });
+            return new JsonResult(new
+            {
+                draw = request.Draw,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
     }
 

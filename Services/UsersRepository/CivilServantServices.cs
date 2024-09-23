@@ -7,6 +7,7 @@ using SEP_Web.Database;
 using SEP_Web.Keys;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services.UsersRepository;
 
@@ -211,6 +212,31 @@ public class CivilServantServices : ICivilServantServices
     public CivilServant SearchForId(int id)
     {
         return _database.Servants.FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<UsersViewModel> GetByIdAsync(int id)
+    {
+        var servant = await _database.Servants
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Servidor com ID {id} não encontrada.");
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new UsersViewModel
+        {
+            Id = servant.Id,
+            UserStats = servant.UserStats,
+            Masp = servant.Masp,
+            Name = servant.Name,
+            Login = servant.Login,
+            Email = servant.Email,
+            Phone = servant.Phone
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<CivilServant> ServantsAsQueryable()
+    {
+        return _database.Servants.AsQueryable();
     }
 
 }

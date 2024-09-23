@@ -1,0 +1,21 @@
+@model UsersViewModel
+
+@using SEP_Web.ViewModels
+
+@* Start Delete Modal *@
+<div class="modal fade" id="deleteAdministrator@(Model.Id)" tabindex="-1" role="dialog" aria-labelledby="deleteAdministrator@(Model.Id)"
+    aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-light p-3">
+                <h3 class="modal-title text-center fs-4 mb-0 p-0" id="deleteTitle">
+                    Alerta</h3>
+                <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
+            <div class="modal-body p-1">
+                @await Html.PartialAsync("_Delete.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</div>

@@ -128,12 +128,7 @@ public class DivisionServices : IDivisionServices
     {
         var division = await _database.Divisions
             .Include(s => s.Instituition)  // Inclua quaisquer outras propriedades de navegação necessárias
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (division == null)
-        {
-            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
-        }
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Divisão com ID {id} não encontrada.");
 
         // Mapeie a entidade para a ViewModel
         var viewModel = new DivisionViewModel
@@ -147,7 +142,7 @@ public class DivisionServices : IDivisionServices
         return viewModel;
     }
 
-    public IQueryable<Division> SectionsAsQueryable()
+    public IQueryable<Division> DivisionsAsQueryable()
     {
         return _database.Divisions.Include(x => x.Instituition);
     }

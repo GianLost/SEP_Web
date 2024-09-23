@@ -9,7 +9,7 @@ public interface IInstituitionServices
     Task<Instituition> RegisterInstituition(Instituition instituition);
     Task<ICollection<InstituitionViewModel>> InstituitionsList();
     Task<InstituitionViewModel> GetByIdAsync(int id);
-    IQueryable<Instituition> SectionsAsQueryable();
+    IQueryable<Instituition> InstituitionsAsQueryable();
     Task<Instituition> InstituitionEdit(Instituition instituition);
     Task<string> InstituitionsName(int? instituitionId);
     void DeleteInstituition(int id);

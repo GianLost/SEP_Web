@@ -1,33 +1,24 @@
-@model ICollection<CivilServant>
-    
-@using SEP_Web.Models.UsersModels
-@using SEP_Web.Keys
-
-@inject IHttpContextAccessor _httpContext
+@using SEP_Web.ViewModels
 
 @{
     ViewData["Title"] = "Servidores cadastrados";
 }
 
 <div>
-
     <div class="container-fluid justify-content-start w-100 pop-up">
-        <a title="Cadastrar novo servidor ..." role="button" asp-controller="CivilServant" asp-action="Register" class="d-flex justify-content-evenly btn btn-md btn-primary"><i class="bi bi-person-plus-fill"></i> Novo</a>
+        <a title="Cadastrar novo servidor ..." role="button" asp-controller="CivilServant" asp-action="Register"
+            class="d-flex justify-content-evenly btn btn-md btn-primary"><i class="bi bi-person-plus-fill"></i> Novo</a>
         @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
     <div class="card">
-
         <div class="card-header bg-primary text-light">
             <span class="fw-bold">Servidores :</span>
         </div>
-
         <div class="card-body card-table">
-
             <div class="table-responsive">
-
-                <table class="table table-sm table-bordered table-striped table-light table-style users-table p-0">
-
+                <table id="servant-table"
+                    class="table table-sm table-bordered table-striped table-light table-style users-table p-0">
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
                             <th scope="col">Status</th>
@@ -39,89 +30,12 @@
                             <th scope="col"></th>
                         </tr>
                     </thead>
-
                     <tbody>
-
-                        @foreach (CivilServant u in Model)
-                        {
-
-                            <tr class="table-light border-light">
-
-                                @if (u.UserStats == UserStatsEnum.Active)
-                                {
-                                    <td scope="row"><span title="Ativo" id="statsEvaluatorActive" class="material-symbols-outlined text-success fs-5 m-1 p-1">radio_button_checked</span></td>
-                                }
-                                else if(u.UserStats == UserStatsEnum.Inactive)
-                                {
-                                    <td scope="row"><span title="Inativo" id="statsEvaluatorInactive" class="material-symbols-outlined text-danger fs-5 m-1 p-1">radio_button_checked</span></td>
-                                }
-                                else if(u.UserStats == UserStatsEnum.UnderLicense)
-                                {
-                                    <td scope="row"><span title="sob licença" id="statsEvaluatorInactive" class="material-symbols-outlined text-warning fs-5 m-1 p-1">radio_button_checked</span></td>
-                                }
-
-                                <td scope="row">@($"{u.Masp:D8}")</td>
-                                <td scope="row">@u.Name</td>
-                                <td scope="row">@u.Login</td>
-                                <td scope="row">@u.Email</td>
-                                <td scope="row">@u.Phone</td>
-
-                                <td scope="row">
-                                    @if (_httpContext.HttpContext.Session.GetInt32("userType") == Convert.ToInt32(UsersTypeEnum.User_Admin))
-                                    {
-                                        <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..." class="bi bi-person-vcard"></i></a>
-
-                                        <a title="Boletim ..." role="button" target="_blank" href="../Reports/PrintAssessmentsToPDF?id=@u.Id" class="btn btn-sm btn-outline-secondary"><i title="Boletim ..." class="bi bi bi-printer-fill"></i></a>
-
-                                        <button title="Excluir servidor ..." type="button" data-bs-toggle="modal" asp-route-id="@u.Id" data-bs-target="#serv-delete-@(u.Id)" class="btn btn-sm btn-outline-danger"><i title="Excluir servidor ..." class="bi bi-person-dash"></i></button>
-                                    }
-                                    else
-                                    {
-                                        <a title="Editar servidor ..." role="button" asp-action="Edit" asp-controller="CivilServant" asp-route-id="@u.Id" class="btn btn-sm btn-outline-primary"><i title="Editar servidor ..." class="bi bi-person-vcard"></i></a>
-                                        
-                                        <a title="Boletim ..." role="button" target="_blank" href="../Reports/PrintAssessmentsToPDF?id=@u.Id" class="btn btn-sm btn-outline-secondary"><i title="Boletim ..." class="bi bi bi-printer-fill"></i></a>
-                                    }
-                                </td>
-
-                            </tr>
-
-                            @* Start Delete Modal *@
-
-                            <div class="modal fade" id="serv-delete-@(u.Id)" tabindex="-1" role="dialog" aria-labelledby="serv-delete-@(u.Id)" aria-hidden="true">
-
-                                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
-                                    <div class="modal-content">
-
-                                        <div class="modal-header bg-danger text-light p-3">
-                                            <h3 class="modal-title text-center fs-4 mb-0 p-0" id="deleteTitle">
-                                                Alerta</h3>
-                                            <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"
-                                                aria-label="Close">
-                                            </button>
-                                        </div>
-
-                                        <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Delete.cshtml", @u)
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                            @* Finish Delete Modal *@
-                        }
-
+                        @* A tabela será preenchida pelo DataTables via AJAX *@
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
-
+    <div id="dynamic-modal"></div> @* Contêiner para injetar modais dinâmicos *@
 </div>

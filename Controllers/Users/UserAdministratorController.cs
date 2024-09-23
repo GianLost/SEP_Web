@@ -8,6 +8,9 @@ using SEP_Web.Keys;
 using SEP_Web.Models;
 using SEP_Web.Models.UsersModels;
 using SEP_Web.Interfaces.UsersInterfaces;
+using SEP_Web.Models.DataTableModels;
+using SEP_Web.Interfaces.DataTableInterfaces;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Controllers.UsersControllers;
 
@@ -16,42 +19,79 @@ public class UserAdministratorController : Controller
 {
     private readonly ILogger<UserAdministratorController> _logger;
     private readonly IUserAdministratorServices _administratorServices;
+    private readonly IDataTableService _dataTableService;
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
 
 
-    public UserAdministratorController(ILogger<UserAdministratorController> logger, IUserAdministratorServices administratorServices, IUsersValidation validation, IUserSession session)
+    public UserAdministratorController(ILogger<UserAdministratorController> logger, IUserAdministratorServices administratorServices, IDataTableService dataTableService, IUsersValidation validation, IUserSession session)
     {
         _logger = logger;
         _administratorServices = administratorServices;
+        _dataTableService = dataTableService;
         _validation = validation;
         _session = session;
     }
+    public IActionResult Index() => View();
 
-    public async Task<IActionResult> Index()
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<UserAdministrator> users = await _administratorServices.AdministratorsList();
-            return View(users);
+            // Obter IQueryable<UserAdministrator> do serviço
+            var query = _administratorServices.AdministratorsAsQueryable();
+
+            // Converter IQueryable<UserAdministrator> para IQueryable<UsersViewModel>
+            var administratorViewModelQuery = ConvertToViewModel(query);
+
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                administratorViewModelQuery = administratorViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                administratorViewModelQuery,
+                request
+            );
+
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException dbException)
         {
             // MYSQL EXEPTIONS :
 
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
-            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorAdministratorList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
-
-            return View(new List<UserAdministrator>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<UsersViewModel>()
+            });
         }
         catch (ArgumentNullException ex)
         {
             // NULL EXEPTIONS :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex.Message, ex.InnerException);
-            TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
-
-            return View(new List<UserAdministrator>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<UsersViewModel>()
+            });
         }
     }
 
@@ -144,7 +184,7 @@ public class UserAdministratorController : Controller
                 if (enableAccount == true && userInSession.Masp == modifyUser.Masp)
                 {
                     TempData["ErrorMessage"] = "Você desabilitou sua conta. Não será possível realizar login novamente com as suas credenciais. Entre em contato com um administrador!";
-                    
+
                     _session.UserCheckOut();
                 }
 
@@ -256,5 +296,25 @@ public class UserAdministratorController : Controller
 
             return RedirectToAction("Index");
         }
+    }
+
+    private static IQueryable<UsersViewModel> ConvertToViewModel(IQueryable<UserAdministrator> administrators)
+    {
+        return administrators.Select(x => new UsersViewModel
+        {
+            Id = x.Id,
+            UserStats = x.UserStats,
+            Masp = x.Masp,
+            Name = x.Name,
+            Login = x.Login,
+            Email = x.Email,
+            Phone = x.Phone
+        });
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var administrator = await _administratorServices.GetByIdAsync(id);
+        return PartialView("_DeleteModal", administrator);
     }
 }

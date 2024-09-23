@@ -29,10 +29,7 @@ public class DivisionController : Controller
         _session = session;
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
+    public IActionResult Index() => View();
 
     [HttpPost]
     public async Task<IActionResult> Index(DataTableRequest request)
@@ -40,7 +37,7 @@ public class DivisionController : Controller
         try
         {
             // Obter IQueryable<Division> do serviço
-            var query = _divisionServices.SectionsAsQueryable();
+            var query = _divisionServices.DivisionsAsQueryable();
 
             // Converter IQueryable<Division> para IQueryable<DivisionViewModel>
             var divisionViewModelQuery = ConvertToViewModel(query);
@@ -58,12 +55,6 @@ public class DivisionController : Controller
                 request
             );
 
-            // Verificar se o retorno é nulo ou vazio
-            if (response == null || response.Data.Count == 0)
-            {
-                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
-            }
-
             // Retornar os dados no formato JSON esperado pelo DataTables
             return Json(new
             {
@@ -78,27 +69,42 @@ public class DivisionController : Controller
             // MYSQL EXEPTIONS :
 
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, dbException.Message.ToUpper(), dbException.Number, dbException.ErrorCode);
-            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorDivisionList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
 
-            return View(new List<DivisionViewModel>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
         catch (ArgumentNullException ex)
         {
             // NULL EXEPTIONS :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", ExceptionMessages.ErrorArgumentNullException, ex.Message, ex.InnerException);
-            TempData["ErrorMessage"] = ExceptionMessages.ErrorArgumentNullException; // Mensagem de vizualização para o usuário;
 
-            return View(new List<DivisionViewModel>());
+           return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
         catch (TargetParameterCountException ex2)
         {
             // EMPTY EXEPTIONS :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
-            TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
 
-            return View(new List<DivisionViewModel>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<InstituitionViewModel>()
+            });
         }
     }
 

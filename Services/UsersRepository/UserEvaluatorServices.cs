@@ -6,6 +6,7 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Database;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services.UsersRepository;
 
@@ -192,5 +193,30 @@ public class UserEvaluatorServices : IUserEvaluatorServices
     public UserEvaluator SearchForId(int id)
     {
         return _database.Evaluators.FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<UsersViewModel> GetByIdAsync(int id)
+    {
+        var evaluator = await _database.Evaluators
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Avaliador com ID {id} não encontrada.");
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new UsersViewModel
+        {
+            Id = evaluator.Id,
+            UserStats = evaluator.UserStats,
+            Masp = evaluator.Masp,
+            Name = evaluator.Name,
+            Login = evaluator.Login,
+            Email = evaluator.Email,
+            Phone = evaluator.Phone
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<UserEvaluator> EvaluatorsAsQueryable()
+    {
+        return _database.Evaluators.AsQueryable();
     }
 }

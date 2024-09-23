@@ -8,6 +8,9 @@ using SEP_Web.Helper.Validation;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Keys;
 using SEP_Web.Helper.Authentication;
+using SEP_Web.ViewModels;
+using SEP_Web.Interfaces.DataTableInterfaces;
+using SEP_Web.Models.DataTableModels;
 
 namespace SEP_Web.Controllers.UsersControllers;
 
@@ -16,41 +19,79 @@ public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;
     private readonly IUserEvaluatorServices _evaluatorServices;
+        private readonly IDataTableService _dataTableService;
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IUsersValidation validation, IUserSession session)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDataTableService dataTableService, IUsersValidation validation, IUserSession session)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
+        _dataTableService = dataTableService;
         _validation = validation;
         _session = session;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<UserEvaluator> users = await _evaluatorServices.EvaluatorsList();
-            return View(users);
+            // Obter IQueryable<UserEvaluator> do serviço
+            var query = _evaluatorServices.EvaluatorsAsQueryable();
+
+            // Converter IQueryable<UserEvaluator> para IQueryable<UsersViewModel>
+            var evaluatorViewModelQuery = ConvertToViewModel(query);
+
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                evaluatorViewModelQuery = evaluatorViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                evaluatorViewModelQuery,
+                request
+            );
+
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException ex)
         {
             // MYSQL EXEPTIONS :
 
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode);
-            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorEvaluatorList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
-
-            return View(new List<UserEvaluator>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<UsersViewModel>()
+            });
         }
         catch (ArgumentNullException ex2)
         {
             // NULL EXEPTIONS :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
-            TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
-
-            return View(new List<UserEvaluator>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<UsersViewModel>()
+            });
         }
     }
 
@@ -244,5 +285,26 @@ public class UserEvaluatorController : Controller
 
             return RedirectToAction("Index");
         }
+    }
+
+    
+    private static IQueryable<UsersViewModel> ConvertToViewModel(IQueryable<UserEvaluator> evaluators)
+    {
+        return evaluators.Select(x => new UsersViewModel
+        {
+            Id = x.Id,
+            UserStats = x.UserStats,
+            Masp = x.Masp,
+            Name = x.Name,
+            Login = x.Login,
+            Email = x.Email,
+            Phone = x.Phone
+        });
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var evaluator = await _evaluatorServices.GetByIdAsync(id);
+        return PartialView("_DeleteModal", evaluator);
     }
 }

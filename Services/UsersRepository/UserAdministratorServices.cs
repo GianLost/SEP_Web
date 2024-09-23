@@ -5,6 +5,7 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Database;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
+using SEP_Web.ViewModels;
 
 
 
@@ -165,12 +166,37 @@ public class UserAdministratorServices : IUserAdministratorServices
 
     public async Task<string> AdministratorsName(int? AdministratorsId)
     {
-        ICollection<UserAdministrator> administrators =  await _database.Administrators.Where(x => x.Id == AdministratorsId).ToListAsync();
+        ICollection<UserAdministrator> administrators = await _database.Administrators.Where(x => x.Id == AdministratorsId).ToListAsync();
         return administrators.FirstOrDefault().Name;
     }
 
     public UserAdministrator SearchForId(int id)
     {
         return _database.Administrators.FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<UsersViewModel> GetByIdAsync(int id)
+    {
+        var administrator = await _database.Administrators
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Administrador com ID {id} não encontrada.");
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new UsersViewModel
+        {
+            Id = administrator.Id,
+            UserStats = administrator.UserStats,
+            Masp = administrator.Masp,
+            Name = administrator.Name,
+            Login = administrator.Login,
+            Email = administrator.Email,
+            Phone = administrator.Phone
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<UserAdministrator> AdministratorsAsQueryable()
+    {
+        return _database.Administrators.AsQueryable();
     }
 }

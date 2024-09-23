@@ -1,8 +1,5 @@
-using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using MySqlConnector;
 using SEP_Web.Database;
-using SEP_Web.Helper.Messages;
 using SEP_Web.Models.StructuresModels;
 using SEP_Web.Interfaces.StructuresInterfaces;
 using SEP_Web.ViewModels;
@@ -65,16 +62,17 @@ public class SectorServices : ISectorServices
         return await _database.Sectors.Where(s => s.SectionId == sectionId).ToListAsync();
     }
 
+    public async Task<string> SectorsName(int? sectorId)
+    {
+        ICollection<Sector> sector = await _database.Sectors.Where(x => x.Id == sectorId).ToListAsync();
+        return sector.FirstOrDefault().Name;
+    }
+
     public async Task<SectorViewModel> GetByIdAsync(int id)
     {
         var sector = await _database.Sectors
             .Include(s => s.Section)  // Inclua quaisquer outras propriedades de navegação necessárias
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (sector == null)
-        {
-            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
-        }
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Setor com ID {id} não encontrada.");
 
         // Mapeie a entidade para a ViewModel
         var viewModel = new SectorViewModel
@@ -86,12 +84,6 @@ public class SectorServices : ISectorServices
         };
 
         return viewModel;
-    }
-
-    public async Task<string> SectorsName(int? sectorId)
-    {
-        ICollection<Sector> sector =  await _database.Sectors.Where(x => x.Id == sectorId).ToListAsync();
-        return sector.FirstOrDefault().Name;
     }
 
     public IQueryable<Sector> SectorsAsQueryable()

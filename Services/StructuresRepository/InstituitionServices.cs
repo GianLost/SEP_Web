@@ -102,7 +102,7 @@ public class InstituitionServices : IInstituitionServices
 
     public async Task<string> InstituitionsName(int? instituitionId)
     {
-        ICollection<Instituition> instituition =  await _database.Instituitions.Where(x => x.Id == instituitionId).ToListAsync();
+        ICollection<Instituition> instituition = await _database.Instituitions.Where(x => x.Id == instituitionId).ToListAsync();
         return instituition.FirstOrDefault().Name;
     }
 
@@ -122,12 +122,7 @@ public class InstituitionServices : IInstituitionServices
     public async Task<InstituitionViewModel> GetByIdAsync(int id)
     {
         var instituition = await _database.Instituitions
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (instituition == null)
-        {
-            throw new KeyNotFoundException($"Seção com ID {id} não encontrada.");
-        }
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Órgão com ID {id} não encontrada.");
 
         // Mapeie a entidade para a ViewModel
         var viewModel = new InstituitionViewModel
@@ -139,7 +134,7 @@ public class InstituitionServices : IInstituitionServices
         return viewModel;
     }
 
-    public IQueryable<Instituition> SectionsAsQueryable()
+    public IQueryable<Instituition> InstituitionsAsQueryable()
     {
         return _database.Instituitions.AsQueryable();
     }

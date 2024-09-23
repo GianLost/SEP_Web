@@ -2,6 +2,19 @@ html {
   font-size: 0.95em;
 }
 
+.table-responsive {
+  padding: 0.3rem;
+}
+
+.odd td #statsActive,
+.odd td #statsInactive,
+.even td #statsActive,
+.even td #statsInactive{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 html {
   position: relative;
   min-height: 100%;
