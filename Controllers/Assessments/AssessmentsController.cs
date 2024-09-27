@@ -10,6 +10,7 @@ using SEP_Web.Models.UsersModels;
 using SEP_Web.Models.AssessmentsModels;
 using SEP_Web.Interfaces.AssessmentsInterfaces;
 using SEP_Web.ViewModels;
+using SEP_Web.Models.DataTableModels;
 
 namespace SEP_Web.Controllers.AssessmentsController;
 
@@ -27,7 +28,10 @@ public class AssessmentsController : Controller
         _httpContext = httpContext;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index() => View();
+
+    [HttpPost]
+    public IActionResult Index(DataTableRequest request)
     {
         try
         {
@@ -37,36 +41,126 @@ public class AssessmentsController : Controller
             if (userIsEvaluator)
             {
                 int id = Convert.ToInt32(_httpContext.HttpContext.Session.GetInt32("userId"));
-                ICollection<Assessment> evaluator = await _assessmentServices.AssessmentsList(id);
+                ICollection<Assessment> evaluator = _assessmentServices.AssessmentsList(id).Result;
 
-                viewModels = evaluator.Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)).Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
+                viewModels = evaluator
+                    .Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED))
+                    .Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
             }
             else
             {
-                ICollection<Assessment> users = await _assessmentServices.AssessmentsList();
+                ICollection<Assessment> users = _assessmentServices.AssessmentsList().Result;
 
-                viewModels = users.Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED)).Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
+                viewModels = users
+                    .Where(assessment => !(_assessmentServices.IsUnderLicense(assessment.CivilServantId).Result && assessment.Stats == AssessmentStatsEnum.NOT_EVALUATED))
+                    .Select(assessment => new AssessmentViewModel(assessment, _httpContext, _assessmentServices)).ToList();
             }
 
-            return View(viewModels);
+            // Aqui estamos aplicando a ordenação
+            if (request.Order != null && request.Order.Any())
+            {
+                var columnIndex = request.Order[0].Column; // Índice da coluna que está sendo ordenada
+                var sortDirection = request.Order[0].Dir; // Direção da ordenação: "asc" ou "desc"
+
+                switch (columnIndex)
+                {
+                    case 0:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(vm => vm.StatusTitle).ToList()
+                            : viewModels.OrderByDescending(vm => vm.StatusTitle).ToList();
+                        break;
+                    case 1:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(vm => vm.Phase).ToList()
+                            : viewModels.OrderByDescending(vm => vm.Phase).ToList();
+                        break;
+                    case 2:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(vm => vm.Masp).ToList()
+                            : viewModels.OrderByDescending(vm => vm.Masp).ToList();
+                        break;
+                    case 3:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(vm => vm.ServantName).ToList()
+                            : viewModels.OrderByDescending(vm => vm.ServantName).ToList();
+                        break;
+                    case 4:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(vm => vm.StartDate).ToList()
+                            : viewModels.OrderByDescending(vm => vm.StartDate).ToList();
+                        break;
+                    case 5:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(vm => vm.EndDate).ToList()
+                            : viewModels.OrderByDescending(vm => vm.EndDate).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            // Filtragem para busca via search
+            if (!string.IsNullOrEmpty(request.Search.Value))
+            {
+                string searchValue = request.Search.Value.ToLower();
+                viewModels = viewModels.Where(vm => 
+                    vm.StatusTitle.ToLower().Contains(searchValue) ||
+                    vm.Phase.ToString().ToLower().Contains(searchValue) ||
+                    vm.Masp.ToLower().Contains(searchValue) ||
+                    vm.ServantName.ToLower().Contains(searchValue)
+                ).ToList();
+            }
+
+            // Filtragem, paginação e ordenação pelo DataTables
+            var filteredData = viewModels.Skip(request.Start).Take(request.Length).ToList();
+            var response = new
+            {
+                draw = request.Draw,
+                recordsTotal = viewModels.Count,
+                recordsFiltered = viewModels.Count, // Modifique se aplicar filtros adicionais
+                data = filteredData
+            };
+
+            return Json(response);
         }
         catch (MySqlException ex)
         {
             // MYSQL EXEPTIONS :
 
             _logger.LogError("{exceptionMessage} : {Message}, ErrorCode = {errorCode} - Represents {Error} ", ExceptionMessages.ErrorDatabaseConnection, ex.Message.ToUpper(), ex.Number, ex.ErrorCode);
-            TempData["ErrorMessage"] = $"{FeedbackMessages.ErrorServantList} {ExceptionMessages.ErrorDatabaseConnection}"; // Mensagem de vizualização para o usuário;
-
-            return View(new List<AssessmentViewModel>());
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<AssessmentViewModel>()
+            });
         }
         catch (ArgumentNullException ex2)
         {
             // NULL EXEPTIONS :
 
             _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex2.Message, ex2.InnerException);
-            TempData["ErrorMessage"] = FeedbackMessages.ErrorEmptyCollection; // Mensagem de vizualização para o usuário;
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<AssessmentViewModel>()
+            });
+        }
+        catch (Exception ex3)
+        {
+            // NULL EXEPTIONS :
 
-            return View(new List<AssessmentViewModel>());
+            _logger.LogWarning("{exceptionMessage} : {Message} value = '{InnerExeption}'", FeedbackMessages.ErrorEmptyCollection, ex3.Message, ex3.InnerException);
+            return new JsonResult(new
+            {
+                draw = 0,
+                recordsTotal = 0,
+                recordsFiltered = 0,
+                data = new List<AssessmentViewModel>()
+            });
         }
     }
 

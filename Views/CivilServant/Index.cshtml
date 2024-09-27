@@ -1,5 +1,7 @@
 @using SEP_Web.ViewModels
 
+@inject IHttpContextAccessor _httpContext
+
 @{
     ViewData["Title"] = "Servidores cadastrados";
 }
@@ -39,3 +41,7 @@
     </div>
     <div id="dynamic-modal"></div> @* Contêiner para injetar modais dinâmicos *@
 </div>
+
+<script type="text/javascript">
+    var currentUserType = '@_httpContext.HttpContext.Session.GetInt32("userType")';
+</script>

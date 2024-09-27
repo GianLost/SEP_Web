@@ -7,6 +7,10 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Models.LicensesModels;
 using SEP_Web.Models.UsersModels;
 using SEP_Web.Interfaces.LicensesInterfaces;
+using SEP_Web.Interfaces.DataTableInterfaces;
+using SEP_Web.Models.DataTableModels;
+using SEP_Web.ViewModels;
+using SEP_Web.Database;
 
 namespace SEP_Web.Controllers.LicensesController;
 
@@ -15,27 +19,53 @@ public class LicenseController : Controller
 {
     private readonly ILogger<LicenseController> _logger;
     private readonly IUserSession _session;
+    private readonly SEP_WebContext _database;
+    private readonly IDataTableService _dataTableService;
     private readonly ILicenseServices _licenses;
 
-    public LicenseController(ILogger<LicenseController> logger, IUserSession session, ILicenseServices licenses)
+    public LicenseController(ILogger<LicenseController> logger, IUserSession session, SEP_WebContext database, IDataTableService dataTableService, ILicenseServices licenses)
     {
         _logger = logger;
         _session = session;
+        _database = database;
+        _dataTableService = dataTableService;
         _licenses = licenses;
     }
 
-    public async Task<IActionResult> Index()
+    public IActionResult Index() => View();
+
+    [HttpPost]
+    public async Task<IActionResult> Index(DataTableRequest request)
     {
         try
         {
-            ICollection<Licenses> license = await _licenses.LicenseList();
-            if (license == null)
-                throw new ArgumentNullException(nameof(license), ExceptionMessages.ErrorArgumentNullException);
+            // Obter IQueryable<License> do serviço
+            var query = _licenses.LicensesAsQueryable();
 
-            if (license?.Count == 0)
-                throw new TargetParameterCountException(FeedbackMessages.ErrorEmptyCollection);
+            // Converter IQueryable<Sector> para IQueryable<LicenseViewModel>
+            var licenseViewModelQuery = ConvertToViewModel(query);
 
-            return View(license ?? new List<Licenses>());
+            // Aplicar filtros de pesquisa, se houver
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                var searchValue = request.Search.Value.ToLower();
+                licenseViewModelQuery = licenseViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+            }
+
+            // Obter dados paginados, filtrados e ordenados
+            var response = await _dataTableService.GetPaginatedResponseAsync(
+                licenseViewModelQuery,
+                request
+            );
+
+            // Retornar os dados no formato JSON esperado pelo DataTables
+            return Json(new
+            {
+                draw = response.Draw,
+                recordsTotal = response.RecordsTotal,
+                recordsFiltered = response.RecordsFiltered,
+                data = response.Data
+            });
         }
         catch (MySqlException dbException)
         {
@@ -144,5 +174,27 @@ public class LicenseController : Controller
             _logger.LogError("Não foi possível excluir a licença. Error : {Message}", e.Message);
             return RedirectToAction("Index");
         }
+    }
+
+    private IQueryable<LicenseViewModel> ConvertToViewModel(IQueryable<Licenses> sector)
+    {
+        return _database.Licenses.Select(x => new LicenseViewModel
+        {
+            Id = x.Id,
+            Name = x.Name,
+            Time = x.Time
+        });
+    }
+
+    public async Task<IActionResult> EditModal(int id)
+    {
+        var license = await _licenses.GetByIdAsync(id);
+        return PartialView("_EditModal", license);
+    }
+
+    public async Task<IActionResult> DeleteModal(int id)
+    {
+        var license = await _licenses.GetByIdAsync(id);
+        return PartialView("_DeleteModal", license);
     }
 }

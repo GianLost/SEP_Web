@@ -25,41 +25,41 @@ function initializeDataTable(tableId, ajaxUrl, columns, hasActions = false, cust
     }
 
     $(tableId).DataTable({
-        "ordering": true,
-        "paging": true,
-        "searching": false,
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": ajaxUrl,
-            "type": "POST",
-            "dataSrc": function (json) {
-                console.log(json); // Verifique o conteúdo retornado
+        ordering: true,
+        paging: true,
+        searching: true,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: ajaxUrl,
+            type: "POST",
+            dataSrc: function (json) {
+                console.log("Dados retornados pelo servidor:", json);
                 return json.data; // Certifique-se de que 'data' é a propriedade correta
             }
         },
-        "columns": finalColumns,
-        "language": {
-            "emptyTable": "Nenhum registro encontrado na tabela",
-            "info": "Mostrar _START_ até _END_ de _TOTAL_ registros",
-            "infoEmpty": "Mostrar 0 até 0 de 0 Registros",
-            "infoFiltered": "(Filtrar de um total de _MAX_ registros)",
-            "infoPostFix": "",
-            "infoThousands": ".",
-            "lengthMenu": "Mostrar _MENU_ registros por página",
-            "loadingRecords": "Carregando...",
-            "processing": "Carregando...",
-            "zeroRecords": "Nenhum registro encontrado",
-            "search": "Pesquisar",
-            "paginate": {
-                "next": "Proximo",
-                "previous": "Anterior",
-                "first": "Primeiro",
-                "last": "Ultimo"
+        columns: finalColumns,
+        language: {
+            emptyTable: "Nenhum registro encontrado na tabela",
+            info: "Mostrar _START_ até _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrar 0 até 0 de 0 Registros",
+            infoFiltered: "(Filtrar de um total de _MAX_ registros)",
+            infoPostFix: "",
+            infoThousands: ".",
+            lengthMenu: "Mostrar _MENU_ registros por página",
+            loadingRecords: "Carregando...",
+            processing: "Carregando...",
+            zeroRecords: "Nenhum registro encontrado",
+            search: "Pesquisar",
+            paginate: {
+                next: "Proximo",
+                previous: "Anterior",
+                first: "Primeiro",
+                last: "Ultimo"
             },
-            "aria": {
-                "sortAscending": ": Ordenar colunas de forma ascendente",
-                "sortDescending": ": Ordenar colunas de forma descendente"
+            aria: {
+                sortAscending: ": Ordenar colunas de forma ascendente",
+                sortDescending: ": Ordenar colunas de forma descendente"
             }
         }
     });
@@ -79,27 +79,57 @@ function renderAdministratorButtons(row) {
 
 // Função de renderização personalizada para os botões da tabela de avaliadores
 function renderEvaluatorButtons(row) {
-    return `
+    let buttons = `
         <a title="Editar avaliador ..." role="button" href="/UserEvaluator/Edit/${row.id}" class="btn btn-sm btn-outline-primary" data-id="${row.id}">
             <i title="Editar avaliador ..." class="bi bi-person-vcard"></i>
         </a>
-        <button title="Excluir avaliador ..." type="button" data-bs-toggle="modal" asp-route-id="${row.id}" class="btn btn-sm btn-outline-danger delete-item" data-id="${row.id}">
-            <i title="Excluir avaliador ..." class="bi bi-person-dash"></i>
-        </button>
     `;
+
+    // Verificação com base no tipo de usuário logado (currentUserType)
+    if (currentUserType === '1') {
+        // Verifica se o usuário logado é Admin (ajuste o valor 1 conforme seu enum)
+
+        buttons += `
+            <button title="Excluir avaliador ..." type="button" data-bs-toggle="modal" data-id="${row.id}" class="btn btn-sm btn-outline-danger delete-item">
+                <i title="Excluir avaliador ..." class="bi bi-person-dash"></i>
+            </button>
+        `;
+    }
+
+    return buttons;
 }
 
 // Função de renderização personalizada para os botões da tabela de avaliadores
 function renderServantButtons(row) {
-    return `
+
+    let buttons = `
         <a title="Editar servidor ..." role="button" href="/CivilServant/Edit/${row.id}" class="btn btn-sm btn-outline-primary" data-id="${row.id}">
             <i title="Editar servidor ..." class="bi bi-person-vcard"></i>
         </a>
-        <a title="Boletim ..." role="button" target="_blank" href="/Reports/PrintAssessmentsToPDF/${row.id}" class="btn btn-sm btn-outline-secondary"><i title="Boletim ..." class="bi bi bi-printer-fill"></i>
+        <a title="Boletim ..." role="button" target="_blank" href="/Reports/PrintAssessmentsToPDF/${row.id}" class="btn btn-sm btn-outline-secondary">
+            <i title="Boletim ..." class="bi bi bi-printer-fill"></i>
         </a>
-        <button title="Excluir servidor ..." type="button" data-bs-toggle="modal" asp-route-id="${row.id}" class="btn btn-sm btn-outline-danger delete-item" data-id="${row.id}">
-            <i title="Excluir servidor ..." class="bi bi-person-dash"></i>
-        </button>
+    `;
+
+    // Verificação com base no tipo de usuário logado (currentUserType)
+    if (currentUserType === '1') {
+        // Verifica se o usuário logado é Admin (ajuste o valor 1 conforme seu enum)
+
+        buttons += `
+            <button title="Excluir servidor ..." type="button" data-bs-toggle="modal" asp-route-id="${row.id}" class="btn btn-sm btn-outline-danger delete-item" data-id="${row.id}">
+                <i title="Excluir servidor ..." class="bi bi-person-dash"></i>
+            </button>
+        `;
+    }
+
+    return buttons;
+}
+
+// Função de renderização personalizada para os botões da tabela de avaliadores
+function renderLicenseButtons(row) {
+    return `
+        <button type="button" title="Editar" class="btn btn-sm btn-outline-primary edit-item" data-id="${row.id}"><i title="Editar licença ..." class="bi bi-file-earmark-medical"></i></button>
+        <button type="button" title="Excluir" class="btn btn-sm btn-outline-danger delete-item" data-id="${row.id}"><i title="Excluir licença ..." class="bi bi-trash"></i></button>
     `;
 }
 
@@ -134,7 +164,7 @@ initializeDataTable("#sector-table", '/Sector/Index', [
 
 // Atualize a definição de colunas para incluir a função de renderização
 initializeDataTable("#administrator-table", '/UserAdministrator/Index', [
-    { data: "userStats", name: "UserStats", render: renderUserStats },
+    { data: "userStats", name: "UserStats", render: renderUserStats, searchable: false },
     { data: "masp", name: "Masp" },
     { data: "name", name: "Name" },
     { data: "login", name: "Login" },
@@ -142,9 +172,8 @@ initializeDataTable("#administrator-table", '/UserAdministrator/Index', [
     { data: "phone", name: "Phone" }
 ], true, renderAdministratorButtons);
 
-// Atualize a definição de colunas para incluir a função de renderização
 initializeDataTable("#eval-table", '/UserEvaluator/Index', [
-    { data: "userStats", name: "UserStats", render: renderUserStats },
+    { data: "userStatsDescription", name: "UserStats", render: renderUserStats, searchable: false },
     { data: "masp", name: "Masp" },
     { data: "name", name: "Name" },
     { data: "login", name: "Login" },
@@ -154,10 +183,15 @@ initializeDataTable("#eval-table", '/UserEvaluator/Index', [
 
 // Atualize a definição de colunas para incluir a função de renderização
 initializeDataTable("#servant-table", '/CivilServant/Index', [
-    { data: "userStats", name: "UserStats", render: renderUserStats },
+    { data: "userStatsDescription", name: "UserStats", render: renderUserStats, searchable: false },
     { data: "masp", name: "Masp" },
     { data: "name", name: "Name" },
     { data: "login", name: "Login" },
     { data: "email", name: "Email" },
     { data: "phone", name: "Phone" }
 ], true, renderServantButtons);
+
+// Atualize a definição de colunas para incluir a função de renderização LICENÇAS
+initializeDataTable("#license-table", '/License/Index', [
+    { data: "name", name: "Name" }
+], true, renderLicenseButtons);

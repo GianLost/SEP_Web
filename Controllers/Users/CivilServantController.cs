@@ -37,39 +37,86 @@ public class CivilServantController : Controller
     }
 
     public IActionResult Index() => View();
-    
+
     [HttpPost]
-    public async Task<IActionResult> Index(DataTableRequest request)
+    public IActionResult Index(DataTableRequest request)
     {
         try
         {
-            // Obter IQueryable<CivilServant> do serviço
+            // Obter IQueryable<UserAdministrator> do serviço
             var query = _civilServantServices.ServantsAsQueryable();
 
-            // Converter IQueryable<CivilServant> para IQueryable<UsersViewModel>
-            var servantViewModelQuery = ConvertToViewModel(query);
+            // Converter IQueryable<UserAdministrator> para IQueryable<UsersViewModel>
+            var viewModels = ConvertToViewModel(query);
 
-            // Aplicar filtros de pesquisa, se houver
-            if (!string.IsNullOrEmpty(request.Search?.Value))
+            ICollection<UserEvaluator> evaluators = new List<UserEvaluator>();
+
+            // Aplicando a ordenação
+            if (request.Order != null && request.Order.Any())
             {
-                var searchValue = request.Search.Value.ToLower();
-                servantViewModelQuery = servantViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+                var columnIndex = request.Order[0].Column; // Índice da coluna que está sendo ordenada
+                var sortDirection = request.Order[0].Dir; // Direção da ordenação: "asc" ou "desc"
+
+                switch (columnIndex)
+                {
+                    case 0:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Masp).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Masp).AsQueryable();
+                        break;
+                    case 1:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.UserStats).AsQueryable()  // Ajustar para a coluna correta
+                            : viewModels.OrderByDescending(u => u.UserStats).AsQueryable();
+                        break;
+                    case 2:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Name).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Name).AsQueryable();
+                        break;
+                    case 3:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Login).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Login).AsQueryable();
+                        break;
+                    case 4:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Email).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Email).AsQueryable();
+                        break;
+                    case 5:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Phone).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Phone).AsQueryable();
+                        break;
+                    default:
+                        break;
+                }
             }
 
-            // Obter dados paginados, filtrados e ordenados
-            var response = await _dataTableService.GetPaginatedResponseAsync(
-                servantViewModelQuery,
-                request
-            );
-
-            // Retornar os dados no formato JSON esperado pelo DataTables
-            return Json(new
+            // Filtragem para busca via search
+            if (!string.IsNullOrEmpty(request.Search.Value))
             {
-                draw = response.Draw,
-                recordsTotal = response.RecordsTotal,
-                recordsFiltered = response.RecordsFiltered,
-                data = response.Data
-            });
+                string searchValue = request.Search.Value.ToLower();
+                viewModels = viewModels.Where(vm =>
+                    vm.Name.ToLower().Contains(searchValue) ||
+                    vm.Login.ToLower().Contains(searchValue) ||
+                    vm.Email.ToLower().Contains(searchValue) ||
+                    vm.Phone.ToLower().Contains(searchValue)
+                ).AsQueryable();
+            }
+
+            // Filtragem, paginação e ordenação pelo DataTables
+            var filteredData = viewModels.Skip(request.Start).Take(request.Length).ToList();
+            var response = new
+            {
+                draw = request.Draw,
+                recordsTotal = viewModels.Count(),
+                recordsFiltered = viewModels.Count(),
+                data = filteredData
+            };
+
+            return Json(response);
         }
         catch (MySqlException ex)
         {

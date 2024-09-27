@@ -5,6 +5,7 @@ using SEP_Web.Database;
 using SEP_Web.Helper.Messages;
 using SEP_Web.Models.LicensesModels;
 using SEP_Web.Interfaces.LicensesInterfaces;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services.LicensesRepository;
 
@@ -104,6 +105,27 @@ public class LicenseServices : ILicenseServices
     public Licenses SearchForId(int id)
     {
         return _database.Licenses.FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<LicenseViewModel> GetByIdAsync(int id)
+    {
+        var license = await _database.Licenses
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Licença com ID {id} não encontrada.");
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new LicenseViewModel
+        {
+            Id = license.Id,
+            Name = license.Name,
+            Time = license.Time
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<Licenses> LicensesAsQueryable()
+    {
+        return _database.Licenses.AsQueryable();
     }
 
 }

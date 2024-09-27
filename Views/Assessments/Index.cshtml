@@ -16,19 +16,16 @@
 }
 
 <div id="assess-container">
-
     <div class="container-fluid w-100 assess-pop-up mb-3 mt-3">
         @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
-
     <div class="card">
         <div class="card-header bg-primary text-light">
             <span class="fw-bold">Avaliações :</span>
         </div>
-
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-sm table-bordered table-light table-style assessments-table p-0">
+                <table id="assessment-table" class="table table-sm table-bordered table-light assessments-table p-0">
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
                             <th scope="col">Status</th>
@@ -41,39 +38,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var assessment in Model)
-                        {
-                            <tr class="@assessment.RowColor">
-                                <td scope="row">
-                                    <span title="@assessment.StatusTitle"
-                                        class="material-symbols-outlined @assessment.StatusClass fs-5 m-1 p-1">
-                                        <p hidden>@assessment.StatusIcon</p> radio_button_checked
-                                    </span>
-                                </td>
-                                <td scope="row">@assessment.Phase</td>
-                                <td scope="row">@assessment.Masp</td>
-                                <td scope="row">@assessment.ServantName</td>
-                                <td scope="row">@assessment.StartDate</td>
-                                <td scope="row">@assessment.EndDate</td>
-                                <td scope="row">
-                                    @if (assessment.CanAssess)
-                                    {
-                                        <a title="Avaliar ..." role="button" asp-action="ToAssess" asp-controller="Assessments"
-                                            asp-route-id="@assessment.AssessmentId" class="btn btn-sm btn-outline-primary">
-                                            <i title="Avaliar ..." class="bi bi-journal-check"></i>
-                                        </a>
-                                    }
-                                    else
-                                    {
-                                        <button title="Etapa concluída ..." role="button" asp-action="ToAssess"
-                                            asp-controller="Assessments" asp-route-id="@assessment.AssessmentId"
-                                            class="btn btn-sm btn-outline-secondary">
-                                            <i title="Etapa concluída ..." class="bi bi-journal-check"></i>
-                                        </button>
-                                    }
-                                </td>
-                            </tr>
-                        }
+                        
                     </tbody>
                 </table>
             </div>

@@ -7,21 +7,16 @@
 }
 
 <div>
-
     <div class="container-fluid justify-content-start w-100 pop-up">
         <a title="Cadastrar nova licença ..." type="button" data-bs-toggle="modal" data-bs-target="#license-register" class="btn btn-primary d-flex justify-content-evenly btn-md"><i title="Cadastrar nova licença ..." class="bi bi-stickies-fill"></i> Nova</a>
         @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
     </div>
 
     @* Modal de Registro *@
-
     <div class="modal fade" id="license-register" tabindex="-1" role="dialog"
         aria-labelledby="license-registerTitle" aria-hidden="true">
-
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
             <div class="modal-content">
-
                 <div class="modal-header bg-primary text-light p-3">
                     <h3 class="modal-title fs-4 text-center">Adicionar licença</h3>
                     <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="License"></a>
@@ -29,117 +24,30 @@
                 <div class="modal-body p-1">
                     @await Html.PartialAsync("_Register.cshtml", new Licenses())
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
     @* Fim do Modal de Registro *@
 
     <div class="card">
-
         <div class="card-header bg-primary text-light">
             <span class="fw-bold">@ViewData["Title"] :</span>
         </div>
-
         <div class="card-body">
-
             <div class="table-responsive">
-
                 <table id="license-table" class="table table-sm table-bordered table-striped table-light table-style table-duo p-0">
-
                     <thead class="table-light bg-danger border-light text-primary">
                         <tr>
                             <th scope="col">Descrição</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
-
                     <tbody>
-
-                        @foreach (Licenses license in Model)
-                        {
-                            <tr class="table-light border-light">
-
-                                <td scope="row">@license.Name.ToUpper()</td>
-
-                                <td scope="row">
-
-                                    <button type="button" title="Editar licença ..." data-bs-toggle="modal"
-                                        data-bs-target="#edit-licenseModal@(license.Id)"
-                                        class="btn btn-sm btn-outline-primary"><i title="Editar licença ..."
-                                            class="bi bi-file-earmark-medical"></i></button>
-
-                                    <button type="button" title="Excluir licença ..." data-bs-toggle="modal"
-                                        asp-route-id="@license.Id"
-                                        data-bs-target="#deleteLicense@(license.Id)"
-                                        class="btn btn-sm btn-outline-danger"><i title="Excluir licença ..."
-                                            class="bi bi-trash"></i></button>
-
-                                </td>
-
-                            </tr>
-
-                            @* Modal de Edição *@
-
-                            <div class="modal fade" id="edit-licenseModal@(license.Id)" tabindex="-1"
-                                role="dialog" aria-labelledby="edit-licenseModal@(license.Id)" aria-hidden="true">
-
-                                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-primary p-3">
-                                            <h3 class="modal-title text-light fs-4 text-center">Editar licença</h3>
-                                            <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="License"></a>
-                                        </div>
-                                        <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Edit.cshtml", license)
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                           @* Fim do Modal de Edição *@
-
-
-                            @* Modal de Exclusão *@
-
-                            <div class="modal fade" id="deleteLicense@(license.Id)" tabindex="-1" role="dialog"
-                                aria-labelledby="deleteLicense@(license.Id)" aria-hidden="true">
-
-                                <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-danger p-3">
-                                            <h3 class="modal-title text-light fs-4 text-center">Alerta</h3>
-                                            <a type="button" class="btn-close bg-light" asp-action="Index"
-                                                asp-controller="License"></a>
-                                        </div>
-                                        <div class="modal-body p-1">
-                                            @await Html.PartialAsync("_Delete.cshtml", license)
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                           @* Fim do Modal de Exclusão *@
-                        }
-
+                        @* A tabela será preenchida pelo DataTables via AJAX *@
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
-
+    <div id="dynamic-modal"></div> @* Contêiner para injetar modais dinâmicos *@
 </div>
