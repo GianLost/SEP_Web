@@ -9,7 +9,6 @@ using SEP_Web.Helper.Messages;
 using System.Reflection;
 using SEP_Web.ViewModels;
 using SEP_Web.Models.DataTableModels;
-using SEP_Web.Interfaces.DataTableInterfaces;
 
 namespace SEP_Web.Controllers.StructuresController;
 
@@ -18,21 +17,19 @@ public class InstituitionController : Controller
 {
     private readonly ILogger<InstituitionController> _logger;
     private readonly IInstituitionServices _instituitionServices;
-    private readonly IDataTableService _dataTableService;
     private readonly IUserSession _session;
 
-    public InstituitionController(ILogger<InstituitionController> logger, IInstituitionServices instituitionServices, IDataTableService dataTableService, IUserSession session)
+    public InstituitionController(ILogger<InstituitionController> logger, IInstituitionServices instituitionServices, IUserSession session)
     {
         _logger = logger;
         _instituitionServices = instituitionServices;
-        _dataTableService = dataTableService;
         _session = session;
     }
 
     public IActionResult Index() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Index(DataTableRequest request)
+    public IActionResult Index(DataTableRequest request)
     {
         try
         {
@@ -40,29 +37,44 @@ public class InstituitionController : Controller
             var query = _instituitionServices.InstituitionsAsQueryable();
 
             // Converter IQueryable<Instituition> para IQueryable<InstituitionViewModel>
-            var instituitionViewModelQuery = ConvertToViewModel(query);
+            var viewModels = ConvertToViewModel(query);
+
+            // Aplicando a ordenação
+            if (request.Order != null && request.Order.Any())
+            {
+                var columnIndex = request.Order[0].Column; // Índice da coluna que está sendo ordenada
+                var sortDirection = request.Order[0].Dir; // Direção da ordenação: "asc" ou "desc"
+
+                switch (columnIndex)
+                {
+                    case 0:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Name).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Name).AsQueryable();
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             // Aplicar filtros de pesquisa, se houver
             if (!string.IsNullOrEmpty(request.Search?.Value))
             {
                 var searchValue = request.Search.Value.ToLower();
-                instituitionViewModelQuery = instituitionViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+                viewModels = viewModels.Where(s => s.Name.ToLower().Contains(searchValue));
             }
 
-            // Obter dados paginados, filtrados e ordenados
-            var response = await _dataTableService.GetPaginatedResponseAsync(
-                instituitionViewModelQuery,
-                request
-            );
-
-            // Retornar os dados no formato JSON esperado pelo DataTables
-            return Json(new
+            // Filtragem, paginação e ordenação pelo DataTables
+            var filteredData = viewModels.Skip(request.Start).Take(request.Length).ToList();
+            var response = new
             {
-                draw = response.Draw,
-                recordsTotal = response.RecordsTotal,
-                recordsFiltered = response.RecordsFiltered,
-                data = response.Data
-            });
+                draw = request.Draw,
+                recordsTotal = viewModels.Count(),
+                recordsFiltered = viewModels.Count(),
+                data = filteredData
+            };
+
+            return Json(response);
         }
         catch (MySqlException dbException)
         {

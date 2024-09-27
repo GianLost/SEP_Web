@@ -9,7 +9,6 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Keys;
 using SEP_Web.Helper.Authentication;
 using SEP_Web.ViewModels;
-using SEP_Web.Interfaces.DataTableInterfaces;
 using SEP_Web.Models.DataTableModels;
 
 namespace SEP_Web.Controllers.UsersControllers;
@@ -19,15 +18,13 @@ public class UserEvaluatorController : Controller
 {
     private readonly ILogger<UserEvaluatorController> _logger;
     private readonly IUserEvaluatorServices _evaluatorServices;
-    private readonly IDataTableService _dataTableService;
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
 
-    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IDataTableService dataTableService, IUsersValidation validation, IUserSession session)
+    public UserEvaluatorController(ILogger<UserEvaluatorController> logger, IUserEvaluatorServices evaluatorServices, IUsersValidation validation, IUserSession session)
     {
         _logger = logger;
         _evaluatorServices = evaluatorServices;
-        _dataTableService = dataTableService;
         _validation = validation;
         _session = session;
     }
@@ -44,8 +41,6 @@ public class UserEvaluatorController : Controller
 
             // Converter IQueryable<UserAdministrator> para IQueryable<UsersViewModel>
             var viewModels = ConvertToViewModel(query);
-
-            ICollection<UserEvaluator> evaluators = new List<UserEvaluator>();
 
             // Aplicando a ordenação
             if (request.Order != null && request.Order.Any())

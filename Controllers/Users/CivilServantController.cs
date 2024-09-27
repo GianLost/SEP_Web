@@ -12,7 +12,6 @@ using SEP_Web.Interfaces.UsersInterfaces;
 using SEP_Web.Interfaces.AssessmentsInterfaces;
 using SEP_Web.ViewModels;
 using SEP_Web.Models.DataTableModels;
-using SEP_Web.Interfaces.DataTableInterfaces;
 
 namespace SEP_Web.Controllers.UsersControllers;
 
@@ -23,16 +22,14 @@ public class CivilServantController : Controller
     private readonly IUsersValidation _validation;
     private readonly IUserSession _session;
     private readonly ICivilServantServices _civilServantServices;
-    private readonly IDataTableService _dataTableService;
     private readonly IAssessmentServices _assessmentServices;
 
-    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices, IDataTableService dataTableService, IAssessmentServices assessmentServices)
+    public CivilServantController(ILogger<CivilServantController> logger, IUserSession session, IUsersValidation validation, ICivilServantServices civilServantServices, IAssessmentServices assessmentServices)
     {
         _logger = logger;
         _validation = validation;
         _session = session;
         _civilServantServices = civilServantServices;
-        _dataTableService = dataTableService;
         _assessmentServices = assessmentServices;
     }
 
@@ -48,8 +45,6 @@ public class CivilServantController : Controller
 
             // Converter IQueryable<UserAdministrator> para IQueryable<UsersViewModel>
             var viewModels = ConvertToViewModel(query);
-
-            ICollection<UserEvaluator> evaluators = new List<UserEvaluator>();
 
             // Aplicando a ordenação
             if (request.Order != null && request.Order.Any())
