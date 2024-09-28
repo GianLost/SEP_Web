@@ -5,7 +5,7 @@
 .users-table tr > td:first-child {
   width: 8%;
   white-space: nowrap;
-  text-align: left;
+  text-align: center;
 }
 
 .users-table tr > td:nth-child(7),

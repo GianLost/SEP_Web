@@ -1,33 +1,37 @@
 $(document).ready(function () {
     $('#assessment-table').DataTable({
-        ordering: true,          // Habilitar a ordenação
-        paging: true,            // Habilitar a paginação
-        searching: true,        // Desabilitar a pesquisa (habilite se necessário)
-        processing: true,        // Exibir mensagem de processamento enquanto os dados são carregados
-        serverSide: true,        // Habilitar o modo server-side
+        ordering: true,  
+        paging: true,    
+        searching: true, 
+        processing: true,
+        serverSide: true,
         ajax: {
-            url: '/Assessments/Index',  // URL da ação no servidor que processa a requisição
-            type: 'POST',               // Tipo de requisição (POST no seu caso)
-            dataType: 'json',           // O formato dos dados esperados
-            data: function (d) {        // Adicionar dados extras à requisição, se necessário
-                return $.extend({}, d, {
-                    // Adicione outros parâmetros aqui se precisar enviar mais dados ao servidor
-                });
+            url: '/Assessments/Index',
+            type: 'POST',             
+            dataType: 'json',         
+            dataSrc: function (json) {
+                //console.log("Dados retornados pelo servidor:", json);
+                return json.data;
             },
             error: function (xhr, error, thrown) {
-                console.error('Erro ao carregar dados:', xhr.responseText);  // Exibir erro, caso ocorra
+                //console.error('Erro ao carregar dados:', xhr.responseText);  // Exibir erro, caso ocorra
             }
         },
         columns: [
-            { data: "statusTitle", render: renderAssessmentStatus },  // Coluna customizada para o status
-            { data: "phase" },                                        // Coluna da etapa
-            { data: "masp" },                                         // Coluna do MASP
-            { data: "servantName" },                                  // Coluna do nome do servidor
-            { data: "startDate" },                                    // Coluna da data de início da etapa
-            { data: "endDate" },                                      // Coluna da data de avaliação
-            { data: "canAssess", render: renderAssessmentButtonActions } // Coluna de botões de ações
+            { data: "statusTitle", render: renderAssessmentStatus },
+            { data: "phase" },                                      
+            { data: "masp" },                                       
+            { data: "servantName" },                                
+            { data: "startDate" },                                  
+            { data: "endDate" },                                    
+            {
+                data: "canAssess",
+                render: renderAssessmentButtonActions,
+                orderable: false,
+                className: 'dt-center'
+            }
         ],
-        language: {  // Tradução das mensagens de DataTables
+        language: {
             emptyTable: "Nenhum registro encontrado na tabela",
             info: "Mostrar _START_ até _END_ de _TOTAL_ registros",
             infoEmpty: "Mostrar 0 até 0 de 0 Registros",
@@ -44,12 +48,11 @@ $(document).ready(function () {
                 last: "Último"
             }
         },
-        aria: {  // Acessibilidade
+        aria: {
             sortAscending: ": Ordenar colunas de forma ascendente",
             sortDescending: ": Ordenar colunas de forma descendente"
         },
         rowCallback: function (row, data) {
-            // Aplica uma classe CSS customizada na linha com base no RowColor da resposta
             $(row).addClass(data.rowColor);
         }
     });
@@ -57,7 +60,7 @@ $(document).ready(function () {
 
 // Função para renderizar o status com ícone e estilo
 function renderAssessmentStatus(data, type, row) {
-    return `<span title="${row.statusTitle}" class="material-symbols-outlined ${row.statusClass} fs-5 m-1 p-1">
+    return `<span value"${row.statusTitle}" title="${row.statusTitle}" class="material-symbols-outlined ${row.statusClass} fs-5 m-1 p-1">
                 radio_button_checked
             </span>`;
 }

@@ -1,0 +1,20 @@
+@model ServantLicenseViewModel
+
+@using SEP_Web.ViewModels
+
+@* Modal de Exclusão *@
+<div class="modal fade" id="deleteServantLicense@(Model.Id)" tabindex="-1" role="dialog"
+    aria-labelledby="deleteServantLicenseLabel@(Model.Id)" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-danger p-3">
+                <h3 class="modal-title text-light fs-4 text-center">Alerta</h3>
+                <a type="button" class="btn-close bg-light" asp-action="Index" asp-controller="ServantLicense"></a>
+            </div>
+            <div class="modal-body p-1">
+                @await Html.PartialAsync("_Delete.cshtml", Model)
+            </div>
+        </div>
+    </div>
+</div>
+@* Fim do Modal de Exclusão *@

@@ -31,7 +31,8 @@
             </div>
 
             <label class="form-label" for="edit-sector-name" hidden>Nome do setor: </label>
-            <input type="text" placeholder="Informe a descrição do setor :" class="form-control" id="edit-sector-name" asp-for="Name" autocomplete="disabled"/>
+            <input type="text" placeholder="Informe a descrição do setor :" class="form-control" id="edit-sector-name"
+                asp-for="Name" autocomplete="disabled" />
             <div class="validate-fields">
                 <span class="field-validation-error"></span>
             </div>
@@ -40,8 +41,10 @@
 
         <div class="d-flex justify-content-start modal-footer p-2">
 
-            <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
-            <a asp-controller="Sector" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
+            <button type="submit" class="btn btn-sm btn-primary" title="Cadastrar ..."><i
+                    class="bi bi-check-circle-fill" title="Cadastrar ..."></i></button>
+            <a asp-controller="Sector" asp-action="Index" class="btn btn-sm btn-danger" title="Cancelar ..."><i
+                    class="bi bi-x-circle-fill" title="Cancelar ..."></i></a>
 
         </div>
 

@@ -7,6 +7,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using SEP_Web.Interfaces.LicensesInterfaces;
+using SEP_Web.ViewModels;
 
 namespace SEP_Web.Services.LicensesRepository;
 
@@ -26,7 +27,7 @@ public class ServantLicenseServices : IServantLicenseServices
         servantLicense.RegisterDate = DateTime.Now;
 
         CivilServant user = _database.Servants.Find(servantLicense.CivilServantId);
-        
+
         if (user != null)
         {
             user.UserStats = UserStatsEnum.UnderLicense;
@@ -41,7 +42,7 @@ public class ServantLicenseServices : IServantLicenseServices
 
     public async Task<ICollection<ServantLicense>> ServantLicenseList()
     {
-       try
+        try
         {
             ICollection<ServantLicense> servantLicenses = await _database.ServantLicense.ToListAsync();
 
@@ -98,7 +99,7 @@ public class ServantLicenseServices : IServantLicenseServices
 
     public void DeleteServantLicenses(int id)
     {
-       ServantLicense deleteServantLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão da licença do servidor");
+        ServantLicense deleteServantLicense = SearchForId(id) ?? throw new Exception("Houve um erro na exclusão da licença do servidor");
 
         // Atualizar o status do usuário para Active
         var user = _database.Servants.FirstOrDefault(u => u.Id == deleteServantLicense.CivilServantId);
@@ -114,6 +115,33 @@ public class ServantLicenseServices : IServantLicenseServices
 
     public ServantLicense SearchForId(int id)
     {
-       return _database.ServantLicense.FirstOrDefault(x => x.Id == id);
+        return _database.ServantLicense.FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task<ServantLicenseViewModel> GetByIdAsync(int id)
+    {
+        var servantLicense = await _database.ServantLicense
+            .Include(s => s.CivilServant).Include(z => z.License)  // Inclua quaisquer outras propriedades de navegação necessárias
+            .FirstOrDefaultAsync(s => s.Id == id) ?? throw new KeyNotFoundException($"Licença para servidor com ID {id} não encontrada.");
+
+        // Mapeie a entidade para a ViewModel
+        var viewModel = new ServantLicenseViewModel
+        {
+            Id = servantLicense.Id,
+            Masp = servantLicense.CivilServant.Masp,
+            Name = servantLicense.CivilServant.Name,
+            CivilServant = servantLicense.CivilServant,
+            License = servantLicense.License,
+            LicenseName = servantLicense.License.Name,
+            StartDate = servantLicense.StartDate.HasValue ? servantLicense.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty, // Alterado para o formato correto
+            EndDate = servantLicense.EndDate.HasValue ? servantLicense.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty
+        };
+
+        return viewModel;
+    }
+
+    public IQueryable<ServantLicense> ServantLicensesAsQueryable()
+    {
+        return _database.ServantLicense.Include(x => x.CivilServant).Include(z => z.License);
     }
 }

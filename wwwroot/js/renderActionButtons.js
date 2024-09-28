@@ -44,6 +44,7 @@ setupTableActions('#division-table', '/Division/EditModal', '/Division/DeleteMod
 setupTableActions('#section-table', '/Section/EditModal', '/Section/DeleteModal', 'edit-sectionModal', 'deleteSection');
 setupTableActions('#sector-table', '/Sector/EditModal', '/Sector/DeleteModal', 'edit-sectorModal', 'deleteSector');
 setupTableActions('#license-table', '/License/EditModal', '/License/DeleteModal', 'edit-licenseModal', 'deleteLicense');
+setupTableActions('#servantLicense-table', '/ServantLicense/EditModal', '/ServantLicense/DeleteModal', 'edit-servantLicenseModal', 'deleteServantLicense');
 
 // Configurar ações para as tabelas de usuários (apenas exclusão)
 setupTableActions('#administrator-table', null, '/UserAdministrator/DeleteModal', null, 'deleteAdministrator', false, true);

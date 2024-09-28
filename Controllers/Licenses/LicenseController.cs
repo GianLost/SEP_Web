@@ -7,7 +7,6 @@ using SEP_Web.Helper.Messages;
 using SEP_Web.Models.LicensesModels;
 using SEP_Web.Models.UsersModels;
 using SEP_Web.Interfaces.LicensesInterfaces;
-using SEP_Web.Interfaces.DataTableInterfaces;
 using SEP_Web.Models.DataTableModels;
 using SEP_Web.ViewModels;
 using SEP_Web.Database;
@@ -20,22 +19,20 @@ public class LicenseController : Controller
     private readonly ILogger<LicenseController> _logger;
     private readonly IUserSession _session;
     private readonly SEP_WebContext _database;
-    private readonly IDataTableService _dataTableService;
     private readonly ILicenseServices _licenses;
 
-    public LicenseController(ILogger<LicenseController> logger, IUserSession session, SEP_WebContext database, IDataTableService dataTableService, ILicenseServices licenses)
+    public LicenseController(ILogger<LicenseController> logger, IUserSession session, SEP_WebContext database, ILicenseServices licenses)
     {
         _logger = logger;
         _session = session;
         _database = database;
-        _dataTableService = dataTableService;
         _licenses = licenses;
     }
 
     public IActionResult Index() => View();
 
     [HttpPost]
-    public async Task<IActionResult> Index(DataTableRequest request)
+    public IActionResult Index(DataTableRequest request)
     {
         try
         {
@@ -43,29 +40,44 @@ public class LicenseController : Controller
             var query = _licenses.LicensesAsQueryable();
 
             // Converter IQueryable<Sector> para IQueryable<LicenseViewModel>
-            var licenseViewModelQuery = ConvertToViewModel(query);
+            var viewModels = ConvertToViewModel(query);
+
+            // Aplicando a ordenação
+            if (request.Order != null && request.Order.Any())
+            {
+                var columnIndex = request.Order[0].Column; // Índice da coluna que está sendo ordenada
+                var sortDirection = request.Order[0].Dir; // Direção da ordenação: "asc" ou "desc"
+
+                switch (columnIndex)
+                {
+                    case 0:
+                        viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Name).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Name).AsQueryable();
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             // Aplicar filtros de pesquisa, se houver
             if (!string.IsNullOrEmpty(request.Search?.Value))
             {
                 var searchValue = request.Search.Value.ToLower();
-                licenseViewModelQuery = licenseViewModelQuery.Where(s => s.Name.ToLower().Contains(searchValue));
+                viewModels = viewModels.Where(s => s.Name.ToLower().Contains(searchValue));
             }
 
-            // Obter dados paginados, filtrados e ordenados
-            var response = await _dataTableService.GetPaginatedResponseAsync(
-                licenseViewModelQuery,
-                request
-            );
-
-            // Retornar os dados no formato JSON esperado pelo DataTables
-            return Json(new
+            // Filtragem, paginação e ordenação pelo DataTables
+            var filteredData = viewModels.Skip(request.Start).Take(request.Length).ToList();
+            var response = new
             {
-                draw = response.Draw,
-                recordsTotal = response.RecordsTotal,
-                recordsFiltered = response.RecordsFiltered,
-                data = response.Data
-            });
+                draw = request.Draw,
+                recordsTotal = viewModels.Count(),
+                recordsFiltered = viewModels.Count(),
+                data = filteredData
+            };
+
+            return Json(response);
         }
         catch (MySqlException dbException)
         {

@@ -103,8 +103,7 @@ public class AssessmentsController : Controller
             if (!string.IsNullOrEmpty(request.Search.Value))
             {
                 string searchValue = request.Search.Value.ToLower();
-                viewModels = viewModels.Where(vm => 
-                    vm.StatusTitle.ToLower().Contains(searchValue) ||
+                viewModels = viewModels.Where(vm =>
                     vm.Phase.ToString().ToLower().Contains(searchValue) ||
                     vm.Masp.ToLower().Contains(searchValue) ||
                     vm.ServantName.ToLower().Contains(searchValue)

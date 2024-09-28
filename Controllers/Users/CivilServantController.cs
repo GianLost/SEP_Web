@@ -56,13 +56,13 @@ public class CivilServantController : Controller
                 {
                     case 0:
                         viewModels = sortDirection == "asc"
-                            ? viewModels.OrderBy(u => u.Masp).AsQueryable()
-                            : viewModels.OrderByDescending(u => u.Masp).AsQueryable();
-                        break;
-                    case 1:
-                        viewModels = sortDirection == "asc"
                             ? viewModels.OrderBy(u => u.UserStats).AsQueryable()  // Ajustar para a coluna correta
                             : viewModels.OrderByDescending(u => u.UserStats).AsQueryable();
+                        break;
+                    case 1:
+                         viewModels = sortDirection == "asc"
+                            ? viewModels.OrderBy(u => u.Masp).AsQueryable()
+                            : viewModels.OrderByDescending(u => u.Masp).AsQueryable();
                         break;
                     case 2:
                         viewModels = sortDirection == "asc"

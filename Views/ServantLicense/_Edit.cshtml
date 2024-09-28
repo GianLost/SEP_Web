@@ -1,12 +1,11 @@
-@model ServantLicense
+@model ServantLicenseViewModel
 
-@using SEP_Web.Models.LicensesModels
+@using SEP_Web.ViewModels
 @using SEP_Web.Interfaces.LicensesInterfaces
 @using SEP_Web.Interfaces.UsersInterfaces
 
 @inject ICivilServantServices _servantServices
 @inject ILicenseServices _licenseServices
-@inject ICivilServantServices _servantServices
 
 @{
     ViewData["Title"] = "Editar licença do servidor";
@@ -25,7 +24,8 @@
             <div class="row justify-content-between ps-3">
                 <label style="font-size: 0.9em;" class="form-label m-0 p-0"
                     for="license-duration-helper">Duração:</label>
-                <input id="license-duration-helper" class="form-control w-25 edit-license-duration-hidden" type="text" value="@Model.License.Time dias" disabled>
+                <input id="license-duration-helper" class="form-control w-25 edit-license-duration-hidden" type="text"
+                    value="@Model.License.Time dias" disabled>
                 <input name="license-difference" class="form-control w-25 me-3 edit-license-duration" type="hidden"
                     disabled>
             </div>
@@ -65,7 +65,7 @@
             {
                 <div class="form-group">
                     <label style="font-size: 0.9em;" class="form-label" for="edit-licenseType">Tipo da Licença:</label>
-                    <select id="edit-licenseType" class="form-select edit-servantLicense-LicensesId" asp-for="LicensesId">
+                    <select id="edit-licenseType" class="form-select edit-servantLicense-LicensesId" asp-for="License.Id">
                         <option value="" selected>-- selecione a licença --</option>
                         @foreach (var i in await _licenseServices.LicenseList())
                         {
@@ -81,7 +81,7 @@
             {
                 <div class="form-group">
                     <label style="font-size: 0.9em;" class="form-label" for="edit-licenseType">Tipo da Licença:</label>
-                    <select class="form-select edit-servantLicense-LicensesId" id="edit-licenseType" asp-for="LicensesId">
+                    <select class="form-select edit-servantLicense-LicensesId" id="edit-licenseType">
                         <option value="" selected>-- selecione a licença --</option>
                     </select>
                     <div class="validate-fields mb-1">

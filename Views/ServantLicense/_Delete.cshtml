@@ -1,6 +1,6 @@
-@model ServantLicense
+@model ServantLicenseViewModel
 
-@using SEP_Web.Models.LicensesModels
+@using SEP_Web.ViewModels
 
 @{
     ViewData["Title"] = "Excluir licença do servidor";
@@ -14,13 +14,17 @@
         <input type="hidden" asp-for="Id">
 
         <div class="p-2 text-justify">
-            <span>Tem certeza que deseja excluir a licença <b>@Model.License.Name</b>, do servidor(a) <b>@Model.CivilServant.Name</b>? Essa ação excluirá a licença e consequentemente o usuário terá o período de licença interrompido.</span>
+            <span>Tem certeza que deseja excluir a licença <b>@Model.License.Name</b>, do servidor(a)
+                <b>@Model.CivilServant.Name</b>? Essa ação excluirá a licença e consequentemente o usuário terá o
+                período de licença interrompido.</span>
         </div>
 
         <div class="modal-footer d-flex justify-content-start p-2">
-            <button type="submit" class="btn btn-sm btn-danger" name="decision" type="submit" value="delete" title="Excluir - @Model.CivilServant.Login"><i class="bi bi-trash"></i></button>
+            <button type="submit" class="btn btn-sm btn-danger" name="decision" type="submit" value="delete"
+                title="Excluir - @Model.CivilServant.Login"><i class="bi bi-trash"></i></button>
 
-            <a asp-controller="ServantLicense" asp-action="Index" class="btn btn-sm btn-secondary" title="Cancelar"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
+            <a asp-controller="ServantLicense" asp-action="Index" class="btn btn-sm btn-secondary" title="Cancelar"><i
+                    class="bi bi-arrow-return-left" title="Cancelar"></i></a>
         </div>
 
     </form>
