@@ -19,7 +19,7 @@
 
         <div class="form-group p-4">
 
-            <input type="hidden" id="edit-servantLicense-Id" asp-for="Id">
+            <input type="hidden" id="edit-servantLicense-Id" asp-for="@Model.Id">
 
             <div class="row justify-content-between ps-3">
                 <label style="font-size: 0.9em;" class="form-label m-0 p-0"
@@ -65,7 +65,7 @@
             {
                 <div class="form-group">
                     <label style="font-size: 0.9em;" class="form-label" for="edit-licenseType">Tipo da Licença:</label>
-                    <select id="edit-licenseType" class="form-select edit-servantLicense-LicensesId" asp-for="License.Id">
+                    <select id="edit-licenseType" class="form-select edit-servantLicense-LicensesId" asp-for="LicensesId">
                         <option value="" selected>-- selecione a licença --</option>
                         @foreach (var i in await _licenseServices.LicenseList())
                         {

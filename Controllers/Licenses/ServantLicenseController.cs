@@ -267,8 +267,9 @@ public class ServantLicenseController : Controller
             Name = x.CivilServant.Name,
             CivilServant = x.CivilServant,
             License = x.License,
+            LicensesId = x.License.Id,
             LicenseName = x.License.Name,
-            StartDate = x.StartDate.HasValue ? x.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty, // Alterado para o formato correto
+            StartDate = x.StartDate.HasValue ? x.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty,
             EndDate = x.EndDate.HasValue ? x.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty
         });
     }

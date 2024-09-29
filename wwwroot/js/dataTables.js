@@ -65,6 +65,10 @@ function initializeDataTable(tableId, ajaxUrl, columns, hasActions = false, cust
     });
 }
 
+function renderMasp(data, type, row) {
+    return data.toString().padStart(8, '0');
+}
+
 function formatDateToBR(dateString) {
     if (!dateString) return ''; // Retorna vazio se a data for nula
 
@@ -194,7 +198,7 @@ initializeDataTable("#sector-table", '/Sector/Index', [
 // Atualize a definição de colunas para incluir a função de renderização
 initializeDataTable("#administrator-table", '/UserAdministrator/Index', [
     { data: "userStats", name: "UserStats", render: renderUserStats, searchable: false },
-    { data: "masp", name: "Masp" },
+    { data: "masp", name: "Masp", render: renderMasp  },
     { data: "name", name: "Name" },
     { data: "login", name: "Login" },
     { data: "email", name: "Email" },
@@ -203,7 +207,7 @@ initializeDataTable("#administrator-table", '/UserAdministrator/Index', [
 
 initializeDataTable("#eval-table", '/UserEvaluator/Index', [
     { data: "userStats", name: "UserStats", render: renderUserStats, searchable: false },
-    { data: "masp", name: "Masp" },
+    { data: "masp", name: "Masp", render: renderMasp  },
     { data: "name", name: "Name" },
     { data: "login", name: "Login" },
     { data: "email", name: "Email" },
@@ -213,7 +217,7 @@ initializeDataTable("#eval-table", '/UserEvaluator/Index', [
 // Atualize a definição de colunas para incluir a função de renderização
 initializeDataTable("#servant-table", '/CivilServant/Index', [
     { data: "userStats", name: "UserStats", render: renderUserStats, searchable: false },
-    { data: "masp", name: "Masp" },
+    { data: "masp", name: "Masp", render: renderMasp },
     { data: "name", name: "Name" },
     { data: "login", name: "Login" },
     { data: "email", name: "Email" },
@@ -227,7 +231,7 @@ initializeDataTable("#license-table", '/License/Index', [
 
 // Atualize a definição de colunas para incluir a função de renderização SERVIDORES SOB LICENÇA
 initializeDataTable("#servantLicense-table", '/ServantLicense/Index', [
-    { data: "masp", name: "Masp" },
+    { data: "masp", name: "Masp", render: renderMasp  },
     { data: "name", name: "Name" },
     { data: "licenseName", name: "LicenseName" },
     {

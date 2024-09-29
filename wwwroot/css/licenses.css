@@ -4,11 +4,6 @@
   text-align: left;
 }
 
-#license-table tr > td:last-child {
-  width: 2rem;
-  white-space: nowrap;
-}
-
 .servantLicense-table tr, td{
   width: 2rem;
   white-space: nowrap;

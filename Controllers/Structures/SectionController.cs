@@ -97,7 +97,7 @@ public class SectionController : Controller
                 draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectionViewModel>()
             });
         }
         catch (ArgumentNullException ex)
@@ -111,7 +111,7 @@ public class SectionController : Controller
                 draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectionViewModel>()
             });
         }
         catch (TargetParameterCountException ex2)
@@ -125,7 +125,7 @@ public class SectionController : Controller
                 draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectionViewModel>()
             });
         }
         catch (Exception ex)
@@ -134,10 +134,10 @@ public class SectionController : Controller
             _logger.LogError("Erro inesperado: {Message}", ex.Message);
             return new JsonResult(new
             {
-                draw = request.Draw,
+                draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectionViewModel>()
             });
         }
     }

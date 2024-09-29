@@ -51,6 +51,7 @@
   flex-wrap: nowrap;
   font-size: 0.9rem;
   margin-left: 1vh;
+  padding: 0.3rem;
   border-bottom: 0.5vh solid #b5b6b6ad;
 }
 
@@ -59,8 +60,6 @@
 }
 
 #navbarNav li a:hover{
-  background-color: #1b6fc21a;
-  border-radius: 0vh 1.5vh;
   border-bottom-color: #1b6ec2;
   transition: 0.3s ease-in-out;
 }

@@ -95,7 +95,7 @@ public class SectorController : Controller
                 draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectorViewModel>()
             });
         }
         catch (ArgumentNullException ex)
@@ -109,7 +109,7 @@ public class SectorController : Controller
                 draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectorViewModel>()
             });
         }
         catch (TargetParameterCountException ex2)
@@ -123,7 +123,7 @@ public class SectorController : Controller
                 draw = 0,
                 recordsTotal = 0,
                 recordsFiltered = 0,
-                data = new List<InstituitionViewModel>()
+                data = new List<SectorViewModel>()
             });
         }
     }

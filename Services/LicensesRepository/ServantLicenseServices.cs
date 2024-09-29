@@ -132,6 +132,7 @@ public class ServantLicenseServices : IServantLicenseServices
             Name = servantLicense.CivilServant.Name,
             CivilServant = servantLicense.CivilServant,
             License = servantLicense.License,
+            LicensesId = servantLicense.License.Id,
             LicenseName = servantLicense.License.Name,
             StartDate = servantLicense.StartDate.HasValue ? servantLicense.StartDate.Value.ToString("yyyy-MM-dd") : string.Empty, // Alterado para o formato correto
             EndDate = servantLicense.EndDate.HasValue ? servantLicense.EndDate.Value.ToString("yyyy-MM-dd") : string.Empty
