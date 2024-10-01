@@ -1424,8 +1424,8 @@
       <TextObject Name="Text4" Left="9.45" Top="122.85" Width="434.7" Height="28.35" Text="[assessment.CivilServant.Instituition.Name]" VertAlign="Center" Font="Arial, 10pt"/>
       <TextObject Name="Text5" Left="472.5" Top="103.95" Width="122.85" Height="18.9" Text="INÍCIO&#13;&#10;" VertAlign="Bottom" Font="Arial, 9pt, style=Bold"/>
       <TextObject Name="Text6" Left="595.35" Top="103.95" Width="113.4" Height="18.9" Text="TÉRMINO&#13;&#10;" VertAlign="Bottom" Font="Arial, 9pt, style=Bold"/>
-      <TextObject Name="Text7" Left="472.5" Top="122.85" Width="122.85" Height="28.35" Text="[assessment.StartEvaluationPeriod]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt"/>
-      <TextObject Name="Text8" Left="595.35" Top="122.85" Width="113.4" Height="28.35" Text="[assessment.FinishEvaluate]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text7" Left="472.5" Top="122.85" Width="122.85" Height="28.35" Text="[assessment.StartEvaluationPeriod]" Format="Date" Format.Format="dd/MM/yyyy" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt"/>
+      <TextObject Name="Text8" Left="595.35" Top="122.85" Width="113.4" Height="28.35" Text="[assessment.FinishEvaluate]" Format="Date" Format.Format="dd/MM/yyyy" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt"/>
       <TextObject Name="Text9" Left="9.45" Top="151.2" Width="292.95" Height="18.9" Text="NOME DO SERVIDOR" VertAlign="Bottom" Font="Arial, 9pt, style=Bold"/>
       <TextObject Name="Text10" Left="595.35" Top="151.2" Width="113.4" Height="18.9" Text="MASP" VertAlign="Bottom" Font="Arial, 9pt, style=Bold"/>
       <TextObject Name="Text11" Left="595.35" Top="170.1" Width="113.4" Height="28.35" Text="[assessment.CivilServant.Masp]" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt"/>
@@ -1517,7 +1517,7 @@
       <TextObject Name="Text41" Left="529.2" Top="151.2" Width="179.55" Height="28.35" Text="EMITIDO EM :" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
       <TextObject Name="Text55" Left="245.7" Top="113.4" Width="75.6" Height="37.8" Text="[IIf([Count_Result] == 5, IIf([Total_GrangTot2] &gt;= 350 &amp;&amp; (int)[Total_OverallAverage2] &gt;= 34, &quot;APTO&quot;, &quot;INAPTO&quot;), &quot;-&quot;)]" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
       <LineObject Name="Line33" Left="9.45" Top="179.55" Width="699.3" Border.Width="1.5"/>
-      <TextObject Name="Text42" Left="529.2" Top="179.55" Width="179.55" Height="28.35" Text="[Date]" Format="Date" Format.Format="d" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
+      <TextObject Name="Text42" Left="529.2" Top="179.55" Width="179.55" Height="28.35" Text="[Date]" Format="Date" Format.Format="dd/MM/yyyy" HorzAlign="Center" VertAlign="Center" Font="Arial, 10pt, style=Bold"/>
     </PageFooterBand>
   </ReportPage>
 </Report>
