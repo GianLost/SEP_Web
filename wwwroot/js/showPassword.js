@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const togglePasswordButton = document.getElementById("toggle-password");
     const passwordIcon = document.getElementById("password-icon");
 
-    let isMouseDown = false;
+    let isMouseDownOrTouching = false;
 
     function togglePasswordVisibility() {
         if (passwordInput.type === "password") {
@@ -17,28 +17,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function togglePasswordVisibilityOnMouseLeave() {
-        if (passwordInput.type === "text" && !isMouseDown) {
+        if (passwordInput.type === "text" && !isMouseDownOrTouching) {
             passwordInput.type = "password";
             passwordIcon.classList.replace("bi-eye-fill", "bi-eye-slash-fill");
         }
     }
 
-    function handleMouseDown() {
-        isMouseDown = true;
+    function handleMouseDownOrTouchStart() {
+        isMouseDownOrTouching = true;
         togglePasswordVisibility();
     }
 
-    function handleMouseUp() {
-        isMouseDown = false;
+    function handleMouseUpOrTouchEnd() {
+        isMouseDownOrTouching = false;
         togglePasswordVisibility();
     }
 
-    function handleMouseLeave() {
-        isMouseDown = false;
+    function handleMouseLeaveOrTouchCancel() {
+        isMouseDownOrTouching = false;
         togglePasswordVisibilityOnMouseLeave();
     }
 
-    togglePasswordButton.addEventListener("mousedown", handleMouseDown);
-    togglePasswordButton.addEventListener("mouseup", handleMouseUp);
-    togglePasswordButton.addEventListener("mouseleave", handleMouseLeave);
+    // Desktop events
+    togglePasswordButton.addEventListener("mousedown", handleMouseDownOrTouchStart);
+    togglePasswordButton.addEventListener("mouseup", handleMouseUpOrTouchEnd);
+    togglePasswordButton.addEventListener("mouseleave", handleMouseLeaveOrTouchCancel);
+
+    // Mobile events
+    togglePasswordButton.addEventListener("touchstart", handleMouseDownOrTouchStart);
+    togglePasswordButton.addEventListener("touchend", handleMouseUpOrTouchEnd);
+    togglePasswordButton.addEventListener("touchcancel", handleMouseLeaveOrTouchCancel);
+
 });

@@ -12,7 +12,10 @@
 .control-level .input-group {
   margin: 1vh;
   text-align: center;
+  min-width: 8rem;
+  max-width: 15rem;
 }
+
 
 .control-level .input-group .form-control {
   background-color: #ebeeefb6;

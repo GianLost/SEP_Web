@@ -13,7 +13,7 @@
 
     @if (Model.UserType == UsersTypeEnum.User_Admin)
     {
-        <div class="input-group input-group-sm">
+        <div class="input-group input-group-sm ms-3">
             <span class="input-group-text" id="basic-addon2"><i class="bi bi-file-lock2-fill"></i></span>
             <input  name="level-profile" type="text" title="Nível de acesso do usuário..." class="form-control form-control-sm" value="Administrador" aria-label="Username" aria-describedby="basic-addon2" disabled>
         </div>
@@ -21,13 +21,13 @@
 
     @if (Model.UserType == UsersTypeEnum.User_Evaluator)
     {
-        <div class="input-group input-group-sm">
+        <div class="input-group input-group-sm ms-3">
             <span class="input-group-text" id="basic-addon3"><i class="bi bi-file-lock2-fill"></i></span>
             <input type="text" title="Nível de acesso do usuário..." class="form-control form-control-sm" value="Avaliador" aria-label="Username" aria-describedby="basic-addon3" disabled>
         </div>
     }
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <button class="navbar-toggler ms-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
 </div>
 

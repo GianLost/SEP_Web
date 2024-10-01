@@ -1,38 +1,13 @@
 #loggedout-container {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-#loggedout-container #login-container {
-    width: 100%;
-    height: 100%;
-    margin-top: 10rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
 }
 
 #login-container .card {
   max-width: 31rem;
-}
-
-#login-alert {
-  font-size: 0.75em;
-  text-align: center;
-  font-weight: 500;
-}
-
-#login-alert .alert {
-  margin: -2rem 0rem 0rem 0rem;
-  text-align: justify;
   width: 100%;
-}
-
-/* Estilização do formulário de login */
-
-#login-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  max-width: 35rem;
 }
 
 #login-form .form-control:focus {
@@ -52,10 +27,9 @@
   cursor: pointer;
 }
 
-/* @media */
 @media (min-width: 1400px) {
   #login-container {
-    height: 40vh;
+    height: auto;
   }
 }
 
@@ -63,13 +37,12 @@
   #loggedout-container header nav a {
     font-size: 1.3rem;
   }
+
   #loggedout-container .logo {
     display: none;
   }
-}
 
-@media (min-width: 501px) {
-  #loggedout-container .logo {
-    display: block;
+  #login-container .card {
+    margin: 0 0rem;
   }
 }
