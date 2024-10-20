@@ -108,12 +108,7 @@ tbody:hover {
   cursor: pointer;
 }
 
-/* Envolve a linha completa em um flex container */
-#servant-table_length,
-#servant-table_filter {
-  display: flex;
-  align-items: center;
-}
+
 
 /* Responsividade */
 @media (max-width: 768px) {
