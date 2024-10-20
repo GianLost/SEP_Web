@@ -19,7 +19,7 @@
   justify-content: center;
   right: -1.5vh;
   top: -2vh;
-  border-radius: 2rem;
+  border-radius: 0.5rem;
   width: 2rem;
   height: 2rem;
   margin: 0%;
@@ -157,6 +157,7 @@ input::-webkit-inner-spin-button {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: 3.5rem;
 }
 
 .disabled-style {

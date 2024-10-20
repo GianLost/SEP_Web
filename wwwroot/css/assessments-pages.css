@@ -78,8 +78,11 @@
   padding: 1.5vh;
   background-color: #cdcdcdd3;
   border-radius: 0.5vh;
-  box-shadow: 2px 5px 20px #00000049;
   margin-bottom: 1rem;
+}
+
+#assess-box {
+  width: 73.5rem;
 }
 
 #avaliacaoTabContent ul{

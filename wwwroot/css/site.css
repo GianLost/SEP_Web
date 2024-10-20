@@ -9,7 +9,7 @@ html {
 .odd td #statsActive,
 .odd td #statsInactive,
 .even td #statsActive,
-.even td #statsInactive{
+.even td #statsInactive {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,22 +108,34 @@ tbody:hover {
   cursor: pointer;
 }
 
+/* Envolve a linha completa em um flex container */
+#servant-table_length,
+#servant-table_filter {
+  display: flex;
+  align-items: center;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
+  
+  .dataTables_filter {
+    margin-top: 1.5rem;
+  }
+
   .navbar-brand {
-      font-size: 1.25rem;
+    font-size: 1.25rem;
   }
 
   .footer {
-      font-size: 0.9rem;
+    font-size: 0.9rem;
   }
 
   .card {
-      width: 100%;
-      margin: 1rem auto;
+    width: 100%;
+    margin: 1rem auto;
   }
 
   main {
-      margin-top: 2vh;
+    margin-top: 2vh;
   }
 }

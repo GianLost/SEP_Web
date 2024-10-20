@@ -5,6 +5,23 @@
   height: 80vh;
 }
 
+#login-alert {
+  display: flex;
+  text-align: justify;
+  width: 100%;
+  height: auto;
+  font-size: 0.8rem;
+}
+
+#login-alert .alert{
+  display: flex;
+  text-align: justify;
+  width: 100%;
+  min-height: 5rem;
+  padding: 1rem;
+  margin-top: -1rem;
+}
+
 #login-container .card {
   max-width: 31rem;
   width: 100%;

@@ -31,8 +31,9 @@
                 <div class="eval-line"></div>
             </div>
 
-            <form class="servant-register register-adm-form justify-content-center" asp-controller="CivilServant" asp-action="Edit" method="post">
-                
+            <form class="servant-register register-adm-form justify-content-center" asp-controller="CivilServant"
+                asp-action="Edit" method="post">
+
                 <div class="pop-up-sm">
                     @await Html.PartialAsync("../Shared/Components/Alerts/_Alerts.cshtml")
                 </div>
@@ -44,7 +45,8 @@
                         <div class="form-group mt-0  mb-0">
 
                             <label class="form-label" for="edit-servant-masp" hidden></label>
-                            <input type="number" class="form-control userMasp" id="edit-servant-masp" name="Masp" asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
+                            <input type="number" class="form-control userMasp" id="edit-servant-masp" name="Masp"
+                                asp-for="Masp" placeholder="Nº do MASP" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Masp)
                             </div>
@@ -54,7 +56,8 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-servant-name" hidden></label>
-                            <input type="text" class="form-control" id="edit-servant-name" name="Name" asp-for="Name" placeholder="Nome completo" maxlength="50" minlength="10" autocomplete="disabled">
+                            <input type="text" class="form-control" id="edit-servant-name" name="Name" asp-for="Name"
+                                placeholder="Nome completo" maxlength="50" minlength="10" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Name)
                             </div>
@@ -64,7 +67,8 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-servant-login" hidden></label>
-                            <input type="text" class="form-control" id="edit-servant-login" name="Login" asp-for="Login" placeholder="Nome de login" maxlength="35" minlength="10" autocomplete="disabled">
+                            <input type="text" class="form-control" id="edit-servant-login" name="Login" asp-for="Login"
+                                placeholder="Nome de login" maxlength="35" minlength="10" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Login)
                             </div>
@@ -74,7 +78,8 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-servant-email" hidden></label>
-                            <input type="text" class="form-control" id="edit-servant-email" name="Email" asp-for="Email" placeholder="Informe seu e-mail" autocomplete="disabled">
+                            <input type="text" class="form-control" id="edit-servant-email" name="Email" asp-for="Email"
+                                placeholder="Informe seu e-mail" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Email)
                             </div>
@@ -88,7 +93,8 @@
                         <div class="form-group mt-0 mb-0">
 
                             <label class="form-label" for="edit-servant-phone" hidden></label>
-                            <input type="tel" class="form-control mask-phone" id="edit-servant-phone" name="phone" asp-for="Phone" maxlength="15" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
+                            <input type="tel" class="form-control mask-phone" id="edit-servant-phone" name="phone"
+                                asp-for="Phone" maxlength="15" placeholder="(XX) XXXXX-XXXX" autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Phone)
                             </div>
@@ -98,7 +104,9 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-servant-position" hidden></label>
-                            <input type="text" class="form-control" id="edit-servant-position" name="Position" asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="9" autocomplete="disabled">
+                            <input type="text" class="form-control" id="edit-servant-position" name="Position"
+                                asp-for="Position" placeholder="Seu cargo" maxlength="35" minlength="9"
+                                autocomplete="disabled">
                             <div class="validate-fields">
                                 @Html.ValidationMessageFor(x => x.Position)
                             </div>
@@ -108,7 +116,9 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-evaluator-password" hidden></label>
-                            <input type="password" class="form-control disabled-box" id="edit-evaluator-password" placeholder="Informe uma senha..." title="Para alterar a senha utilize o menu 'Alterar senha'." disabled>
+                            <input type="password" class="form-control disabled-box" id="edit-evaluator-password"
+                                placeholder="Informe uma senha..."
+                                title="Para alterar a senha utilize o menu 'Alterar senha'." disabled>
                             <div class="validate-fields"></div>
 
                         </div>
@@ -116,7 +126,9 @@
                         <div class="form-group">
 
                             <label class="form-label" for="edit-evaluator-confirmPass" hidden></label>
-                            <input type="password" class="form-control disabled-box" id="edit-evaluator-confirmPass" placeholder="Confirme sua senha..." title="Para alterar a senha utilize o menu 'Alterar senha'." disabled>
+                            <input type="password" class="form-control disabled-box" id="edit-evaluator-confirmPass"
+                                placeholder="Confirme sua senha..."
+                                title="Para alterar a senha utilize o menu 'Alterar senha'." disabled>
                             <div class="validate-fields"></div>
 
                         </div>
@@ -132,8 +144,10 @@
                     <div class="col-md-6 servant-col">
 
                         <div class="form-group">
-                            <label class="form-label text-secondary" for="disable-instituition-servant-id" hidden>Órgão:</label>
-                            <select title="Altere o órgão no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-instituition-servant-id" disabled>
+                            <label class="form-label text-secondary" for="disable-instituition-servant-id"
+                                hidden>Órgão:</label>
+                            <select title="Altere o órgão no menu 'Alterar entidades'."
+                                class="disabled-box form-control" id="disable-instituition-servant-id" disabled>
                                 <option selected>Órgão: @await _instituitionServices.InstituitionsName(@Model.InstituitionId)</option>
                             </select>
                             <div class="validate-fields"></div>
@@ -141,15 +155,18 @@
 
                         <div class="form-group">
                             <label class="form-label" for="disable-division-servant-id" hidden>Divisão:</label>
-                            <select title="Altere a divisão no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-division-servant-id" disabled>
-                                <option selected>Divisão: @await _divisionServices.DivisionsName(@Model.DivisionId)</option>
+                            <select title="Altere a divisão no menu 'Alterar entidades'."
+                                class="disabled-box form-control" id="disable-division-servant-id" disabled>
+                                <option selected>Divisão: @await _divisionServices.DivisionsName(@Model.DivisionId)
+                                </option>
                             </select>
                             <div class="validate-fields"></div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="disable-section-servant-id" hidden>Seção:</label>
-                            <select title="Altere a seção no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-section-servant-id" disabled>
+                            <select title="Altere a seção no menu 'Alterar entidades'."
+                                class="disabled-box form-control" id="disable-section-servant-id" disabled>
                                 <option selected>Seção: @await _sectionServices.SectionsName(@Model.SectionId)</option>
                             </select>
                             <div class="validate-fields"></div>
@@ -157,7 +174,8 @@
 
                         <div class="form-group">
                             <label class="form-label" for="disable-sector-id" hidden>Setor:</label>
-                            <select title="Altere o setor no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-sector-id" disabled>
+                            <select title="Altere o setor no menu 'Alterar entidades'."
+                                class="disabled-box form-control" id="disable-sector-id" disabled>
                                 <option selected>Setor: @await _sectorServices.SectorsName(@Model.SectorId)</option>
                             </select>
                             <div class="validate-fields"></div>
@@ -169,7 +187,8 @@
 
                         <div class="form-group">
                             <label class="form-label" for="disable-first-evaluator-id" hidden>Avaliador 1:</label>
-                            <select title="Altere o avaliador 1 no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-first-evaluator-id" disabled>
+                            <select title="Altere o avaliador 1 no menu 'Alterar entidades'."
+                                class="disabled-box form-control" id="disable-first-evaluator-id" disabled>
                                 <option selected>Avaliador 1: @await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId1)</option>
                             </select>
                             <div class="validate-fields"></div>
@@ -177,7 +196,8 @@
 
                         <div class="form-group">
                             <label class="form-label" for="disable-second-evaluator-id" hidden>Avaliador 2:</label>
-                            <select title="Altere o avaliador 2 no menu 'Alterar entidades'." class="disabled-box form-control" id="disable-second-evaluator-id" disabled>
+                            <select title="Altere o avaliador 2 no menu 'Alterar entidades'."
+                                class="disabled-box form-control" id="disable-second-evaluator-id" disabled>
                                 <option selected>Avaliador 2: @await _evaluatorServices.EvaluatorsName(@Model.UserEvaluatorId2)</option>
                             </select>
                             <div class="validate-fields"></div>
@@ -185,7 +205,9 @@
 
                         <div class="form-group">
                             <label class="form-label" for="servant-admission" hidden></label>
-                            <input type="text" value='Data de Admissão: @Model.AdmissionDate.ToString("dd/MM/yyyy")' class="disabled-box form-control" id="servant-admission" asp-for="AdmissionDate" disabled>
+                            <input type="text" value='Data de Admissão: @Model.AdmissionDate.ToString("dd/MM/yyyy")'
+                                class="disabled-box form-control" id="servant-admission" asp-for="AdmissionDate"
+                                disabled>
                         </div>
                         <div class="validate-fields"></div>
 
@@ -196,38 +218,44 @@
 
                 </div>
 
-                <div class="form-group">
+                <div class="form-group d-flex flex-row justify-content-between">
 
-                    <div class="mt-0 div-enableDisable">
+                    <div class="mt-0">
 
-                        <button title="Salve as alterações ..." type="submit" class="btn btn-primary"><i class="bi bi-person-add" title="Salve as alterações ..."></i> Salvar</button>
-                        <a href="/CivilServant/Index/" type="submit" class="btn btn-secondary" title="Cancelar edição ..."><i class="bi bi-arrow-return-left" title="Cancelar edição ..."></i></a>
-                        
-                        @if (Model.UserStats == UserStatsEnum.UnderLicense)
-                        {
-                            <div class="btn-enableDisable disabled-box">
-                                <input style="cursor: not-allowed;" class="disabled-box form-check-input enableDisableAccount" type="checkbox" name="enableDisableAccount" disabled>
-                                <label class="form-check-label disabled-box">Desabilitar usuário</label>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class="btn-enableDisable">
-                                @if (Model.UserStats == UserStatsEnum.Active)
-                                {
-                                    <input class="form-check-input enableDisableAccount ml-1 mt-0" id="disable-account" type="checkbox" name="enableDisableAccount">
-                                    <label class="form-check-label ml-1 mt-0" for="disable-account">Desabilitar usuário</label>
-                                }
-                                else
-                                {
-                                    <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox" name="enableDisableAccount">
-                                    <label class="form-check-label" for="enable-account">Habilitar usuário</label>
-                                }
-                            </div>
-                        }
-                        
+                        <button title="Salve as alterações ..." type="submit" class="btn btn-primary"><i
+                                class="bi bi-person-add" title="Salve as alterações ..."></i> Salvar</button>
+                        <a href="/CivilServant/Index/" type="submit" class="btn btn-secondary"
+                            title="Cancelar edição ..."><i class="bi bi-arrow-return-left"
+                                title="Cancelar edição ..."></i></a>
+
                     </div>
-                    
+
+                    @if (Model.UserStats == UserStatsEnum.UnderLicense)
+                    {
+                        <div class="btn-enableDisable disabled-box">
+                            <input style="cursor: not-allowed;" class="disabled-box form-check-input enableDisableAccount"
+                                type="checkbox" name="enableDisableAccount" disabled>
+                            <label class="form-check-label disabled-box ms-1">Desabilitar usuário</label>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="btn-enableDisable">
+                            @if (Model.UserStats == UserStatsEnum.Active)
+                            {
+                                <input class="form-check-input enableDisableAccount" id="disable-account"
+                                    type="checkbox" name="enableDisableAccount">
+                                <label class="form-check-label ms-1" for="disable-account">Desabilitar usuário</label>
+                            }
+                            else
+                            {
+                                <input class="form-check-input enableDisableAccount" id="enable-account" type="checkbox"
+                                    name="enableDisableAccount">
+                                <label class="form-check-label ms-1" for="enable-account">Habilitar usuário</label>
+                            }
+                        </div>
+                    }
+
                 </div>
 
             </form>
@@ -240,45 +268,52 @@
 
 @* Start enable/disable user Modal *@
 
-    <div class="modal fade confirmationModal" id="confirmationEvalModal" tabindex="-1" role="dialog" aria-labelledby="confirmationEvalModalLabel" aria-hidden="true">
+<div class="modal fade confirmationModal" id="confirmationEvalModal" tabindex="-1" role="dialog"
+    aria-labelledby="confirmationEvalModalLabel" aria-hidden="true">
 
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
 
-            <div class="modal-content">
+        <div class="modal-content">
 
-                <div class="modal-header bg-danger p-3">
-                    <h3 class="modal-title text-light text-center fs-4 mb-0 p-0" id="confirmationEvalModalLabel">
-                        Alerta</h3>
-                    <button type="button" title="Fechar modal" id="modal-close" class="btn-close bg-light text-light" data-bs-dismiss="modal"
-                        aria-label="Close"> 
-                    </button>
-                </div>
+            <div class="modal-header bg-danger p-3">
+                <h3 class="modal-title text-light text-center fs-4 mb-0 p-0" id="confirmationEvalModalLabel">
+                    Alerta</h3>
+                <button type="button" title="Fechar modal" id="modal-close" class="btn-close bg-light text-light"
+                    data-bs-dismiss="modal" aria-label="Close">
+                </button>
+            </div>
 
-               @if(Model.UserStats == UserStatsEnum.Active)
-               {
+            @if (Model.UserStats == UserStatsEnum.Active)
+            {
 
                 <div class="modal-body enableDisableModal p-3">
-                    <span class="text-danger fw-bold">Atenção!</span> desabilitar o usuário fará com que ele perca o <span class="fw-bold">completo acesso ao sistema</span>. Ao prosseguir você concorda em <span class="fw-bold">desabilitar</span> o usuário <span class="fw-bold">@Model.Login</span>.
+                    <span class="text-danger fw-bold">Atenção!</span> desabilitar o usuário fará com que ele perca o <span
+                        class="fw-bold">completo acesso ao sistema</span>. Ao prosseguir você concorda em <span
+                        class="fw-bold">desabilitar</span> o usuário <span class="fw-bold">@Model.Login</span>.
                 </div>
 
-               }
-               else
-               {
-                    <div class="modal-body enableDisableModal p-3">
-                        <span class="text-danger fw-bold">Atenção!</span> habilitar o usuário fará com que ele retome o <span class="fw-bold">completo acesso ao sistema</span>. Ao prosseguir você concorda em <span class="fw-bold">habilitar</span> novamente o usuário <span class="fw-bold">@Model.Login</span>.
-                    </div>
-               }
-
-                <div class="modal-footer modal-footer-sm d-flex justify-content-start">
-                    <button type="button" title="cancelar ..." class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i class="bi bi-x-circle-fill"></i></button>
-                    <button type="button" title="confirmar ..." class="btn btn-sm btn-primary confirmAction"><i class="bi bi-check-circle-fill"></i></button>
+            }
+            else
+            {
+                <div class="modal-body enableDisableModal p-3">
+                    <span class="text-danger fw-bold">Atenção!</span> habilitar o usuário fará com que ele retome o <span
+                        class="fw-bold">completo acesso ao sistema</span>. Ao prosseguir você concorda em <span
+                        class="fw-bold">habilitar</span> novamente o usuário <span class="fw-bold">@Model.Login</span>.
                 </div>
+            }
 
+            <div class="modal-footer modal-footer-sm d-flex justify-content-start">
+                <button type="button" title="cancelar ..." class="btn btn-sm btn-danger" data-bs-dismiss="modal"><i
+                        class="bi bi-x-circle-fill"></i></button>
+                <button type="button" title="confirmar ..." class="btn btn-sm btn-primary confirmAction"><i
+                        class="bi bi-check-circle-fill"></i></button>
             </div>
 
         </div>
 
     </div>
+
+</div>
 
 @* Finish enable/disable user Modal *@
 
@@ -291,11 +326,12 @@
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
                 <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-Title">Alterar senha</h3>
-                <a type="button" class="btn-close" asp-action="Edit" asp-controller="CivilServant" asp-route-Id="@Model.Id"></a>
+                <a type="button" class="btn-close" asp-action="Edit" asp-controller="CivilServant"
+                    asp-route-Id="@Model.Id"></a>
             </div>
-                <div class="modal-body p-1">
-                    @await Html.PartialAsync("../ChangePassword/_ChangePass.cshtml", new ChangePassword())
-                </div>
+            <div class="modal-body p-1">
+                @await Html.PartialAsync("../ChangePassword/_ChangePass.cshtml", new ChangePassword())
+            </div>
         </div>
 
     </div>
@@ -306,18 +342,20 @@
 
 @* Início do Modal de Edição das estruturas do usuário *@
 
-<div class="modal fade" id="change-structures" tabindex="-1" role="dialog" aria-labelledby="change-Title" aria-hidden="true">
+<div class="modal fade" id="change-structures" tabindex="-1" role="dialog" aria-labelledby="change-Title"
+    aria-hidden="true">
 
     <div class="modal-dialog modal-md modal-dialog-centered" role="document">
 
         <div class="modal-content">
             <div class="modal-header bg-light p-3">
                 <h3 class="modal-title lead text-sm fw-bold mb-0 p-0" id="change-Title">Alterar entidades</h3>
-                <a type="button" class="btn-close" asp-action="Edit" asp-controller="CivilServant" asp-route-Id="@Model.Id"></a>
+                <a type="button" class="btn-close" asp-action="Edit" asp-controller="CivilServant"
+                    asp-route-Id="@Model.Id"></a>
             </div>
-                <div class="modal-body">
-                    @await Html.PartialAsync("../Structure/_ModifyServantStructures.cshtml", new ModifyServantStructures())
-                </div>
+            <div class="modal-body">
+                @await Html.PartialAsync("../Structure/_ModifyServantStructures.cshtml", new ModifyServantStructures())
+            </div>
         </div>
 
     </div>

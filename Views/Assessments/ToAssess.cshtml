@@ -20,7 +20,8 @@
             <section class="form-control fw-bold" disabled>Nome do(a) Servidor(a): <span class="fw-normal">@await _assessmentServices.ServantName(@Model.CivilServantId)</span></section>
         </div>
         <div class="col-md-3 mt-1">
-            <section class="form-control fw-bold" disabled>Nº da matrícula: <span class="fw-normal">@_assessmentServices.ServantMasp(@Model.CivilServantId)</span></section>
+            <section class="form-control fw-bold" disabled>Nº da matrícula: <span
+                    class="fw-normal">@_assessmentServices.ServantMasp(@Model.CivilServantId)</span></section>
         </div>
         <div class="col-md-1 mt-1">
             <section class="form-control fw-bold" disabled>Etapa: <span class="fw-normal">@Model.Phase</span></section>
@@ -33,14 +34,15 @@
         </div>
     </div>
 
-<hr class="bg-secondary mt-0 mb-0">
+    <hr class="bg-secondary mt-0 mb-0">
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" id="assess-box">
 
     <div class="validate-fields mt-2">
         <span class="field-validation-error ms-3">@TempData["ValidationMessage"]</span>
-        <span id="errorMessage" class="field-validation-error ms-3 me-5" style="display: none;">* Todos os campos de justificativa devem ser preenchidos.</span>
+        <span id="errorMessage" class="field-validation-error ms-3 me-5" style="display: none;">* Todos os campos de
+            justificativa devem ser preenchidos.</span>
     </div>
 
     <form class="p-3 mt-5 assessments-form" asp-action="ToAssess" asp-controller="Assessments" method="post">
@@ -127,7 +129,8 @@
                 @await Html.PartialAsync("_Productivity.cshtml", @Model)
             </div>
 
-            <div class="tab-pane fade" id="interpersonalRelationship" role="tabpanel" aria-labelledby="interpersonalRelationship-tab">
+            <div class="tab-pane fade" id="interpersonalRelationship" role="tabpanel"
+                aria-labelledby="interpersonalRelationship-tab">
                 @await Html.PartialAsync("_InterpersonalRelationship.cshtml", @Model)
             </div>
 
@@ -148,8 +151,10 @@
             </div>
 
             <div class="assessments-button">
-                <button type="submit" class="btn btn-md btn-primary"><i title="Avaliar ..." class="bi bi-journal-bookmark-fill"></i> Avaliar</button>
-                <a class="btn btn-md btn-secondary" title="Cancelar" asp-action="Index" asp-controller="Assessments"><i class="bi bi-arrow-return-left" title="Cancelar"></i></a>
+                <button type="submit" class="btn btn-md btn-primary"><i title="Avaliar ..."
+                        class="bi bi-journal-bookmark-fill"></i> Avaliar</button>
+                <a class="btn btn-md btn-secondary" title="Cancelar" asp-action="Index" asp-controller="Assessments"><i
+                        class="bi bi-arrow-return-left" title="Cancelar"></i></a>
             </div>
 
         </div>

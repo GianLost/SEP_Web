@@ -18,6 +18,6 @@ $('.close-alert').click(function () {
 });
 
 /* Esta função também realiza o fechamneto dos alerts, porém de forma automática utilizando o setTimeout(); */
-setTimeout(function () {
-    $('.alert').hide('hide').fadeOut(500);
-}, 4000);
+// setTimeout(function () {
+//     $('.alert').hide('hide').fadeOut(500);
+// }, 4000);
