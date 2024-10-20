@@ -119,7 +119,24 @@ tbody:hover {
 @media (max-width: 768px) {
   
   .dataTables_filter {
-    margin-top: 1.5rem;
+    margin-top: 1.3rem;
+    margin-bottom: 0.5rem;
+    margin-left: -0.6rem;
+  }
+
+  .dataTables_filter,
+  .dataTables_length {
+    float: left;
+  }
+
+  .dataTables_info  {
+    margin-left: 0.7rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .dataTables_paginate,
+  .dataTables_info {
+    float: left;
   }
 
   .navbar-brand {
